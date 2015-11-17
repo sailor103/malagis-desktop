@@ -1,3 +1,4 @@
 *.sdf
 malagis/ipch/
 malagis/malagis/Debug/
+*.opensdf

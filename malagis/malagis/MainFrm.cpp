@@ -112,6 +112,8 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO:  在此处通过修改
 	//  CREATESTRUCT cs 来修改窗口类或样式
+	cs.style &= ~FWS_ADDTOTITLE;//去掉无标题
+	m_strTitle = "麻辣GIS-桌面版";//设置新的标题
 
 	return TRUE;
 }
