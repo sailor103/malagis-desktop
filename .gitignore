@@ -2,3 +2,5 @@
 malagis/ipch/
 malagis/malagis/Debug/
 *.opensdf
+malagis_out/bin/
+malagis/malaBase/Debug/
