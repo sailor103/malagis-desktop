@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malagis", "malagis\malagis.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaBase", "malaBase\malaBase.vcxproj", "{8EFE8E46-9D4E-4823-95B0-E7ED1689C186}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaPoints", "malaPoints\malaPoints.vcxproj", "{2E599E04-D120-4F8F-904A-FBD37BB2FA77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{8EFE8E46-9D4E-4823-95B0-E7ED1689C186}.Debug|Win32.Build.0 = Debug|Win32
 		{8EFE8E46-9D4E-4823-95B0-E7ED1689C186}.Release|Win32.ActiveCfg = Release|Win32
 		{8EFE8E46-9D4E-4823-95B0-E7ED1689C186}.Release|Win32.Build.0 = Release|Win32
+		{2E599E04-D120-4F8F-904A-FBD37BB2FA77}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E599E04-D120-4F8F-904A-FBD37BB2FA77}.Debug|Win32.Build.0 = Debug|Win32
+		{2E599E04-D120-4F8F-904A-FBD37BB2FA77}.Release|Win32.ActiveCfg = Release|Win32
+		{2E599E04-D120-4F8F-904A-FBD37BB2FA77}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

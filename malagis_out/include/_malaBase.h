@@ -23,7 +23,7 @@ public:
 	virtual void MouseMove(UINT nFlags, malaPoint point);
 	virtual void MouseWheel(UINT nFlags, short zDelta, malaPoint pt);
 
-	CView* m_ptView;
+	CView* mBaseView;
 };
 
 

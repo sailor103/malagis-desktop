@@ -4,7 +4,7 @@
 
 CmalaMouseAction::CmalaMouseAction()
 {
-	m_ptView = NULL;
+	mBaseView = NULL;
 }
 
 CmalaMouseAction::~CmalaMouseAction(){}
