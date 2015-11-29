@@ -61,7 +61,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>F:\malagis-git\malagis_out\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>F:\malagis-git\malagis_out\bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -142,6 +142,7 @@
     <Image Include="res\pages_hc.bmp" />
     <Image Include="res\pages_small.bmp" />
     <Image Include="res\pages_small_hc.bmp" />
+    <Image Include="res\points_bar.bmp" />
     <Image Include="res\Toolbar.bmp" />
     <Image Include="res\Toolbar256.bmp" />
     <Image Include="res\writelarge.bmp" />
@@ -154,4 +155,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="malagis.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
