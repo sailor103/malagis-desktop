@@ -29,9 +29,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
-	ON_COMMAND(ID_VIEW_CAPTION_BAR, &CMainFrame::OnViewCaptionBar)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTION_BAR, &CMainFrame::OnUpdateViewCaptionBar)
-	ON_COMMAND(ID_TOOLS_OPTIONS, &CMainFrame::OnOptions)
 	ON_COMMAND(ID_FILE_PRINT, &CMainFrame::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CMainFrame::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
@@ -80,26 +77,22 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 启用 Visual Studio 2005 样式停靠窗口自动隐藏行为
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
-	// 导航窗格将创建在左侧，因此将暂时禁用左侧的停靠: 
-	EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM | CBRS_ALIGN_RIGHT);
+	// 加载菜单项图像(不在任何标准工具栏上): 
+	CMFCToolBar::AddToolBarForImageCollection(IDR_MENU_IMAGES, theApp.m_bHiColorIcons ? IDB_MENU_IMAGES_24 : 0);
 
-	// 创建并设置“Outlook”导航栏: 
-	if (!CreateOutlookBar(m_wndNavigationBar, ID_VIEW_NAVIGATION, m_wndTree, m_wndCalendar, 250))
+	// 创建停靠窗口
+	if (!CreateDockingWindows())
 	{
-		TRACE0("未能创建导航窗格\n");
-		return -1;      // 未能创建
+		TRACE0("未能创建停靠窗口\n");
+		return -1;
 	}
 
-	// 创建标题栏: 
-	if (!CreateCaptionBar())
-	{
-		TRACE0("未能创建标题栏\n");
-		return -1;      // 未能创建
-	}
+	m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndFileView);
+	CDockablePane* pTabbedBar = NULL;
+	m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
 
-	// 已创建 Outlook 栏，应允许在左侧停靠。
-	EnableDocking(CBRS_ALIGN_LEFT);
-	EnableAutoHidePanes(CBRS_ALIGN_RIGHT);
 	// 基于持久值设置视觉管理器和样式
 	OnApplicationLook(theApp.m_nAppLook);
 
@@ -118,91 +111,42 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-BOOL CMainFrame::CreateOutlookBar(CMFCOutlookBar& bar, UINT uiID, CMFCShellTreeCtrl& tree, CCalendarBar& calendar, int nInitialWidth)
+BOOL CMainFrame::CreateDockingWindows()
 {
-	bar.SetMode2003();
-
 	BOOL bNameValid;
-	CString strTemp;
-	bNameValid = strTemp.LoadString(IDS_SHORTCUTS);
+
+	// 创建类视图
+	CString strClassView;
+	bNameValid = strClassView.LoadString(IDS_CLASS_VIEW);
 	ASSERT(bNameValid);
-	if (!bar.Create(strTemp, this, CRect(0, 0, nInitialWidth, 32000), uiID, WS_CHILD | WS_VISIBLE | CBRS_LEFT))
+	if (!m_wndClassView.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
+		TRACE0("未能创建“类视图”窗口\n");
 		return FALSE; // 未能创建
 	}
 
-	CMFCOutlookBarTabCtrl* pOutlookBar = (CMFCOutlookBarTabCtrl*)bar.GetUnderlyingWindow();
-
-	if (pOutlookBar == NULL)
+	// 创建文件视图
+	CString strFileView;
+	bNameValid = strFileView.LoadString(IDS_FILE_VIEW);
+	ASSERT(bNameValid);
+	if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
-		ASSERT(FALSE);
-		return FALSE;
+		TRACE0("未能创建“文件视图”窗口\n");
+		return FALSE; // 未能创建
 	}
 
-	pOutlookBar->EnableInPlaceEdit(TRUE);
-
-	static UINT uiPageID = 1;
-
-	// 可浮动，可自动隐藏，可调整大小，但不能关闭
-	DWORD dwStyle = AFX_CBRS_FLOAT | AFX_CBRS_AUTOHIDE | AFX_CBRS_RESIZE;
-
-	CRect rectDummy(0, 0, 0, 0);
-	const DWORD dwTreeStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
-
-	tree.Create(dwTreeStyle, rectDummy, &bar, 1200);
-	bNameValid = strTemp.LoadString(IDS_FOLDERS);
-	ASSERT(bNameValid);
-	pOutlookBar->AddControl(&tree, strTemp, 2, TRUE, dwStyle);
-
-	calendar.Create(rectDummy, &bar, 1201);
-	bNameValid = strTemp.LoadString(IDS_CALENDAR);
-	ASSERT(bNameValid);
-	pOutlookBar->AddControl(&calendar, strTemp, 3, TRUE, dwStyle);
-
-	bar.SetPaneStyle(bar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-
-	pOutlookBar->SetImageList(theApp.m_bHiColorIcons ? IDB_PAGES_HC : IDB_PAGES, 24);
-	pOutlookBar->SetToolbarImageList(theApp.m_bHiColorIcons ? IDB_PAGES_SMALL_HC : IDB_PAGES_SMALL, 16);
-	pOutlookBar->RecalcLayout();
-
-	BOOL bAnimation = theApp.GetInt(_T("OutlookAnimation"), TRUE);
-	CMFCOutlookBarTabCtrl::EnableAnimation(bAnimation);
-
-	bar.SetButtonsFont(&afxGlobalData.fontBold);
-
+	SetDockingWindowIcons(theApp.m_bHiColorIcons);
 	return TRUE;
 }
 
-BOOL CMainFrame::CreateCaptionBar()
+void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
-	if (!m_wndCaptionBar.Create(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, this, ID_VIEW_CAPTION_BAR, -1, TRUE))
-	{
-		TRACE0("未能创建标题栏\n");
-		return FALSE;
-	}
+	HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndFileView.SetIcon(hFileViewIcon, FALSE);
 
-	BOOL bNameValid;
+	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndClassView.SetIcon(hClassViewIcon, FALSE);
 
-	CString strTemp, strTemp2;
-	bNameValid = strTemp.LoadString(IDS_CAPTION_BUTTON);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetButton(strTemp, ID_TOOLS_OPTIONS, CMFCCaptionBar::ALIGN_LEFT, FALSE);
-	bNameValid = strTemp.LoadString(IDS_CAPTION_BUTTON_TIP);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetButtonToolTip(strTemp);
-
-	bNameValid = strTemp.LoadString(IDS_CAPTION_TEXT);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetText(strTemp, CMFCCaptionBar::ALIGN_LEFT);
-
-	m_wndCaptionBar.SetBitmap(IDB_INFO, RGB(255, 255, 255), FALSE, CMFCCaptionBar::ALIGN_LEFT);
-	bNameValid = strTemp.LoadString(IDS_CAPTION_IMAGE_TIP);
-	ASSERT(bNameValid);
-	bNameValid = strTemp2.LoadString(IDS_CAPTION_IMAGE_TEXT);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetImageToolTip(strTemp, strTemp2);
-
-	return TRUE;
 }
 
 // CMainFrame 诊断
@@ -303,26 +247,6 @@ void CMainFrame::OnApplicationLook(UINT id)
 void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
-}
-
-void CMainFrame::OnViewCaptionBar()
-{
-	m_wndCaptionBar.ShowWindow(m_wndCaptionBar.IsVisible() ? SW_HIDE : SW_SHOW);
-	RecalcLayout(FALSE);
-}
-
-void CMainFrame::OnUpdateViewCaptionBar(CCmdUI* pCmdUI)
-{
-	pCmdUI->SetCheck(m_wndCaptionBar.IsVisible());
-}
-
-void CMainFrame::OnOptions()
-{
-	CMFCRibbonCustomizeDialog *pOptionsDlg = new CMFCRibbonCustomizeDialog(this, &m_wndRibbonBar);
-	ASSERT(pOptionsDlg != NULL);
-
-	pOptionsDlg->DoModal();
-	delete pOptionsDlg;
 }
 
 

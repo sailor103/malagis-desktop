@@ -22,8 +22,6 @@
 #include "malagisDoc.h"
 #include "malagisView.h"
 
-#include "_malaPoints.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -40,7 +38,6 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CmalagisView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
-	ON_COMMAND(ID_BUTTON_POINT_INPUT, &CmalagisView::OnButtonPointInput)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -138,12 +135,3 @@ CmalagisDoc* CmalagisView::GetDocument() const // 非调试版本是内联的
 
 
 // CmalagisView 消息处理程序
-
-/*
-* 输入点响应消息
-*/
-void CmalagisView::OnButtonPointInput()
-{
-	// TODO:  在此添加命令处理程序代码
-	MessageBox(_T("输入点"));
-}

@@ -39,7 +39,13 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CalendarBar.h">
+    <ClInclude Include="FileView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewTree.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,7 +65,13 @@
     <ClCompile Include="malagisView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CalendarBar.cpp">
+    <ClCompile Include="FileView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewTree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,25 +81,46 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\nav_large.bmp">
+    <Image Include="res\file_view.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\nav_large_hc.bmp">
+    <Image Include="res\file_view_hc.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\pages.bmp">
+    <Image Include="res\class_view.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\pages_hc.bmp">
+    <Image Include="res\class_view_hc.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\pages_small.bmp">
+    <Image Include="res\fileview.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\pages_small_hc.bmp">
+    <Image Include="res\fileview_hc.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\info.bmp">
+    <Image Include="res\classview.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\classview_hc.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\explorer.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\explorer_hc.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\sort.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\sort_hc.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\menuimages.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\menuimages_hc.bmp">
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\buttons.bmp">
@@ -118,9 +151,6 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\Toolbar256.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\points_bar.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

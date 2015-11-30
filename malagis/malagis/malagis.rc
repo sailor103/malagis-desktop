@@ -1,11 +1,11 @@
-// Microsoft Visual C++ generated resource script.
+//Microsoft Visual C++ 生成的资源脚本。
 //
 #include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
-// Generated from the TEXTINCLUDE 2 resource.
+// 从 TEXTINCLUDE 2 资源生成。
 //
 #ifndef APSTUDIO_INVOKED
 #include "targetver.h"
@@ -16,25 +16,19 @@
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-/////////////////////////////////////////////////////////////////////////////
-// 中文(简体，中国) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
-LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
-#pragma code_page(936)
-
 #ifdef APSTUDIO_INVOKED
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#ifndef APSTUDIO_INVOKED\r\n"
     "#include ""targetver.h""\r\n"
@@ -44,7 +38,7 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "#define _AFX_NO_OLE_RESOURCES\r\n"
     "#define _AFX_NO_TRACKER_RESOURCES\r\n"
@@ -67,17 +61,25 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Icon
+// 图标
 //
 
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\malagis.ico"
-IDR_malagisTYPE         ICON                    "res\\malagisDoc.ico"
+// ID 值最低的图标放在最前面，以确保应用程序图标
+// 在所有系统中保持一致。
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+IDR_MAINFRAME           ICON         "res\\malagis.ico"
+IDR_malagisTYPE         ICON         "res\\malagisDoc.ico"
+#endif
+IDI_FILE_VIEW           ICON         "res\\file_view.ico"
+IDI_FILE_VIEW_HC        ICON         "res\\file_view_hc.ico"
+IDI_CLASS_VIEW          ICON         "res\\class_view.ico"
+IDI_CLASS_VIEW_HC       ICON         "res\\class_view_hc.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
+// 位图
 //
 
 IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
@@ -88,18 +90,20 @@ IDB_FILESMALL           BITMAP                  "res\\filesmall.bmp"
 IDB_WRITELARGE          BITMAP                  "res\\writelarge.bmp"
 IDB_WRITESMALL          BITMAP                  "res\\writesmall.bmp"
 IDB_BUTTONS             BITMAP                  "res\\buttons.bmp"
-IDB_NAVIGATION_LARGE    BITMAP                  "res\\nav_large.bmp"
-IDB_NAVIGATION_LARGE_HC BITMAP                  "res\\nav_large_hc.bmp"
-IDB_PAGES               BITMAP                  "res\\pages.bmp"
-IDB_PAGES_HC            BITMAP                  "res\\pages_hc.bmp"
-IDB_PAGES_SMALL         BITMAP                  "res\\pages_small.bmp"
-IDB_PAGES_SMALL_HC      BITMAP                  "res\\pages_small_hc.bmp"
-IDB_INFO                BITMAP                  "res\\info.bmp"
-IDB_BITMAP_POINTS_BAR   BITMAP                  "res\\points_bar.bmp"
+IDR_SORT                BITMAP                  "res\\sort.bmp"
+IDB_SORT_24             BITMAP                  "res\\sort_hc.bmp"
+IDB_FILE_VIEW           BITMAP                  "res\\fileview.bmp"
+IDB_FILE_VIEW_24        BITMAP                  "res\\fileview_hc.bmp"
+IDB_CLASS_VIEW          BITMAP                  "res\\classview.bmp"
+IDB_CLASS_VIEW_24       BITMAP                  "res\\classview_hc.bmp"
+IDR_EXPLORER            BITMAP                  "res\\explorer.bmp"
+IDB_EXPLORER_24         BITMAP                  "res\\explorer_hc.bmp"
+IDR_MENU_IMAGES         BITMAP                  "res\\menuimages.bmp"
+IDB_MENU_IMAGES_24      BITMAP                  "res\\menuimages_hc.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Toolbar
+// 工具栏
 //
 
 IDR_MAINFRAME TOOLBAR 16, 15
@@ -131,126 +135,182 @@ BEGIN
 END
 
 
+IDR_SORT TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_SORT_MENU
+    BUTTON      ID_NEW_FOLDER
+END
+
+IDR_EXPLORER TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_PROPERTIES
+END
+
+IDR_MENU_IMAGES TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_WINDOW_MANAGER
+    SEPARATOR
+    BUTTON      ID_WINDOW_CASCADE
+    BUTTON      ID_WINDOW_TILE_HORZ
+    BUTTON      ID_TOOLS_MACRO
+    BUTTON      ID_SORTING_SORTALPHABETIC
+    BUTTON      ID_SORTING_SORTBYTYPE
+    BUTTON      ID_SORTING_SORTBYACCESS
+    BUTTON      ID_SORTING_GROUPBYTYPE
+END
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+
 /////////////////////////////////////////////////////////////////////////////
 //
-// Menu
+// 菜单
 //
 
 IDR_MAINFRAME MENU
 BEGIN
     POPUP "文件(&F)"
     BEGIN
-        MENUITEM "新建(&N)\tCtrl+N",              ID_FILE_NEW
-        MENUITEM "打开(&O)...\tCtrl+O",           ID_FILE_OPEN
-        MENUITEM "保存(&S)\tCtrl+S",              ID_FILE_SAVE
-        MENUITEM "另存为(&A)...",                  ID_FILE_SAVE_AS
+        MENUITEM "新建(&N)\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "打开(&O)...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "保存(&S)\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "另存为(&A)...",                 ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
         MENUITEM "打印(&P)...\tCtrl+P",           ID_FILE_PRINT
-        MENUITEM "打印预览(&V)",                    ID_FILE_PRINT_PREVIEW
-        MENUITEM "打印设置(&R)...",                 ID_FILE_PRINT_SETUP
+        MENUITEM "打印预览(&V)",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "打印设置(&R)...",             ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "最近的文件",                       ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "最近的文件",                 ID_FILE_MRU_FILE1,GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "退出(&X)",                      ID_APP_EXIT
+        MENUITEM "退出(&X)",                       ID_APP_EXIT
     END
     POPUP "编辑(&E)"
     BEGIN
-        MENUITEM "撤消(&U)\tCtrl+Z",              ID_EDIT_UNDO
+        MENUITEM "撤消(&U)\tCtrl+Z",               ID_EDIT_UNDO
         MENUITEM SEPARATOR
-        MENUITEM "剪切(&T)\tCtrl+X",              ID_EDIT_CUT
-        MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
+        MENUITEM "剪切(&T)\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "复制(&C)\tCtrl+C",               ID_EDIT_COPY
         MENUITEM "粘贴(&P)\tCtrl+V",              ID_EDIT_PASTE
     END
     POPUP "视图(&V)"
     BEGIN
-        MENUITEM "状态栏(&S)",                     ID_VIEW_STATUS_BAR
-        MENUITEM "标题栏(&C)",                     ID_VIEW_CAPTION_BAR
+        MENUITEM "状态栏(&S)",                 ID_VIEW_STATUS_BAR
         POPUP "应用程序外观(&A)"
         BEGIN
-            MENUITEM "Windows 2000(&2)",            ID_VIEW_APPLOOK_WIN_2000
-            MENUITEM "Office XP(&X)",               ID_VIEW_APPLOOK_OFF_XP
-            MENUITEM "Windows XP(&W)",              ID_VIEW_APPLOOK_WIN_XP
-            MENUITEM "Office 2003(&3)",             ID_VIEW_APPLOOK_OFF_2003
-            MENUITEM "Visual Studio 200&5",         ID_VIEW_APPLOOK_VS_2005
-            MENUITEM "Visual Studio 200&8",         ID_VIEW_APPLOOK_VS_2008
+            MENUITEM "Windows 2000(&2)",           ID_VIEW_APPLOOK_WIN_2000
+            MENUITEM "Office XP(&X)",              ID_VIEW_APPLOOK_OFF_XP
+            MENUITEM "Windows XP(&W)",             ID_VIEW_APPLOOK_WIN_XP
+            MENUITEM "Office 2003(&3)",            ID_VIEW_APPLOOK_OFF_2003
+            MENUITEM "Visual Studio 200&5",     ID_VIEW_APPLOOK_VS_2005
+            MENUITEM "Visual Studio 200&8",     ID_VIEW_APPLOOK_VS_2008
             POPUP "Office 2007(&7)"
             BEGIN
-                MENUITEM "蓝色样式(&B)",                    ID_VIEW_APPLOOK_OFF_2007_BLUE
-                MENUITEM "黑色样式(&L)",                    ID_VIEW_APPLOOK_OFF_2007_BLACK
-                MENUITEM "银色样式(&S)",                    ID_VIEW_APPLOOK_OFF_2007_SILVER
-                MENUITEM "水绿色样式(&A)",                   ID_VIEW_APPLOOK_OFF_2007_AQUA
+                MENUITEM "蓝色样式(&B)",         ID_VIEW_APPLOOK_OFF_2007_BLUE
+                MENUITEM "黑色样式(&L)",        ID_VIEW_APPLOOK_OFF_2007_BLACK
+                MENUITEM "银色样式(&S)",       ID_VIEW_APPLOOK_OFF_2007_SILVER
+                MENUITEM "水绿色样式(&A)",         ID_VIEW_APPLOOK_OFF_2007_AQUA
             END
         END
     END
     POPUP "帮助(&H)"
     BEGIN
-        MENUITEM "关于 malagis(&A)...",           ID_APP_ABOUT
+        MENUITEM "关于 malagis(&A)...",          ID_APP_ABOUT
     END
 END
 
+
+
 IDR_POPUP_EDIT MENU
 BEGIN
-    POPUP "编辑"
-    BEGIN
-        MENUITEM "剪切(&T)\tCtrl+X",              ID_EDIT_CUT
-        MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
-        MENUITEM "粘贴(&P)\tCtrl+V",              ID_EDIT_PASTE
+	POPUP "编辑"
+	BEGIN
+		MENUITEM "剪切(&T)\tCtrl+X",            ID_EDIT_CUT
+		MENUITEM "复制(&C)\tCtrl+C",           ID_EDIT_COPY
+		MENUITEM "粘贴(&P)\tCtrl+V",          ID_EDIT_PASTE
     END
 END
 
 IDR_WINDOWS_MENU MENU
 BEGIN
-    MENUITEM "新建窗口(&N)",                    ID_WINDOW_NEW
+    MENUITEM "新建窗口(&N)",                 ID_WINDOW_NEW
 END
 
-IDR_HELP_MENU MENU
+IDR_POPUP_SORT MENU
 BEGIN
-    MENUITEM "关于 malagis(&A)...",           ID_APP_ABOUT
+    POPUP "排序"
+    BEGIN
+        MENUITEM "按字母顺序排序(&S)",         ID_SORTING_SORTALPHABETIC
+        MENUITEM "按类型排序(&T)",               ID_SORTING_SORTBYTYPE
+        MENUITEM "按访问排序(&E)",             ID_SORTING_SORTBYACCESS
+        MENUITEM "按类型分组(&Y)",              ID_SORTING_GROUPBYTYPE
+    END
+END
+
+IDR_POPUP_EXPLORER MENU
+BEGIN
+    POPUP "资源管理器"
+    BEGIN
+        MENUITEM "打开(&O)",                       ID_OPEN
+        MENUITEM "打开方式(&W)....",              ID_OPEN_WITH
+        MENUITEM SEPARATOR
+        MENUITEM "编译(&C)",                    ID_DUMMY_COMPILE
+        MENUITEM SEPARATOR
+        MENUITEM "剪切(&T)\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "复制(&C)\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "移除(&R)",                     ID_EDIT_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "属性(&P)...",              ID_PROPERTIES
+    END
+END
+
+IDR_HELP_MENU MENU 
+BEGIN
+    MENUITEM "关于 malagis(&A)...",          ID_APP_ABOUT
 END
 
 IDR_THEME_MENU MENU
 BEGIN
-    MENUITEM "Office 2007 (蓝色样式)(&B)",      ID_VIEW_APPLOOK_OFF_2007_BLUE
+    MENUITEM "Office 2007 (蓝色样式)(&B)",       ID_VIEW_APPLOOK_OFF_2007_BLUE
     MENUITEM "Office 2007 (黑色样式)(&L)",      ID_VIEW_APPLOOK_OFF_2007_BLACK
-    MENUITEM "Office 2007 (银色样式)(&S)",      ID_VIEW_APPLOOK_OFF_2007_SILVER
-    MENUITEM "Office 2007 (水绿色样式)(&A)",     ID_VIEW_APPLOOK_OFF_2007_AQUA
-    MENUITEM "Windows 7(&D)",               ID_VIEW_APPLOOK_WINDOWS_7
+    MENUITEM "Office 2007 (银色样式)(&S)",     ID_VIEW_APPLOOK_OFF_2007_SILVER
+    MENUITEM "Office 2007 (水绿色样式)(&A)",       ID_VIEW_APPLOOK_OFF_2007_AQUA
+    MENUITEM "Windows 7(&D)",                      ID_VIEW_APPLOOK_WINDOWS_7
 END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Accelerator
+// 加速器
 //
 
 IDR_MAINFRAME ACCELERATORS
 BEGIN
-    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
-    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
-    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
-    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
-    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
-    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
-    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
-    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
-    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
-    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
-    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
-    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
-    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
-    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+    "N",            ID_FILE_NEW,            VIRTKEY,CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY,CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY,CONTROL
+	"Z",            ID_EDIT_UNDO,           VIRTKEY,CONTROL
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY,ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY
+    VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT
 END
+
+
 
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog
+// 对话框
 //
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "关于 malagis"
-FONT 9, "MS Shell Dlg", 0, 0, 0x1
+FONT 9, "MS Shell Dlg"
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
     LTEXT           "malagis，1.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
@@ -259,23 +319,24 @@ BEGIN
 END
 
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
-// Version
+// 版本
 //
 
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
- FILEFLAGSMASK 0x3fL
+VS_VERSION_INFO     VERSIONINFO
+  FILEVERSION       1,0,0,1
+  PRODUCTVERSION    1,0,0,1
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
- FILEFLAGS 0x1L
+ FILEFLAGS VS_FF_DEBUG
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE VFT2_UNKNOWN
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
@@ -283,20 +344,19 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "TODO:  <公司名>"
             VALUE "FileDescription", "malagis"
-            VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "malagis.exe"
+            VALUE "FileVersion",     "1.0.0.1"
+            VALUE "InternalName",    "malagis.exe"
             VALUE "LegalCopyright", "TODO:  (C) <公司名>。  保留所有权利。"
-            VALUE "OriginalFilename", "malagis.exe"
+            VALUE "OriginalFilename","malagis.exe"
             VALUE "ProductName", "TODO:  <产品名>"
-            VALUE "ProductVersion", "1.0.0.1"
+            VALUE "ProductVersion",  "1.0.0.1"
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x804, 1200
+        VALUE "Translation", 0x0804, 1200
     END
 END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -316,36 +376,26 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
-// Ribbon
-//
-
-IDR_RIBBON              RT_RIBBON_XML           "res\\ribbon.mfcribbon-ms"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// String Table
+// 字符串表
 //
 
 STRINGTABLE
 BEGIN
-    IDP_OLE_INIT_FAILED     "OLE 初始化失败。  请确保 OLE 库是正确的版本。"
+    IDP_OLE_INIT_FAILED       "OLE 初始化失败。  请确保 OLE 库是正确的版本。"
 END
-
 STRINGTABLE
 BEGIN
+// 非 Mac 应用程序将移除额外的两个子字符串
     IDR_MAINFRAME           "malagis\n\nmalagis\n\n\nmalagis.Document\nmalagis.Document"
-END
 
+END
 STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "malagis"
     AFX_IDS_IDLEMESSAGE     "就绪"
 END
-
 STRINGTABLE
 BEGIN
     ID_INDICATOR_EXT        "EXT"
@@ -355,7 +405,6 @@ BEGIN
     ID_INDICATOR_OVR        "OVR"
     ID_INDICATOR_REC        "REC"
 END
-
 STRINGTABLE
 BEGIN
     ID_FILE_NEW             "创建新文档\n新建"
@@ -365,19 +414,11 @@ BEGIN
     ID_FILE_SAVE_AS         "用新名称保存活动文档\n另存为"
     ID_FILE_PAGE_SETUP      "更改打印选项\n页面设置"
     ID_FILE_PRINT_SETUP     "更改打印机选项和打印选项\n打印设置"
-    ID_FILE_PRINT           "打印活动文档\n打印"
     ID_FILE_PRINT_DIRECT    "使用当前选项打印活动文档\n快速打印"
+    ID_FILE_PRINT           "打印活动文档\n打印"
     ID_FILE_PRINT_PREVIEW   "显示整页\n打印预览"
-END
-
-STRINGTABLE
-BEGIN
     ID_APP_ABOUT            "显示程序信息、版本号和版权信息\n关于"
     ID_APP_EXIT             "退出应用程序；提示保存文档\n退出"
-END
-
-STRINGTABLE
-BEGIN
     ID_FILE_MRU_FILE1       "打开此文档"
     ID_FILE_MRU_FILE2       "打开此文档"
     ID_FILE_MRU_FILE3       "打开此文档"
@@ -394,21 +435,9 @@ BEGIN
     ID_FILE_MRU_FILE14      "打开此文档"
     ID_FILE_MRU_FILE15      "打开此文档"
     ID_FILE_MRU_FILE16      "打开此文档"
-END
-
-STRINGTABLE
-BEGIN
     ID_NEXT_PANE            "切换到下一个窗格\n下一窗格"
     ID_PREV_PANE            "切换回上一个窗格\n上一窗格"
-END
-
-STRINGTABLE
-BEGIN
     ID_WINDOW_SPLIT         "将活动窗口拆分为多个窗格\n拆分"
-END
-
-STRINGTABLE
-BEGIN
     ID_EDIT_CLEAR           "清除所选内容\n清除"
     ID_EDIT_CLEAR_ALL       "清除全部内容\n全部清除"
     ID_EDIT_COPY            "复制所选内容，将其放入剪贴板\n复制"
@@ -420,17 +449,8 @@ BEGIN
     ID_EDIT_SELECT_ALL      "选定整个文档\n全选"
     ID_EDIT_UNDO            "撤消上一操作\n撤消"
     ID_EDIT_REDO            "重做上次撤消的操作\n重做"
-END
-
-STRINGTABLE
-BEGIN
     ID_VIEW_TOOLBAR         "显示或隐藏工具栏\n切换工具栏"
     ID_VIEW_STATUS_BAR      "显示或隐藏状态栏\n切换状态栏"
-END
-
-STRINGTABLE
-BEGIN
-    ID_VIEW_CAPTION_BAR     "显示或隐藏标题栏\n切换标题栏"
 END
 
 STRINGTABLE
@@ -442,76 +462,48 @@ BEGIN
     AFX_IDS_SCNEXTWINDOW    "切换到下一个文档窗口"
     AFX_IDS_SCPREVWINDOW    "切换到上一个文档窗口"
     AFX_IDS_SCCLOSE         "关闭活动窗口并提示保存文档"
-END
-
-STRINGTABLE
-BEGIN
     AFX_IDS_SCRESTORE       "将窗口恢复到正常大小"
     AFX_IDS_SCTASKLIST      "激活任务列表"
-END
-
-STRINGTABLE
-BEGIN
     AFX_IDS_PREVIEW_CLOSE   "关闭打印预览模式\n取消预览"
 END
+
 
 STRINGTABLE
 BEGIN
     IDS_STATUS_PANE1        "窗格 1"
     IDS_STATUS_PANE2        "窗格 2"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_MYCALENDARS         "我的日历"
-    IDS_CALENDAR            "日历"
-    IDS_SHORTCUTS           "快捷方式"
-    IDS_FOLDERS             "文件夹"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_OUTLOOKBAR          "Outlook 栏"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_CAPTION_BUTTON      "选项..."
-    IDS_CAPTION_BUTTON_TIP  "单击此处查看其他选项"
-    IDS_CAPTION_TEXT        "这是标题栏，可在其中向用户显示消息。"
-    IDS_CAPTION_IMAGE_TIP   "重要事项"
-    IDS_CAPTION_IMAGE_TEXT  "这是向用户显示的信息性消息。"
-END
-
-STRINGTABLE
-BEGIN
+    IDS_FILE_VIEW           "文件视图"
+    IDS_CLASS_VIEW          "类视图"
+    IDS_EXPLORER            "资源管理器"
     IDS_EDIT_MENU           "编辑"
 END
 
-#endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////
+//
+// 功能区
+//
 
+IDR_RIBBON             RT_RIBBON_XML           "res\\ribbon.mfcribbon-ms"
 
+#endif
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
-// Generated from the TEXTINCLUDE 3 resource.
+// 从 TEXTINCLUDE 3 资源生成。
 //
+
 #define _AFX_NO_OLE_RESOURCES
 #define _AFX_NO_TRACKER_RESOURCES
 #define _AFX_NO_PROPERTY_RESOURCES
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
-#include "res\malagis.rc2"  // 非 Microsoft Visual C++ 编辑的资源
-#include "l.CHS\afxres.rc"      // 标准组件
-#include "l.CHS\afxprint.rc"    // 打印/打印预览资源
+#include "res\\malagis.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "l.CHS\\afxres.rc"      // 标准组件
+#include "l.CHS\\afxprint.rc"  // 打印/打印预览资源
 #if !defined(_AFXDLL)
-#include "l.CHS\afxribbon.rc"        // MFC 功能区和控件条资源
+#include "l.CHS\\afxribbon.rc"        // MFC 功能区和控件条资源
 #endif
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
-
+#endif    // 不是 APSTUDIO_INVOKED
