@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include "_malaBase.h"
 
 class CmalagisView : public CView
 {
@@ -53,6 +54,14 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnButtonPointsInput();
+
+//自定义变量
+private:
+	CmalaMouseAction *mBaseOper;
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

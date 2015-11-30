@@ -13,5 +13,7 @@ CmalaPointsInput::~CmalaPointsInput(){}
 
 void CmalaPointsInput::LButtonDown(UINT nFlags, malaPoint point)
 {
-
+	CString a;
+	a.Format(_T("%f"), point.x);
+	MessageBox(NULL, a, _T("≤‚ ‘ ‰»Îµ„"), MB_OK);
 }

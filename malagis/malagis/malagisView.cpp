@@ -22,6 +22,9 @@
 #include "malagisDoc.h"
 #include "malagisView.h"
 
+//自定义头文件
+#include "_malaPoints.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -38,6 +41,8 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CmalagisView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_COMMAND(ID_BUTTON_POINTS_INPUT, &CmalagisView::OnButtonPointsInput)
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -45,7 +50,7 @@ END_MESSAGE_MAP()
 CmalagisView::CmalagisView()
 {
 	// TODO:  在此处添加构造代码
-
+	mBaseOper = NULL;
 }
 
 CmalagisView::~CmalagisView()
@@ -133,5 +138,24 @@ CmalagisDoc* CmalagisView::GetDocument() const // 非调试版本是内联的
 }
 #endif //_DEBUG
 
-
 // CmalagisView 消息处理程序
+
+void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	malaPoint tmpPoint;
+	tmpPoint.x = (double)point.x;
+	tmpPoint.y = (double)point.y;
+	if (mBaseOper)
+	{
+		mBaseOper->LButtonDown(nFlags, tmpPoint);
+	}
+	
+	CView::OnLButtonDown(nFlags, point);
+}
+
+void CmalagisView::OnButtonPointsInput()
+{
+	// TODO:  在此添加命令处理程序代码
+	mBaseOper = new CmalaPointsInput(this);
+}
