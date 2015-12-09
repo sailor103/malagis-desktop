@@ -18,6 +18,7 @@ public:
 	CmalaPointsInput(CView* mView);
 	~CmalaPointsInput();
 	void LButtonDown(UINT nFlags, malaPoint point);
+	void GetPointPro();//获取点的参数
 private:
 	malaPoint mPont;
 	malaPointPro mPointPro;

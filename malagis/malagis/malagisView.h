@@ -14,6 +14,7 @@
 
 #pragma once
 
+//自定义头文件
 #include "_malaBase.h"
 
 class CmalagisView : public CView
