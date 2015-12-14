@@ -10,7 +10,9 @@
 #include "malaStruct.h"
 #include <vector>
 using namespace std;
-
+/*
+* 鼠标操作基类
+*/
 class malabasedll CmalaMouseAction
 {
 public:
@@ -25,6 +27,25 @@ public:
 
 	CView* mBaseView;
 };
+
+/*
+* 绘图类
+*/
+class malabasedll malaCDC
+{
+public:
+	malaCDC(CView* ptView);
+	~malaCDC();
+public:
+	void pointDrawCircle(malaPoint Point, malaPointPro PntPro);//绘制一个圆点
+	void pointDrawRect(malaPoint Point, malaPointPro PntPro);//绘制一个矩形点
+	void pointDrawTriangle(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点
+
+private:
+	CView* mView;//绘图指针
+
+};
+
 
 
 #ifndef _MALABASE_EXPORT

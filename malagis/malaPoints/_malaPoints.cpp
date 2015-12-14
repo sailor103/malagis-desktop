@@ -15,9 +15,21 @@ CmalaPointsInput::~CmalaPointsInput(){}
 
 void CmalaPointsInput::LButtonDown(UINT nFlags, malaPoint point)
 {
-	CString a;
-	a.Format(_T("%f"), point.x);
-	MessageBox(NULL, a, _T("≤‚ ‘ ‰»Îµ„"), MB_OK);
+	malaCDC dc(mBaseView);
+	switch (mPointPro.pointStyle)
+	{
+	case 0:
+		dc.pointDrawRect(point, mPointPro);
+		break;
+	case 1:
+		dc.pointDrawTriangle(point, mPointPro);
+		break;
+	case 2:
+		dc.pointDrawCircle(point, mPointPro);
+		break;
+	default:
+		break;
+	}
 }
 void CmalaPointsInput::GetPointPro()
 {
@@ -28,12 +40,4 @@ void CmalaPointsInput::GetPointPro()
 		mPointPro.pointRadio = 1;
 		mPointPro.pointColor = RGB(0,0,0);
 	}
-	//==========debug=====
-	CString a;
-	a.Format(_T("%d"), mPointPro.pointRadio);
-	MessageBox(NULL, a, _T("∞Îæ∂"), MB_OK);
-	a.Format(_T("%d"), mPointPro.pointStyle);
-	MessageBox(NULL, a, _T("¿‡–Õ"), MB_OK);
-	a.Format(_T("%d"), mPointPro.pointLayer);
-	MessageBox(NULL, a, _T("Õº≤„"), MB_OK);
 }
