@@ -42,20 +42,20 @@ malaCDC::~malaCDC()
 */
 void malaCDC::pointDrawCircle(malaPoint Point, malaPointPro PntPro)
 {
-	MessageBox(NULL, L"圆", _T("提示"), MB_OK);
+	MessageBox(NULL, L"圆形", _T("提示"), MB_OK);
 }
 /*
 * 绘制三角形点
 */
 void malaCDC::pointDrawTriangle(malaPoint Point, malaPointPro PntPro)
 {
-	MessageBox(NULL, L"三", _T("提示"), MB_OK);
+	MessageBox(NULL, L"三角形", _T("提示"), MB_OK);
 }
 /*
 * 绘制矩（方）形点
 */
 void malaCDC::pointDrawRect(malaPoint Point, malaPointPro PntPro)
 {
-	MessageBox(NULL, L"方", _T("提示"), MB_OK);
+	MessageBox(NULL, L"方形", _T("提示"), MB_OK);
 
 }
