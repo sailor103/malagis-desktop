@@ -2,6 +2,24 @@
 #include "_malaBase.h"
 #include <math.h>
 
+/************************************************************************/
+/* 屏幕坐标转换函数                                                     */
+/************************************************************************/
+
+//屏幕坐标系转换为平面坐标系
+void malabasedll ScreenToCoord(int inX, int inY, malaScreen pScreen, double *outX, double *outY)
+{
+	*outX = pScreen.lbx + inX*pScreen.scale;
+	*outY = pScreen.lby + (pScreen.hScreen - inY)*pScreen.scale;
+}
+
+//平面坐标系转换为屏幕坐标系
+void malabasedll CoordToScreen(double inX, double inY, malaScreen pScreen, int *outX, int *outY)
+{
+	*outX = (int)(inX - pScreen.lbx) / pScreen.scale;
+	*outY = pScreen.hScreen - (int)(inY - pScreen.lby) / pScreen.scale;
+}
+
 CmalaMouseAction::CmalaMouseAction()
 {
 	mBaseView = NULL;

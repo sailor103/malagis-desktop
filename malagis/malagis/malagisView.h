@@ -63,6 +63,9 @@ private:
 	CmalaMouseAction *mBaseOper;
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+public:
+	malaScreen mScreen;
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

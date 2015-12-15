@@ -4,6 +4,16 @@
 #include <vector>
 using namespace std;
 
+//屏幕坐标系
+typedef struct
+{
+	double scale;	//比例尺
+	double lbx;	//屏幕左下角的横坐标
+	double lby;	//屏幕左下角的纵坐标
+	int wScreen;    //屏幕宽
+	int hScreen;    //屏幕高
+}malaScreen;
+
 //点坐标
 typedef struct
 {

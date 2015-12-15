@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_WM_RBUTTONUP()
 	ON_COMMAND(ID_BUTTON_POINTS_INPUT, &CmalagisView::OnButtonPointsInput)
 	ON_WM_LBUTTONDOWN()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -51,6 +52,10 @@ CmalagisView::CmalagisView()
 {
 	// TODO:  在此处添加构造代码
 	mBaseOper = NULL;
+	//屏幕坐标初始化
+	mScreen.lbx = 0.0;
+	mScreen.lby = 0.0;
+	mScreen.scale = 1.0;
 }
 
 CmalagisView::~CmalagisView()
@@ -143,6 +148,19 @@ CmalagisDoc* CmalagisView::GetDocument() const // 非调试版本是内联的
 void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	
+	
+	//===debug-info===
+	double nx = 0;
+	double ny = 0;
+	ScreenToCoord(point.x, point.y, mScreen, &nx, &ny);
+	CString a;
+	a.Format(L"%f", nx);
+	CString b;
+	b.Format(L"%f", ny);
+	MessageBox(a + b);
+	//===debug-info===
+	
 	malaPoint tmpPoint;
 	tmpPoint.x = (double)point.x;
 	tmpPoint.y = (double)point.y;
@@ -158,4 +176,14 @@ void CmalagisView::OnButtonPointsInput()
 {
 	// TODO:  在此添加命令处理程序代码
 	mBaseOper = new CmalaPointsInput(this);
+}
+
+
+void CmalagisView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	// TODO:  在此处添加消息处理程序代码
+	mScreen.hScreen = cy;//Client窗口高度
+	mScreen.wScreen = cx;//Client窗口宽度
 }

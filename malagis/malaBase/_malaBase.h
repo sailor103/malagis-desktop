@@ -11,6 +11,13 @@
 #include <vector>
 using namespace std;
 /*
+* 屏幕坐标转换函数
+*/
+
+void malabasedll ScreenToCoord(int inX,int inY,malaScreen pScreen,double *outX,double *outY);//屏幕坐标系转换为平面坐标系
+void malabasedll CoordToScreen(double inX, double inY, malaScreen pScreen, int *outX, int *outY);//平面坐标系转换为屏幕坐标系
+
+/*
 * 鼠标操作基类
 */
 class malabasedll CmalaMouseAction
