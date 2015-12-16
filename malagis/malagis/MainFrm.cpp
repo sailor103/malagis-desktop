@@ -63,14 +63,35 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // 未能创建
 	}
 
-	CString strTitlePane1;
+	/*CString strTitlePane1;
 	CString strTitlePane2;
 	bNameValid = strTitlePane1.LoadString(IDS_STATUS_PANE1);
 	ASSERT(bNameValid);
 	bNameValid = strTitlePane2.LoadString(IDS_STATUS_PANE2);
 	ASSERT(bNameValid);
 	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUSBAR_PANE1, strTitlePane1, TRUE), strTitlePane1);
-	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUSBAR_PANE2, strTitlePane2, TRUE), strTitlePane2);
+	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUSBAR_PANE2, strTitlePane2, TRUE), strTitlePane2);*/
+
+	/*
+	* 自定义状态栏
+	*/
+	CString strStatusCoordTitle;
+	CString strStatusCoordPos;
+	CString strTitlePane2;
+
+	bNameValid = strStatusCoordTitle.LoadString(IDS_STAUTS_COORD_TITLE);
+	ASSERT(bNameValid);
+	bNameValid = strStatusCoordPos.LoadString(IDS_STAUTS_COORD_POS);
+	ASSERT(bNameValid);
+	bNameValid = strTitlePane2.LoadString(IDS_STATUS_PANE2);
+	ASSERT(bNameValid);
+
+	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUS_COORD_TITLE, strStatusCoordTitle, TRUE), strStatusCoordTitle);
+	m_wndStatusBar.AddSeparator();//添加分隔符
+	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUS_COORD_POS, strStatusCoordPos, TRUE), strStatusCoordPos);
+
+	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUSBAR_PANE2, strTitlePane2, TRUE), strTitlePane2); 
+
 
 	// 启用 Visual Studio 2005 样式停靠窗口行为
 	CDockingManager::SetDockingMode(DT_SMART);

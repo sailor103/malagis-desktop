@@ -21,6 +21,7 @@
 
 #include "malagisDoc.h"
 #include "malagisView.h"
+#include "MainFrm.h"
 
 //自定义头文件
 #include "_malaPoints.h"
@@ -44,6 +45,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_POINTS_INPUT, &CmalagisView::OnButtonPointsInput)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_SIZE()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -148,19 +150,7 @@ CmalagisDoc* CmalagisView::GetDocument() const // 非调试版本是内联的
 void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
-	
-	
-	//===debug-info===
-	double nx = 0;
-	double ny = 0;
-	ScreenToCoord(point.x, point.y, mScreen, &nx, &ny);
-	CString a;
-	a.Format(L"%f", nx);
-	CString b;
-	b.Format(L"%f", ny);
-	MessageBox(a + b);
-	//===debug-info===
-	
+		
 	malaPoint tmpPoint;
 	tmpPoint.x = (double)point.x;
 	tmpPoint.y = (double)point.y;
@@ -186,4 +176,26 @@ void CmalagisView::OnSize(UINT nType, int cx, int cy)
 	// TODO:  在此处添加消息处理程序代码
 	mScreen.hScreen = cy;//Client窗口高度
 	mScreen.wScreen = cx;//Client窗口宽度
+}
+
+
+void CmalagisView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	/*
+	* 实时显示坐标
+	*/
+	//View中获取MainFrame指针
+	CMainFrame *pMainFrame = (CMainFrame *)AfxGetApp()->m_pMainWnd;
+	//获取状态栏指针
+	CMFCRibbonStatusBar *statusBar = (CMFCRibbonStatusBar *)pMainFrame->GetDescendantWindow(AFX_IDW_STATUS_BAR);
+	//更改坐标
+	malaPoint MyPoint;
+	ScreenToCoord(point.x, point.y, mScreen, &MyPoint.x, &MyPoint.y);
+	CString str;
+	str.Format(_T("x=%f,y=%f"), MyPoint.x, MyPoint.y);
+	statusBar->GetElement(2)->SetText(str);
+	statusBar->GetElement(2)->Redraw();
+
+	CView::OnMouseMove(nFlags, point);
 }
