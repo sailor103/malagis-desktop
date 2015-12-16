@@ -5,9 +5,10 @@
 /*
 *  ‰»Îµ„
 */
-CmalaPointsInput::CmalaPointsInput(CView* mView)
+CmalaPointsInput::CmalaPointsInput(CView* mView, malaScreen pScreen)
 {
 	mBaseView = mView;
+	mScreen = pScreen;
 	GetPointPro();
 }
  
@@ -15,7 +16,7 @@ CmalaPointsInput::~CmalaPointsInput(){}
 
 void CmalaPointsInput::LButtonDown(UINT nFlags, malaPoint point)
 {
-	malaCDC dc(mBaseView);
+	malaCDC dc(mBaseView, mScreen);
 	switch (mPointPro.pointStyle)
 	{
 	case 0:

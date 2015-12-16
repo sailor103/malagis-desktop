@@ -7,17 +7,17 @@
 /************************************************************************/
 
 //屏幕坐标系转换为平面坐标系
-void malabasedll ScreenToCoord(int inX, int inY, malaScreen pScreen, double *outX, double *outY)
+void malabasedll ScreenToCoord(long inX, long inY, malaScreen pScreen, double *outX, double *outY)
 {
 	*outX = pScreen.lbx + inX*pScreen.scale;
 	*outY = pScreen.lby + (pScreen.hScreen - inY)*pScreen.scale;
 }
 
 //平面坐标系转换为屏幕坐标系
-void malabasedll CoordToScreen(double inX, double inY, malaScreen pScreen, int *outX, int *outY)
+void malabasedll CoordToScreen(double inX, double inY, malaScreen pScreen, long *outX, long *outY)
 {
-	*outX = (int)(inX - pScreen.lbx) / pScreen.scale;
-	*outY = pScreen.hScreen - (int)(inY - pScreen.lby) / pScreen.scale;
+	*outX = (long)(inX - pScreen.lbx) / pScreen.scale;
+	*outY = pScreen.hScreen - (long)(inY - pScreen.lby) / pScreen.scale;
 }
 
 CmalaMouseAction::CmalaMouseAction()
@@ -47,9 +47,10 @@ void CmalaMouseAction::MouseWheel(UINT nFlags, short zDelta, malaPoint pt){}
 /*
 * 绘图类构造析构实现 
 */
-malaCDC::malaCDC(CView* ptView)
+malaCDC::malaCDC(CView* ptView,malaScreen pScreen)
 {
 	mView = ptView;
+	mScreen = pScreen;
 }
 
 malaCDC::~malaCDC()
@@ -68,10 +69,8 @@ void malaCDC::pointDrawCircle(malaPoint Point, malaPointPro PntPro)
 	CBrush MyBrush(PntPro.pointColor);
 	CBrush* OldBrush = dc.SelectObject(&MyBrush);
 	CPoint Point1, Point2;
-	Point1.x = Point.x - PntPro.pointRadio;
-	Point1.y = Point.y - PntPro.pointRadio;
-	Point2.x = Point.x + PntPro.pointRadio;
-	Point2.y = Point.y + PntPro.pointRadio;
+	CoordToScreen(Point.x - PntPro.pointRadio, Point.y + PntPro.pointRadio, mScreen, &Point1.x, &Point1.y);
+	CoordToScreen(Point.x + PntPro.pointRadio, Point.y - PntPro.pointRadio, mScreen, &Point2.x, &Point2.y);
 	dc.Ellipse(CRect(Point1, Point2));
 	dc.SelectObject(OldPen);
 	dc.SelectObject(OldBrush);
@@ -88,14 +87,12 @@ void malaCDC::pointDrawTriangle(malaPoint Point, malaPointPro PntPro)
 	CBrush MyBrush(PntPro.pointColor);
 	CBrush* OldBrush = dc.SelectObject(&MyBrush);
 	double radio = PntPro.pointRadio;
-	double r1 = sqrtf(3) / 2 * radio;
+	double r1 = sqrtf(3.0) / 2.0 * radio;
 	CPoint* MyArray = new CPoint[3];
-	MyArray[0].x = Point.x - r1;
-	MyArray[0].y = Point.y + (double)radio/2;
-	MyArray[1].x = Point.x + r1;
-	MyArray[1].y = Point.y + (double)radio / 2;
-	MyArray[2].x = Point.x;
-	MyArray[2].y = Point.y-radio;
+	
+	CoordToScreen(Point.x - r1, Point.y - (double)radio / 2, mScreen, &MyArray[0].x, &MyArray[0].y);
+	CoordToScreen(Point.x + r1, Point.y - (double)radio / 2, mScreen, &MyArray[1].x, &MyArray[1].y);
+	CoordToScreen(Point.x, Point.y + radio, mScreen, &MyArray[2].x, &MyArray[2].y);
 
 	dc.Polygon(MyArray, 3);
 	dc.SelectObject(OldPen);
@@ -114,10 +111,8 @@ void malaCDC::pointDrawRect(malaPoint Point, malaPointPro PntPro)
 	CBrush MyBrush(PntPro.pointColor);
 	CBrush* OldBrush = dc.SelectObject(&MyBrush);
 	CPoint Point1, Point2;
-	Point1.x = Point.x - PntPro.pointRadio;
-	Point1.y = Point.y - PntPro.pointRadio;
-	Point2.x = Point.x + PntPro.pointRadio;
-	Point2.y = Point.y + PntPro.pointRadio;
+	CoordToScreen(Point.x - PntPro.pointRadio, Point.y + PntPro.pointRadio, mScreen, &Point1.x, &Point1.y);
+	CoordToScreen(Point.x + PntPro.pointRadio, Point.y - PntPro.pointRadio, mScreen, &Point2.x, &Point2.y);
 
 	dc.Rectangle(CRect(Point1, Point2));
 	dc.SelectObject(OldPen);

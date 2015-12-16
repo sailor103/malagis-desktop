@@ -152,8 +152,7 @@ void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
 		
 	malaPoint tmpPoint;
-	tmpPoint.x = (double)point.x;
-	tmpPoint.y = (double)point.y;
+	ScreenToCoord(point.x, point.y, mScreen, &tmpPoint.x, &tmpPoint.y);
 	if (mBaseOper)
 	{
 		mBaseOper->LButtonDown(nFlags, tmpPoint);
@@ -165,7 +164,7 @@ void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 void CmalagisView::OnButtonPointsInput()
 {
 	// TODO:  在此添加命令处理程序代码
-	mBaseOper = new CmalaPointsInput(this);
+	mBaseOper = new CmalaPointsInput(this,mScreen);
 }
 
 
@@ -193,7 +192,7 @@ void CmalagisView::OnMouseMove(UINT nFlags, CPoint point)
 	malaPoint MyPoint;
 	ScreenToCoord(point.x, point.y, mScreen, &MyPoint.x, &MyPoint.y);
 	CString str;
-	str.Format(_T("x=%f,y=%f"), MyPoint.x, MyPoint.y);
+	str.Format(_T("X=%f,Y=%f"), MyPoint.x, MyPoint.y);
 	statusBar->GetElement(2)->SetText(str);
 	statusBar->GetElement(2)->Redraw();
 
