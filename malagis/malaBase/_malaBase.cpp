@@ -117,5 +117,4 @@ void malaCDC::pointDrawRect(malaPoint Point, malaPointPro PntPro)
 	dc.Rectangle(CRect(Point1, Point2));
 	dc.SelectObject(OldPen);
 	dc.SelectObject(OldBrush);
-
 }

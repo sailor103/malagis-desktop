@@ -61,6 +61,12 @@ protected:
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
+//工程管理面板变量
+public:
+	bool isShowFileManage;
+public:
+	afx_msg void OnCheckFileManage();
+	afx_msg void OnUpdateCheckFileManage(CCmdUI *pCmdUI);
 };
 
 

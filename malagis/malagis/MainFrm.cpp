@@ -33,6 +33,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CMainFrame::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
+	ON_COMMAND(ID_CHECK_FILE_MANAGE, &CMainFrame::OnCheckFileManage)
+	ON_UPDATE_COMMAND_UI(ID_CHECK_FILE_MANAGE, &CMainFrame::OnUpdateCheckFileManage)
 END_MESSAGE_MAP()
 
 // CMainFrame 构造/析构
@@ -41,6 +43,7 @@ CMainFrame::CMainFrame()
 {
 	// TODO:  在此添加成员初始化代码
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_OFF_2007_BLUE);
+	isShowFileManage = true;
 }
 
 CMainFrame::~CMainFrame()
@@ -290,4 +293,36 @@ void CMainFrame::OnFilePrintPreview()
 void CMainFrame::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(IsPrintPreview());
+}
+
+
+void CMainFrame::OnCheckFileManage()
+{
+	// TODO:  在此添加命令处理程序代码
+	
+	if (isShowFileManage)
+	{
+		MessageBox(L"关闭工程面板");
+		isShowFileManage = false;
+	}
+	else
+	{
+		MessageBox(L"打开工程面板");
+		isShowFileManage = true;
+	}
+}
+
+
+void CMainFrame::OnUpdateCheckFileManage(CCmdUI *pCmdUI)
+{
+	// TODO:  在此添加命令更新用户界面处理程序代码
+	if (isShowFileManage)
+	{
+		pCmdUI->SetCheck(1);
+	}
+	else
+	{
+		pCmdUI->SetCheck(0);
+	}
+		
 }
