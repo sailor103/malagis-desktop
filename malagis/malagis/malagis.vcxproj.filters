@@ -39,12 +39,6 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="FileView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ClassView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ViewTree.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -66,12 +60,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="malagisView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FileView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ViewTree.cpp">
