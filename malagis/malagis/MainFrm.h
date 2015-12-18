@@ -13,8 +13,10 @@
 //
 
 #pragma once
-#include "FileView.h"
-#include "ClassView.h"
+//#include "FileView.h"
+//#include "ClassView.h"
+//添加自定义头文件
+#include "PrjManage.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -46,8 +48,9 @@ protected:  // 控件条嵌入成员
 	CMFCRibbonApplicationButton m_MainButton;
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
-	CFileView         m_wndFileView;
-	CClassView        m_wndClassView;
+	//CFileView         m_wndFileView;
+	//CClassView        m_wndClassView;
+	CPrjManage        m_wndPrjManage;
 
 // 生成的消息映射函数
 protected:
@@ -65,8 +68,8 @@ protected:
 public:
 	bool isShowFileManage;
 public:
-	afx_msg void OnCheckFileManage();
-	afx_msg void OnUpdateCheckFileManage(CCmdUI *pCmdUI);
+	afx_msg void OnCheckPrjManage();
+	afx_msg void OnUpdateCheckPrjManage(CCmdUI *pCmdUI);
 };
 
 

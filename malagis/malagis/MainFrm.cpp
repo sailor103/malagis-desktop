@@ -33,8 +33,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CMainFrame::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
-	ON_COMMAND(ID_CHECK_FILE_MANAGE, &CMainFrame::OnCheckFileManage)
-	ON_UPDATE_COMMAND_UI(ID_CHECK_FILE_MANAGE, &CMainFrame::OnUpdateCheckFileManage)
+	ON_COMMAND(ID_CHECK_PRJ_MANAGE, &CMainFrame::OnCheckPrjManage)
+	ON_UPDATE_COMMAND_UI(ID_CHECK_PRJ_MANAGE, &CMainFrame::OnUpdateCheckPrjManage)
 END_MESSAGE_MAP()
 
 // CMainFrame 构造/析构
@@ -111,11 +111,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
-	m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndFileView);
-	CDockablePane* pTabbedBar = NULL;
-	m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
+	//m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
+	//m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndPrjManage.EnableDocking(CBRS_ALIGN_ANY);//工程管理面板
+
+	//DockPane(&m_wndFileView);
+	DockPane(&m_wndPrjManage);//工程管理面板
+	//CDockablePane* pTabbedBar = NULL;
+	//m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
 
 	// 基于持久值设置视觉管理器和样式
 	OnApplicationLook(theApp.m_nAppLook);
@@ -140,7 +143,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	BOOL bNameValid;
 
 	// 创建类视图
-	CString strClassView;
+	/*CString strClassView;
 	bNameValid = strClassView.LoadString(IDS_CLASS_VIEW);
 	ASSERT(bNameValid);
 	if (!m_wndClassView.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
@@ -157,6 +160,17 @@ BOOL CMainFrame::CreateDockingWindows()
 	{
 		TRACE0("未能创建“文件视图”窗口\n");
 		return FALSE; // 未能创建
+	}*/
+
+	//创建工程管理视图
+	CString strPrjManage;
+	bNameValid = strPrjManage.LoadString(IDS_PRJMANAGE);
+	ASSERT(bNameValid);
+	DWORD dwNoCloseBarStyle = AFX_DEFAULT_DOCKING_PANE_STYLE & ~AFX_CBRS_CLOSE;
+	if (!m_wndPrjManage.Create(strPrjManage, this, CRect(0, 0, 200, 200), TRUE, ID_PRJMANAGE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI, AFX_CBRS_REGULAR_TABS, dwNoCloseBarStyle))
+	{
+		TRACE0("未能创建“文件视图”窗口\n");
+		return FALSE; // 未能创建
 	}
 
 	SetDockingWindowIcons(theApp.m_bHiColorIcons);
@@ -165,11 +179,14 @@ BOOL CMainFrame::CreateDockingWindows()
 
 void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
-	HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	m_wndFileView.SetIcon(hFileViewIcon, FALSE);
+	/*HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndFileView.SetIcon(hFileViewIcon, FALSE);*/
 
-	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	m_wndClassView.SetIcon(hClassViewIcon, FALSE);
+	HICON hPrjManageIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndPrjManage.SetIcon(hPrjManageIcon, FALSE);
+
+	/*HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndClassView.SetIcon(hClassViewIcon, FALSE);*/
 
 }
 
@@ -295,25 +312,23 @@ void CMainFrame::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(IsPrintPreview());
 }
 
-
-void CMainFrame::OnCheckFileManage()
+void CMainFrame::OnCheckPrjManage()
 {
 	// TODO:  在此添加命令处理程序代码
-	
 	if (isShowFileManage)
 	{
-		MessageBox(L"关闭工程面板");
+		m_wndPrjManage.ShowPane(FALSE, FALSE, TRUE);
 		isShowFileManage = false;
 	}
 	else
 	{
-		MessageBox(L"打开工程面板");
+		m_wndPrjManage.ShowPane(TRUE, FALSE, TRUE);
 		isShowFileManage = true;
 	}
 }
 
 
-void CMainFrame::OnUpdateCheckFileManage(CCmdUI *pCmdUI)
+void CMainFrame::OnUpdateCheckPrjManage(CCmdUI *pCmdUI)
 {
 	// TODO:  在此添加命令更新用户界面处理程序代码
 	if (isShowFileManage)
@@ -324,5 +339,4 @@ void CMainFrame::OnUpdateCheckFileManage(CCmdUI *pCmdUI)
 	{
 		pCmdUI->SetCheck(0);
 	}
-		
 }
