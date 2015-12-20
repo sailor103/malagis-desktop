@@ -35,12 +35,12 @@ public:
 // 特性
 protected:
 
-	CViewTree m_wndFileView;
-	CImageList m_FileViewImages;
+	CViewTree m_wndPrjView;
+	CImageList m_PrjViewImages;
 	CPrjManageToolBar m_wndToolBar;
 
 protected:
-	void FillFileView();
+	void FillPrjView();
 
 // 实现
 public:

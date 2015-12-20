@@ -61,18 +61,18 @@ int CPrjManage::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 创建视图: 
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
 
-	if (!m_wndFileView.Create(dwViewStyle, rectDummy, this, 4))
+	if (!m_wndPrjView.Create(dwViewStyle, rectDummy, this, 4))
 	{
 		TRACE0("未能创建文件视图\n");
 		return -1;      // 未能创建
 	}
 
 	// 加载视图图像: 
-	m_FileViewImages.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
-	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
+	m_PrjViewImages.Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
+	m_wndPrjView.SetImageList(&m_PrjViewImages, TVSIL_NORMAL);
 
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_EXPLORER);
-	m_wndToolBar.LoadToolBar(IDR_EXPLORER, 0, 0, TRUE /* 已锁定*/);
+	//m_wndToolBar.LoadToolBar(IDR_EXPLORER, 0, 0, TRUE /* 已锁定*/);
 
 	OnChangeVisualStyle();
 
@@ -86,7 +86,7 @@ int CPrjManage::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
 	// 填入一些静态树视图数据(此处只需填入虚拟代码，而不是复杂的数据)
-	FillFileView();
+	FillPrjView();//默认内容
 	AdjustLayout();
 
 	return 0;
@@ -98,44 +98,52 @@ void CPrjManage::OnSize(UINT nType, int cx, int cy)
 	AdjustLayout();
 }
 
-void CPrjManage::FillFileView()
+void CPrjManage::FillPrjView()
 {
-	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("FakeApp 文件"), 0, 0);
-	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+	/*HTREEITEM hRoot = m_wndPrjView.InsertItem(_T("FakeApp 文件"), 0, 0);
+	m_wndPrjView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("FakeApp 源文件"), 0, 0, hRoot);
+	HTREEITEM hSrc = m_wndPrjView.InsertItem(_T("FakeApp 源文件"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
-	m_wndFileView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
+	m_wndPrjView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
+	m_wndPrjView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
+	m_wndPrjView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
+	m_wndPrjView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
+	m_wndPrjView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
+	m_wndPrjView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
 
-	HTREEITEM hInc = m_wndFileView.InsertItem(_T("FakeApp 头文件"), 0, 0, hRoot);
+	HTREEITEM hInc = m_wndPrjView.InsertItem(_T("FakeApp 头文件"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("Resource.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
-	m_wndFileView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
+	m_wndPrjView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
+	m_wndPrjView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
+	m_wndPrjView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
+	m_wndPrjView.InsertItem(_T("Resource.h"), 2, 2, hInc);
+	m_wndPrjView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
+	m_wndPrjView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
 
-	HTREEITEM hRes = m_wndFileView.InsertItem(_T("FakeApp 资源文件"), 0, 0, hRoot);
+	HTREEITEM hRes = m_wndPrjView.InsertItem(_T("FakeApp 资源文件"), 0, 0, hRoot);
 
-	m_wndFileView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
-	m_wndFileView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
+	m_wndPrjView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
+	m_wndPrjView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
+	m_wndPrjView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
+	m_wndPrjView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
 
-	m_wndFileView.Expand(hRoot, TVE_EXPAND);
-	m_wndFileView.Expand(hSrc, TVE_EXPAND);
-	m_wndFileView.Expand(hInc, TVE_EXPAND);
+	m_wndPrjView.Expand(hRoot, TVE_EXPAND);
+	m_wndPrjView.Expand(hSrc, TVE_EXPAND);
+	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
+
+	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("默认工程"), 0, 0);
+	m_wndPrjView.SetItemState(prjRoot, TVIS_BOLD, TVIS_BOLD);
+	HTREEITEM hSrc = m_wndPrjView.InsertItem(_T("点文件"), 0, 0, prjRoot);
+	
+	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
+	//m_wndPrjView.Expand(prjRoot, TVE_EXPAND);
+
 }
 
 void CPrjManage::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndFileView;
+	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndPrjView;
 	ASSERT_VALID(pWndTree);
 
 	if (pWnd != pWndTree)
@@ -175,12 +183,12 @@ void CPrjManage::AdjustLayout()
 	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
 
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
-	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
+	m_wndPrjView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 void CPrjManage::OnProperties()
 {
-	AfxMessageBox(_T("属性...."));
+	AfxMessageBox(_T("属性??????"));
 
 }
 
@@ -219,7 +227,7 @@ void CPrjManage::OnPaint()
 	CPaintDC dc(this); // 用于绘制的设备上下文
 
 	CRect rectTree;
-	m_wndFileView.GetWindowRect(rectTree);
+	m_wndPrjView.GetWindowRect(rectTree);
 	ScreenToClient(rectTree);
 
 	rectTree.InflateRect(1, 1);
@@ -230,7 +238,7 @@ void CPrjManage::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 
-	m_wndFileView.SetFocus();
+	m_wndPrjView.SetFocus();
 }
 
 void CPrjManage::OnChangeVisualStyle()
@@ -238,7 +246,7 @@ void CPrjManage::OnChangeVisualStyle()
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_EXPLORER_24 : IDR_EXPLORER, 0, 0, TRUE /* 锁定*/);
 
-	m_FileViewImages.DeleteImageList();
+	m_PrjViewImages.DeleteImageList();
 
 	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_FILE_VIEW_24 : IDB_FILE_VIEW;
 
@@ -257,10 +265,10 @@ void CPrjManage::OnChangeVisualStyle()
 
 	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
 
-	m_FileViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
-	m_FileViewImages.Add(&bmp, RGB(255, 0, 255));
+	m_PrjViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
+	m_PrjViewImages.Add(&bmp, RGB(255, 0, 255));
 
-	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
+	m_wndPrjView.SetImageList(&m_PrjViewImages, TVSIL_NORMAL);
 }
 
 
