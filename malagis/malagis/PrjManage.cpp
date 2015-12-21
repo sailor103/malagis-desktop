@@ -59,7 +59,7 @@ int CPrjManage::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// 创建视图: 
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
+	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE  | TVS_LINESATROOT | TVS_HASBUTTONS;
 
 	if (!m_wndPrjView.Create(dwViewStyle, rectDummy, this, 4))
 	{
@@ -103,7 +103,7 @@ void CPrjManage::FillPrjView()
 	/*HTREEITEM hRoot = m_wndPrjView.InsertItem(_T("FakeApp 文件"), 0, 0);
 	m_wndPrjView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hSrc = m_wndPrjView.InsertItem(_T("FakeApp 源文件"), 0, 0, hRoot);
+	HTREEITEM hSrc = m_wndPrjView.InsertItem(_T("FakeApp 源文件"), 0, 1, hRoot);
 
 	m_wndPrjView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
 	m_wndPrjView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
@@ -135,6 +135,8 @@ void CPrjManage::FillPrjView()
 	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("默认工程"), 0, 0);
 	m_wndPrjView.SetItemState(prjRoot, TVIS_BOLD, TVIS_BOLD);
 	HTREEITEM hSrc = m_wndPrjView.InsertItem(_T("点文件"), 0, 0, prjRoot);
+
+	
 	
 	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
 	//m_wndPrjView.Expand(prjRoot, TVE_EXPAND);
@@ -269,6 +271,8 @@ void CPrjManage::OnChangeVisualStyle()
 	m_PrjViewImages.Add(&bmp, RGB(255, 0, 255));
 
 	m_wndPrjView.SetImageList(&m_PrjViewImages, TVSIL_NORMAL);
+	SetWindowTheme(m_wndPrjView, L"Explorer", NULL);
+
 }
 
 
