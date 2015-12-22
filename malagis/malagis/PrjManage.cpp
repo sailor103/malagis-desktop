@@ -132,11 +132,13 @@ void CPrjManage::FillPrjView()
 	m_wndPrjView.Expand(hSrc, TVE_EXPAND);
 	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
 
-	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("默认工程"), 0, 0);
-	m_wndPrjView.SetItemState(prjRoot, TVIS_BOLD, TVIS_BOLD);
-	HTREEITEM hSrc = m_wndPrjView.InsertItem(_T("点文件"), 0, 0, prjRoot);
+	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("空工程"), 0, 0);
+	HTREEITEM prjPoint = m_wndPrjView.InsertItem(_T("点文件"), 0, 0, prjRoot);
+	HTREEITEM prjPointFile = m_wndPrjView.InsertItem(_T("sfsdfds文件"), 0, 0, prjPoint);
+	HTREEITEM prjLine = m_wndPrjView.InsertItem(_T("线文件"), 0, 0, prjRoot);
+	HTREEITEM prjPoly = m_wndPrjView.InsertItem(_T("区文件"), 0, 0, prjRoot);
+	HTREEITEM prjLabel = m_wndPrjView.InsertItem(_T("注释文件"), 0, 0, prjRoot);
 
-	
 	
 	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
 	//m_wndPrjView.Expand(prjRoot, TVE_EXPAND);
@@ -153,7 +155,7 @@ void CPrjManage::OnContextMenu(CWnd* pWnd, CPoint point)
 		CDockablePane::OnContextMenu(pWnd, point);
 		return;
 	}
-
+	HTREEITEM selTreeItem=NULL;
 	if (point != CPoint(-1, -1))
 	{
 		// 选择已单击的项: 
@@ -165,11 +167,47 @@ void CPrjManage::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (hTreeItem != NULL)
 		{
 			pWndTree->SelectItem(hTreeItem);
+			selTreeItem = hTreeItem;
 		}
 	}
 
 	pWndTree->SetFocus();
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
+	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
+	
+	/*
+	* 加载自定义的右键菜单
+	*/
+	CMenu menu;
+	CString str = m_wndPrjView.GetItemText(selTreeItem);
+
+	if (selTreeItem == m_wndPrjView.GetRootItem())
+	{
+		menu.LoadMenu(IDR_MENU_PRJ);
+		//m_DelItem = hItem; 
+	}
+	else if (str==L"点文件")
+	{
+		menu.LoadMenu(IDR_MENU_PRJ_POINT);
+	}
+	else if (str == L"线文件")
+	{
+		menu.LoadMenu(IDR_MENU_PRJ_LINE);
+	}
+	else if (str == L"区文件")
+	{
+		menu.LoadMenu(IDR_MENU_PRJ_PLOY);
+	}
+	else if (str == L"注释文件")
+	{
+		menu.LoadMenu(IDR_MENU_PRJ_LABEL);
+	}
+	else
+	{
+		menu.LoadMenu(IDR_MENU_PRJ_FILE_CTRL);
+	}
+	
+	CMenu *pPopup = menu.GetSubMenu(0);
+	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
 }
 
 void CPrjManage::AdjustLayout()
@@ -271,8 +309,10 @@ void CPrjManage::OnChangeVisualStyle()
 	m_PrjViewImages.Add(&bmp, RGB(255, 0, 255));
 
 	m_wndPrjView.SetImageList(&m_PrjViewImages, TVSIL_NORMAL);
+#if _WIN32_WINNT>= 0x0600
 	SetWindowTheme(m_wndPrjView, L"Explorer", NULL);
-
+#endif
+	
 }
 
 
