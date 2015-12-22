@@ -79,13 +79,8 @@
 #define IDB_BITMAP2                     311
 #define IDB_BITMAP_POINTS_BAR           311
 #define IDR_MENU_PRJ                    313
-#define IDR_MENU_PRJ_POINT              314
 #define IDR_MENU_PRJ_FILE_CTRL          315
-#define IDR_MENU_PRJ_LINE               316
-#define IDR_MENU_PRJ_PLOY               317
-#define IDB_BITMAP1                     317
 #define IDB_PRJ_VIEW                    317
-#define IDR_MENU_PRJ_LABEL              318
 #define ID_STATUS_COORD_TITLE           1000
 #define ID_STATUS_COORD_POS             1001
 #define ID_PRJMANAGE                    1002
@@ -98,10 +93,7 @@
 #define ID_NEW_PRJ                      32776
 #define ID_32777                        32777
 #define ID_OPEN_PRJ                     32778
-#define ID_32779                        32779
-#define ID_32780                        32780
 #define ID_PRJ_NEW_POINTS_FILE          32781
-#define ID_PRJ_OPEN_POINT_FILE          32782
 #define ID_32783                        32783
 #define ID_32784                        32784
 #define ID_32785                        32785
@@ -112,21 +104,17 @@
 #define ID_PRJ_FILE_ACTIVE              32790
 #define ID_PRJ_FILE_DEL                 32791
 #define ID_PRJ_FILE_PRO                 32792
-#define ID_32793                        32793
-#define ID_32794                        32794
 #define ID_PRJ_NEW_LINE_FILE            32795
-#define ID_PRJ_OPEN_LINE_FILE           32796
 #define ID_PRJ_NEW_PLOY_FILE            32797
-#define ID_PRJ_OPEN_PLOY_FILE           32798
 #define ID_PRJ_NEW_LABEL_FILE           32799
-#define ID_PRJ_OPEN_LABEL_FILE          32800
+#define ID_32801                        32801
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        318
-#define _APS_NEXT_COMMAND_VALUE         32801
+#define _APS_NEXT_COMMAND_VALUE         32802
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

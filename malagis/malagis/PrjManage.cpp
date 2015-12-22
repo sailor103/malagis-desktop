@@ -133,11 +133,10 @@ void CPrjManage::FillPrjView()
 	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
 
 	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("空工程"), 0, 0);
-	HTREEITEM prjPoint = m_wndPrjView.InsertItem(_T("点文件"), 1, 1, prjRoot);
-	HTREEITEM prjPointFile = m_wndPrjView.InsertItem(_T("测试点文件.mpt"), 4, 4, prjPoint);
-	HTREEITEM prjLine = m_wndPrjView.InsertItem(_T("线文件"), 1, 1, prjRoot);
-	HTREEITEM prjPoly = m_wndPrjView.InsertItem(_T("区文件"), 1, 1, prjRoot);
-	HTREEITEM prjLabel = m_wndPrjView.InsertItem(_T("注释文件"), 1, 1, prjRoot);
+	HTREEITEM prjPoint = m_wndPrjView.InsertItem(_T("测试点文件.mpt"), 3, 3, prjRoot);
+	HTREEITEM prjLine = m_wndPrjView.InsertItem(_T("测试线文件.mle"), 7, 7, prjRoot);
+	HTREEITEM prjPoly = m_wndPrjView.InsertItem(_T("测试区文件.mpn"), 9, 9, prjRoot);
+	HTREEITEM prjLabel = m_wndPrjView.InsertItem(_T("测试注释文件.mll"), 12, 12, prjRoot);
 
 	
 	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
@@ -184,22 +183,6 @@ void CPrjManage::OnContextMenu(CWnd* pWnd, CPoint point)
 	{
 		menu.LoadMenu(IDR_MENU_PRJ);
 		//m_DelItem = hItem; 
-	}
-	else if (str==L"点文件")
-	{
-		menu.LoadMenu(IDR_MENU_PRJ_POINT);
-	}
-	else if (str == L"线文件")
-	{
-		menu.LoadMenu(IDR_MENU_PRJ_LINE);
-	}
-	else if (str == L"区文件")
-	{
-		menu.LoadMenu(IDR_MENU_PRJ_PLOY);
-	}
-	else if (str == L"注释文件")
-	{
-		menu.LoadMenu(IDR_MENU_PRJ_LABEL);
 	}
 	else
 	{
