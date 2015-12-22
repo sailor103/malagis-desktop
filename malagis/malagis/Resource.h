@@ -83,6 +83,8 @@
 #define IDR_MENU_PRJ_FILE_CTRL          315
 #define IDR_MENU_PRJ_LINE               316
 #define IDR_MENU_PRJ_PLOY               317
+#define IDB_BITMAP1                     317
+#define IDB_PRJ_VIEW                    317
 #define IDR_MENU_PRJ_LABEL              318
 #define ID_STATUS_COORD_TITLE           1000
 #define ID_STATUS_COORD_POS             1001
@@ -123,7 +125,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        317
+#define _APS_NEXT_RESOURCE_VALUE        318
 #define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310

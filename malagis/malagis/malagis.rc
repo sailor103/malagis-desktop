@@ -103,6 +103,7 @@ IDB_EXPLORER_24         BITMAP                  "res\\explorer_hc.bmp"
 IDR_MENU_IMAGES         BITMAP                  "res\\menuimages.bmp"
 IDB_MENU_IMAGES_24      BITMAP                  "res\\menuimages_hc.bmp"
 IDB_BITMAP_POINTS_BAR   BITMAP                  "res\\points_bar.bmp"
+IDB_PRJ_VIEW            BITMAP                  "res\\prjview.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

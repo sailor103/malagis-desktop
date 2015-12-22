@@ -133,11 +133,11 @@ void CPrjManage::FillPrjView()
 	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
 
 	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("空工程"), 0, 0);
-	HTREEITEM prjPoint = m_wndPrjView.InsertItem(_T("点文件"), 0, 0, prjRoot);
-	HTREEITEM prjPointFile = m_wndPrjView.InsertItem(_T("sfsdfds文件"), 0, 0, prjPoint);
-	HTREEITEM prjLine = m_wndPrjView.InsertItem(_T("线文件"), 0, 0, prjRoot);
-	HTREEITEM prjPoly = m_wndPrjView.InsertItem(_T("区文件"), 0, 0, prjRoot);
-	HTREEITEM prjLabel = m_wndPrjView.InsertItem(_T("注释文件"), 0, 0, prjRoot);
+	HTREEITEM prjPoint = m_wndPrjView.InsertItem(_T("点文件"), 1, 1, prjRoot);
+	HTREEITEM prjPointFile = m_wndPrjView.InsertItem(_T("测试点文件.mpt"), 4, 4, prjPoint);
+	HTREEITEM prjLine = m_wndPrjView.InsertItem(_T("线文件"), 1, 1, prjRoot);
+	HTREEITEM prjPoly = m_wndPrjView.InsertItem(_T("区文件"), 1, 1, prjRoot);
+	HTREEITEM prjLabel = m_wndPrjView.InsertItem(_T("注释文件"), 1, 1, prjRoot);
 
 	
 	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
@@ -288,7 +288,7 @@ void CPrjManage::OnChangeVisualStyle()
 
 	m_PrjViewImages.DeleteImageList();
 
-	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_FILE_VIEW_24 : IDB_FILE_VIEW;
+	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_PRJ_VIEW : IDB_FILE_VIEW;
 
 	CBitmap bmp;
 	if (!bmp.LoadBitmap(uiBmpId))
