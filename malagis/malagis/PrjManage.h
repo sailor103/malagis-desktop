@@ -52,8 +52,8 @@ public:
 
 public:
 	vector <malaTree> fileNodeTree;//存放当前工程中的目录树
-	CProjectIO currentPrj;
-	CString mBasePath;
+	CProjectIO currentPrj;//记录当前的工程
+	CString mBasePath;//记录当前的工程目录
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

@@ -18,8 +18,9 @@ public:
 	CProjectIO();
 	CProjectIO(CString paramPath);
 	~CProjectIO();
-	bool newPrj(malaTree pNode);
-	bool openPrj(vector<malaTree>&paraTree);
+	
+	void newPrj(malaTree pNode);//新建工程文件
+	void openPrj(vector<malaTree>&paraTree);
 
 	void setPrjPath(CString paramPath);
 	

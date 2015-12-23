@@ -18,7 +18,7 @@ void CProjectIO::setPrjPath(CString paramPath)
 }
 
 //新建工程
-bool CProjectIO::newPrj(malaTree pNode)
+void CProjectIO::newPrj(malaTree pNode)
 {
 	CFile file;
 	file.Open(LPCTSTR(mPrjPath), CFile::modeCreate | CFile::modeWrite);
@@ -26,10 +26,9 @@ bool CProjectIO::newPrj(malaTree pNode)
 	ar << pNode.itemnode << pNode.isOpen << pNode.isActive << pNode.filePath << pNode.fileType;
 	ar.Close();
 	file.Close();
-	return false;
 }
 //打开工程
-bool  CProjectIO::openPrj(vector<malaTree>&paraTree)
+void  CProjectIO::openPrj(vector<malaTree>&paraTree)
 {
 	CFile file;
 	file.Open(LPCTSTR(mPrjPath), CFile::modeRead);
@@ -58,5 +57,4 @@ bool  CProjectIO::openPrj(vector<malaTree>&paraTree)
 	
 	ar.Close();
 	file.Close();
-	return true;
 }

@@ -138,7 +138,7 @@ void CPrjManage::FillPrjView()
 	m_wndPrjView.Expand(hSrc, TVE_EXPAND);
 	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
 
-	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("¿Õ¹¤³Ì"), 0, 0);
+	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("----------"), 0, 0);
 
 	
 	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
