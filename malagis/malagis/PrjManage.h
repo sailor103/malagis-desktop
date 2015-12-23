@@ -12,6 +12,10 @@
 #pragma once
 
 #include "ViewTree.h"
+#include "malaStruct.h"
+#include "_malaIO.h"
+#include <vector>
+using namespace std;
 
 class CPrjManageToolBar : public CMFCToolBar
 {
@@ -46,6 +50,11 @@ protected:
 public:
 	virtual ~CPrjManage();
 
+public:
+	vector <malaTree> fileNodeTree;//存放当前工程中的目录树
+	CProjectIO currentPrj;
+	CString mBasePath;
+
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -59,6 +68,8 @@ protected:
 	afx_msg void OnEditClear();
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg void OnNewPrj();
+	afx_msg void OnOpenPrj();
 
 	DECLARE_MESSAGE_MAP()
 };

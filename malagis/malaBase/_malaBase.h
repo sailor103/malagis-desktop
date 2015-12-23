@@ -10,6 +10,7 @@
 #include "malaStruct.h"
 #include <vector>
 using namespace std;
+
 /*
 * ÆÁÄ»×ø±ê×ª»»º¯Êý
 */

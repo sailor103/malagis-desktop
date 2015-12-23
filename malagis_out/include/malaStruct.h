@@ -31,4 +31,15 @@ typedef struct
 	COLORREF  pointColor; //点的颜色
 }malaPointPro;
 
+//目录树节点
+typedef struct
+{
+	CString   itemnode;//节点名
+	bool      isOpen; //打开状态
+	bool      isActive;//激活状态
+	CString   fileType;//文件类型
+  CString   filePath;//文件路径
+}malaTree;
+
+
 #endif

@@ -14,6 +14,9 @@
 #include "PrjManage.h"
 #include "Resource.h"
 #include "malagis.h"
+#include "_malaDialogs.h"
+#include "_malaIO.h"
+#include "_malaBase.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -26,6 +29,7 @@ static char THIS_FILE[]=__FILE__;
 
 CPrjManage::CPrjManage()
 {
+	mBasePath = L"";
 }
 
 CPrjManage::~CPrjManage()
@@ -43,6 +47,8 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_EDIT_CUT, OnEditCut)
 	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
 	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
+	ON_COMMAND(ID_NEW_PRJ, OnNewPrj)
+	ON_COMMAND(ID_OPEN_PRJ,OnOpenPrj)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
@@ -133,10 +139,6 @@ void CPrjManage::FillPrjView()
 	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
 
 	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("空工程"), 0, 0);
-	HTREEITEM prjPoint = m_wndPrjView.InsertItem(_T("测试点文件.mpt"), 3, 3, prjRoot);
-	HTREEITEM prjLine = m_wndPrjView.InsertItem(_T("测试线文件.mle"), 7, 7, prjRoot);
-	HTREEITEM prjPoly = m_wndPrjView.InsertItem(_T("测试区文件.mpn"), 9, 9, prjRoot);
-	HTREEITEM prjLabel = m_wndPrjView.InsertItem(_T("测试注释文件.mll"), 12, 12, prjRoot);
 
 	
 	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
@@ -298,4 +300,120 @@ void CPrjManage::OnChangeVisualStyle()
 	
 }
 
+/*
+* 新建工程
+*/
+void CPrjManage::OnNewPrj()
+{
+	CString prjPathName, prjName, prjExt;
+	if (dlgNewPrj(prjPathName,prjName,prjExt))
+	{
+		int i = prjPathName.ReverseFind(_T('\\'));
+		mBasePath = prjPathName.Left(i + 1);
+
+		malaTree prjNode;
+		prjNode.filePath = prjPathName;
+		prjNode.fileType = prjExt;
+		prjNode.itemnode = prjName;
+		prjNode.isActive = false;
+		prjNode.isOpen = true;
+		//写文件
+		currentPrj.setPrjPath(prjPathName);
+		currentPrj.newPrj(prjNode);
+		//创建node
+		HTREEITEM hItem = m_wndPrjView.GetRootItem();
+		m_wndPrjView.SetItemText(hItem, prjName);
+		//更新容器
+		fileNodeTree.push_back(prjNode);
+
+	}
+	else
+	{
+		//MessageBox(L"创建失败", L"提示", MB_ICONASTERISK);
+	}
+}
+
+/*
+* 打开工程
+*/
+void CPrjManage::OnOpenPrj()
+{
+	CString prjPathName;
+	if (IDOK==dlgOpenPrj(prjPathName))
+	{
+		//基础目录
+		int i = prjPathName.ReverseFind(_T('\\'));
+		mBasePath = prjPathName.Left(i + 1);
+		//打开工程文件
+		currentPrj.setPrjPath(prjPathName);
+		currentPrj.openPrj(fileNodeTree);
+		//遍历Tree并更新Tree
+		int nodelengh = fileNodeTree.size();
+		for (int i = 0; i < nodelengh; i++)
+		{
+			HTREEITEM hItem = m_wndPrjView.GetRootItem();
+			if (i==0)//root节点
+			{
+				m_wndPrjView.SetItemText(hItem, fileNodeTree[i].itemnode);
+			}
+			else
+			{
+				//点图标
+				if (fileNodeTree[i].fileType == L"mpt"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 4, 4, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mpt"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 3, 3, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mpt"&&fileNodeTree[i].isOpen == false && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 2, 2, hItem);
+				}
+				//线图标
+				if (fileNodeTree[i].fileType == L"mle"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 7, 7, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mle"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 6, 6, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mle"&&fileNodeTree[i].isOpen == false && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 5, 5, hItem);
+				}
+				//面图标
+				if (fileNodeTree[i].fileType == L"mpn"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 10, 10, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mpn"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 9, 9, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mpn"&&fileNodeTree[i].isOpen == false && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 8, 8, hItem);
+				}
+				//注释图标
+				if (fileNodeTree[i].fileType == L"mll"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 13, 13, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mll"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 12, 12, hItem);
+				}
+				if (fileNodeTree[i].fileType == L"mll"&&fileNodeTree[i].isOpen == false && fileNodeTree[i].isActive == false)
+				{
+					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 11, 11, hItem);
+				}
+			}
+		}
+
+		//重绘图
+	}
+}
 

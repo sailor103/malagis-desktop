@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaPoints", "malaPoints\ma
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaDialogs", "malaDialogs\malaDialogs.vcxproj", "{74FA1BD9-9279-4273-8C37-5C019145B95C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaIO", "malaIO\malaIO.vcxproj", "{2B45FCAD-9648-47FD-BD89-BD20D79750C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{74FA1BD9-9279-4273-8C37-5C019145B95C}.Debug|Win32.Build.0 = Debug|Win32
 		{74FA1BD9-9279-4273-8C37-5C019145B95C}.Release|Win32.ActiveCfg = Release|Win32
 		{74FA1BD9-9279-4273-8C37-5C019145B95C}.Release|Win32.Build.0 = Release|Win32
+		{2B45FCAD-9648-47FD-BD89-BD20D79750C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2B45FCAD-9648-47FD-BD89-BD20D79750C6}.Debug|Win32.Build.0 = Debug|Win32
+		{2B45FCAD-9648-47FD-BD89-BD20D79750C6}.Release|Win32.ActiveCfg = Release|Win32
+		{2B45FCAD-9648-47FD-BD89-BD20D79750C6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

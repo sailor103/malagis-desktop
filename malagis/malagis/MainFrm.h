@@ -50,6 +50,7 @@ protected:  // 控件条嵌入成员
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	//CFileView         m_wndFileView;
 	//CClassView        m_wndClassView;
+public:
 	CPrjManage        m_wndPrjManage;
 
 // 生成的消息映射函数
