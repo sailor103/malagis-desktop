@@ -30,6 +30,11 @@ static char THIS_FILE[]=__FILE__;
 CPrjManage::CPrjManage()
 {
 	mBasePath = L"";
+	selTreeItem = NULL;
+	actPointItem = NULL;
+	actLineItem = NULL;
+	actPloyItem = NULL;
+	actLabelItem = NULL;
 }
 
 CPrjManage::~CPrjManage()
@@ -49,6 +54,11 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_COMMAND(ID_NEW_PRJ, OnNewPrj)
 	ON_COMMAND(ID_OPEN_PRJ,OnOpenPrj)
+	ON_COMMAND(ID_PRJ_NEW_POINTS_FILE, OnNewPoint)
+	ON_COMMAND(ID_PRJ_FILE_DISPLAY, OnDisplayFile)
+	ON_COMMAND(ID_PRJ_FILE_HIDE, OnHideFile)
+	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
+	
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
@@ -156,7 +166,7 @@ void CPrjManage::OnContextMenu(CWnd* pWnd, CPoint point)
 		CDockablePane::OnContextMenu(pWnd, point);
 		return;
 	}
-	HTREEITEM selTreeItem=NULL;
+	//HTREEITEM selTreeItem=NULL;
 	if (point != CPoint(-1, -1))
 	{
 		// 选择已单击的项: 
@@ -168,7 +178,7 @@ void CPrjManage::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (hTreeItem != NULL)
 		{
 			pWndTree->SelectItem(hTreeItem);
-			selTreeItem = hTreeItem;
+			selTreeItem = hTreeItem;//记录下选中的ITEM
 		}
 	}
 
@@ -320,9 +330,14 @@ void CPrjManage::OnNewPrj()
 		//写文件
 		currentPrj.setPrjPath(prjPathName);
 		currentPrj.newPrj(prjNode);
+		
+		//清空之前的状态
+		delAllChildrenItem();
+		
 		//创建node
 		HTREEITEM hItem = m_wndPrjView.GetRootItem();
 		m_wndPrjView.SetItemText(hItem, prjName);
+
 		//更新容器
 		fileNodeTree.push_back(prjNode);
 
@@ -344,6 +359,10 @@ void CPrjManage::OnOpenPrj()
 		//基础目录
 		int i = prjPathName.ReverseFind(_T('\\'));
 		mBasePath = prjPathName.Left(i + 1);
+		
+		//清空之前的状态
+		delAllChildrenItem();
+
 		//打开工程文件
 		currentPrj.setPrjPath(prjPathName);
 		currentPrj.openPrj(fileNodeTree);
@@ -361,7 +380,7 @@ void CPrjManage::OnOpenPrj()
 				//点图标
 				if (fileNodeTree[i].fileType == L"mpt"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
 				{
-					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 4, 4, hItem);
+					actPointItem = m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 4, 4, hItem);
 				}
 				if (fileNodeTree[i].fileType == L"mpt"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
 				{
@@ -374,7 +393,7 @@ void CPrjManage::OnOpenPrj()
 				//线图标
 				if (fileNodeTree[i].fileType == L"mle"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
 				{
-					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 7, 7, hItem);
+					actLineItem = m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 7, 7, hItem);
 				}
 				if (fileNodeTree[i].fileType == L"mle"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
 				{
@@ -387,7 +406,7 @@ void CPrjManage::OnOpenPrj()
 				//面图标
 				if (fileNodeTree[i].fileType == L"mpn"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
 				{
-					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 10, 10, hItem);
+					actPloyItem = m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 10, 10, hItem);
 				}
 				if (fileNodeTree[i].fileType == L"mpn"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
 				{
@@ -400,7 +419,7 @@ void CPrjManage::OnOpenPrj()
 				//注释图标
 				if (fileNodeTree[i].fileType == L"mll"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
 				{
-					m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 13, 13, hItem);
+					actLabelItem = m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 13, 13, hItem);
 				}
 				if (fileNodeTree[i].fileType == L"mll"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
 				{
@@ -416,4 +435,220 @@ void CPrjManage::OnOpenPrj()
 		//重绘图
 	}
 }
+/*
+* 新建点文件
+*/
+void CPrjManage::OnNewPoint()
+{
+	//MessageBox(L"点文件", L"提示", MB_ICONASTERISK);
+	//先判断有没打开工程
+	if (mBasePath!=L"")
+	{
+		CString pointFileName;
+		if (dlgNewPointFile(pointFileName))
+		{
+			malaTree tpNode;
+			if (makeTree(tpNode, pointFileName, L"mpt"))
+			{
+				CFileFind fFind;
+				if (!fFind.FindFile(tpNode.filePath))
+				{
+					fileNodeTree.push_back(tpNode);
+					if (currentPrj.newPointFile(fileNodeTree, tpNode.filePath))
+					{
+						HTREEITEM hItem = m_wndPrjView.GetRootItem();
+						m_wndPrjView.InsertItem(tpNode.itemnode, 2, 2, hItem);
+					}
+					else
+					{
+						MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+					}
+				}
+				else
+				{
+					MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
+				}
+			}
+			else
+			{
+				MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+			}
 
+			
+		}
+		else
+		{
+			MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+		}
+	}
+	else
+	{
+		MessageBox(L"当前没有工程文件，请先新建工程或者打开已有工程", L"提示", MB_ICONWARNING);
+	}
+}
+
+//显示文件
+void CPrjManage::OnDisplayFile()
+{
+	//更新fileNodeTree
+	CString str = m_wndPrjView.GetItemText(selTreeItem);
+	for (size_t i = 0; i < fileNodeTree.size(); i++)
+	{
+		if (fileNodeTree[i].itemnode == str)
+		{
+			fileNodeTree[i].isOpen = true;
+			fileNodeTree[i].isActive = false;
+			int imgindex = 0;
+			if (fileNodeTree[i].fileType == L"mpt")
+				imgindex = 3;
+			if (fileNodeTree[i].fileType == L"mle")
+				imgindex = 6;
+			if (fileNodeTree[i].fileType == L"mpn")
+				imgindex = 9;
+			if (fileNodeTree[i].fileType == L"mll")
+				imgindex = 12;
+			if (currentPrj.writeAllNode(fileNodeTree))
+				m_wndPrjView.SetItemImage(selTreeItem, imgindex, imgindex);
+			else
+				MessageBox(L"打开文件失败", L"提示", MB_ICONWARNING);
+		}
+	}
+	//...ondraw
+
+}
+
+//隐藏文件
+void CPrjManage::OnHideFile()
+{
+	//更新fileNodeTree
+	CString str = m_wndPrjView.GetItemText(selTreeItem);
+	for (size_t i = 0; i < fileNodeTree.size(); i++)
+	{
+		if (fileNodeTree[i].itemnode == str)
+		{
+			fileNodeTree[i].isOpen = false;
+			fileNodeTree[i].isActive = false;
+			int imgindex = 0;
+			if (fileNodeTree[i].fileType==L"mpt")
+				imgindex = 2;
+			if (fileNodeTree[i].fileType == L"mle")
+				imgindex = 5;
+			if (fileNodeTree[i].fileType == L"mpn")
+				imgindex = 8;
+			if (fileNodeTree[i].fileType == L"mll")
+				imgindex = 11;
+			if(currentPrj.writeAllNode(fileNodeTree))
+				m_wndPrjView.SetItemImage(selTreeItem, imgindex, imgindex);
+			else
+				MessageBox(L"隐藏文件失败", L"提示", MB_ICONWARNING);
+		}
+	}
+	//...ondraw
+
+}
+
+//激活文件
+void CPrjManage::OnActiveFile()
+{
+	//更新fileNodeTree
+	CString str = m_wndPrjView.GetItemText(selTreeItem);
+	for (size_t i = 0; i < fileNodeTree.size(); i++)
+	{
+		if (fileNodeTree[i].itemnode == str)
+		{
+			//清除之前激活状态
+			cleanActiveMask(fileNodeTree[i].fileType, selTreeItem);
+			
+			//设置激活状态
+			fileNodeTree[i].isOpen = true;
+			fileNodeTree[i].isActive = true;
+			int imgindex = 0;
+			if (fileNodeTree[i].fileType == L"mpt")
+				imgindex = 4;
+			if (fileNodeTree[i].fileType == L"mle")
+				imgindex = 7;
+			if (fileNodeTree[i].fileType == L"mpn")
+				imgindex = 10;
+			if (fileNodeTree[i].fileType == L"mll")
+				imgindex = 13;
+			if (currentPrj.writeAllNode(fileNodeTree))
+				m_wndPrjView.SetItemImage(selTreeItem, imgindex, imgindex);
+			else
+				MessageBox(L"激活文件失败", L"提示", MB_ICONWARNING);
+			
+		}
+	}
+	//...ondraw
+
+}
+
+//构造文件节点
+bool CPrjManage::makeTree(malaTree &rTree, CString fileName, CString fileType)
+{
+	rTree.filePath = mBasePath  + fileName +L"."+ fileType;
+	rTree.fileType = fileType;
+	rTree.itemnode = fileName + L"." + fileType;
+	rTree.isActive = false;
+	rTree.isOpen = false;
+	for (size_t i = 0; i < fileNodeTree.size(); i++)
+	{
+		if (fileNodeTree[i].filePath == rTree.filePath)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+//删除所有子节点
+void CPrjManage::delAllChildrenItem()
+{
+	fileNodeTree.clear();
+	m_wndPrjView.DeleteAllItems();
+	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("----------"), 0, 0);
+}
+//清除激活状态
+void CPrjManage::cleanActiveMask(CString &activeType, HTREEITEM newActive)
+{
+	//vector清除状态
+	for (size_t i = 0; i < fileNodeTree.size(); i++)
+	{
+		if (fileNodeTree[i].fileType == activeType&&fileNodeTree[i].isActive==true)
+		{
+			fileNodeTree[i].isActive = false;
+		}
+	}
+	//图标清除状态
+	if (activeType == L"mpt")
+	{
+		if (actPointItem)
+		{
+			m_wndPrjView.SetItemImage(actPointItem, 3, 3);
+
+		}
+		actPointItem = newActive;
+	}	
+	if (activeType == L"mle")
+	{
+		if (actLineItem)
+		{
+			m_wndPrjView.SetItemImage(actLineItem, 6, 6);
+		}
+		actLineItem = newActive;
+	}
+	if (activeType == L"mpn")
+	{
+		if (actPloyItem)
+		{
+			m_wndPrjView.SetItemImage(actPloyItem, 9, 9);
+		}
+		actPloyItem = newActive;
+	}	
+	if (activeType == L"mll")
+	{
+		if (actLabelItem)
+		{
+			m_wndPrjView.SetItemImage(actLabelItem, 12, 12);
+		}
+		actLabelItem = newActive;
+	}
+}

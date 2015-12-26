@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "_malaDialogs.h"
 #include "DialogPointInput.h"
+#include "DialogNewPointFile.h"
 
 /*
 * 输入点的对话框实现
@@ -58,4 +59,18 @@ bool maladialogsdll dlgOpenPrj(CString &paramPrjPath)
 		paramPrjPath = L"";
 		return false;
 	}
+}
+
+/*
+* 新建点文件对话框实现
+*/
+bool maladialogsdll dlgNewPointFile(CString &pointName)
+{
+	CDialogNewPointFile dlg;
+	if (IDOK == dlg.DoModal())
+	{
+		pointName = dlg.mPointFileName;
+		return true;
+	}
+	return false;
 }

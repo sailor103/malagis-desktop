@@ -24,6 +24,11 @@ bool maladialogsdll dlgNewPrj(CString &paramPrjPath,CString&prjName,CString&prjE
 */
 bool maladialogsdll dlgOpenPrj(CString &paramPrjPath);
 
+/*
+* 新建点文件对话框
+*/
+bool maladialogsdll dlgNewPointFile(CString &pointName);
+
 #ifndef _MALADIALOGS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaDialogs.lib")

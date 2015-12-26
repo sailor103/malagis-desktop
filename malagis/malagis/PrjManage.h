@@ -42,6 +42,13 @@ protected:
 	CViewTree m_wndPrjView;
 	CImageList m_PrjViewImages;
 	CPrjManageToolBar m_wndToolBar;
+	HTREEITEM selTreeItem;
+
+	//记录当前激活的4张表
+	HTREEITEM actPointItem;
+	HTREEITEM actLineItem;
+	HTREEITEM actPloyItem;
+	HTREEITEM actLabelItem;
 
 protected:
 	void FillPrjView();
@@ -68,9 +75,17 @@ protected:
 	afx_msg void OnEditClear();
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
-	afx_msg void OnNewPrj();
-	afx_msg void OnOpenPrj();
+	afx_msg void OnNewPrj();//新建工程
+	afx_msg void OnOpenPrj();//打开工程
+	afx_msg void OnNewPoint();//新建点文件
+	afx_msg void OnDisplayFile();//显示文件
+	afx_msg void OnHideFile();//显示文件
+	afx_msg void OnActiveFile();//显示文件
 
 	DECLARE_MESSAGE_MAP()
+protected:
+	bool makeTree(malaTree &rTree,CString fileName,CString fileType);//构造文件节点
+	void delAllChildrenItem();//删除所以子节点
+	void cleanActiveMask(CString &activeType, HTREEITEM newActive);//清除激活状态
 };
 
