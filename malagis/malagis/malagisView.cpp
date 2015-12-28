@@ -181,7 +181,8 @@ void CmalagisView::displayAllGraphs()
 	{
 		if (mNode[i].isOpen == true)
 		{
-			if (mNode[i].fileType==L"mpt")//重绘点文件
+			//重绘点文件
+			if (mNode[i].fileType==L"mpt")
 			{
 				//先获取所有符合条件的点
 				CPointIO pio;
@@ -206,6 +207,8 @@ void CmalagisView::displayAllGraphs()
 						break;
 					}
 				}
+				if (allPoints.size())
+					allPoints.clear();
 			}
 		}
 	}
