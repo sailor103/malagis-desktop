@@ -119,3 +119,16 @@ void malaCDC::pointDrawRect(malaPoint Point, malaPointPro PntPro)
 	dc.SelectObject(OldPen);
 	dc.SelectObject(OldBrush);
 }
+
+/*
+* 逻辑运算基类实现
+*/
+malaLogic::malaLogic(){}
+malaLogic::~malaLogic(){}
+
+bool malaLogic::isPntInRect(malaPoint& Point, malaRect& rc)
+{
+	if ((Point.x >= (rc.xmin - 4)) && (Point.x <= (rc.xmax + 4)) && (Point.y >= (rc.ymin - 4)) && (Point.y <= (rc.ymax + 4)))
+		return true;
+	return false;
+}

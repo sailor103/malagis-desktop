@@ -87,5 +87,6 @@ protected:
 	bool makeTree(malaTree &rTree,CString fileName,CString fileType);//构造文件节点
 	void delAllChildrenItem();//删除所以子节点
 	void cleanActiveMask(CString &activeType, HTREEITEM newActive);//清除激活状态
+	void pjOnDraw();//调用CXXXXView的重绘
 };
 

@@ -433,6 +433,7 @@ void CPrjManage::OnOpenPrj()
 		}
 
 		//重绘图
+		pjOnDraw();
 	}
 }
 /*
@@ -514,7 +515,7 @@ void CPrjManage::OnDisplayFile()
 		}
 	}
 	//...ondraw
-
+	pjOnDraw();
 }
 
 //隐藏文件
@@ -544,7 +545,7 @@ void CPrjManage::OnHideFile()
 		}
 	}
 	//...ondraw
-
+	pjOnDraw();
 }
 
 //激活文件
@@ -579,7 +580,7 @@ void CPrjManage::OnActiveFile()
 		}
 	}
 	//...ondraw
-
+	pjOnDraw();
 }
 
 //构造文件节点
@@ -651,4 +652,12 @@ void CPrjManage::cleanActiveMask(CString &activeType, HTREEITEM newActive)
 		}
 		actLabelItem = newActive;
 	}
+}
+
+//调用CXXXXView的重绘函数
+void CPrjManage::pjOnDraw()
+{
+	//刷新显示
+	CMainFrame*   pMainFrm = (CMainFrame*)AfxGetMainWnd();
+	pMainFrm->GetActiveView()->Invalidate(TRUE);
 }

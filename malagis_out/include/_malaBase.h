@@ -8,6 +8,7 @@
 #endif
 
 #include "malaStruct.h"
+#include "_malaBase.h"
 #include <vector>
 using namespace std;
 
@@ -55,7 +56,17 @@ private:
 
 };
 
-
+/*
+*Âß¼­ÔËËã»ùÀà
+*/
+class malabasedll malaLogic
+{
+public:
+	malaLogic();
+	~malaLogic();
+public:
+	bool isPntInRect(malaPoint& Point, malaRect& rc);
+};
 
 #ifndef _MALABASE_EXPORT
 #ifdef _DEBUG

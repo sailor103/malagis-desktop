@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "_malaIO.h"
+#include "_malaBase.h"
 
 CProjectIO::CProjectIO()
 {
@@ -64,14 +65,12 @@ bool CProjectIO::newPointFile(vector<malaTree>&paraTree, CString pointFileName)
 {
 	if (writeAllNode(paraTree))
 	{
-		if (writeHeader(pointFileName, L"mpt"))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		CFile file;
+		file.Open(LPCTSTR(pointFileName), CFile::modeCreate | CFile::modeWrite);
+		CArchive ar(&file, CArchive::store);
+		ar.Close();
+		file.Close();
+		return true;
 	}
 	else
 	{
@@ -111,7 +110,7 @@ bool CProjectIO::writeAllNode(vector<malaTree>&paraTree)
 	
 }
 //写入文件头
-bool CProjectIO::writeHeader(CString fPath, CString fHeader)
+/*bool CProjectIO::writeHeader(CString fPath, CString fHeader)
 {
 	CFile file;
 	file.Open(LPCTSTR(fPath), CFile::modeCreate | CFile::modeWrite);
@@ -127,4 +126,118 @@ bool CProjectIO::writeHeader(CString fPath, CString fHeader)
 	ar.Close();
 	file.Close();
 	return true;
+}*/
+
+/************************************************************************/
+/* 点文件相关函数实现                                                   */
+/************************************************************************/
+CPointIO::CPointIO(){}
+CPointIO::~CPointIO(){}
+
+//获取点的ID，如果不成功返回-1
+long CPointIO::getMaxID(CString &fileName)
+{
+	int ID = 0;
+	readPoints(fileName);
+	
+	int Size = mPoint.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mPoint[i].m_pointpro.pointId >= ID)
+			ID = mPoint[i].m_pointpro.pointId;
+	}
+			
+	return ID;
 }
+//读取所有的点
+void CPointIO::readPoints(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+	if (mPoint.size())
+		mPoint.clear();
+	malaPoint pnt;
+	malaPointPro pntpro;
+	while (1)
+	{
+		try
+		{
+			ar >> pntpro.pointId >> pntpro.pointRadio >> pntpro.pointStyle >> pntpro.pointColor;
+			ar >> pnt.x >> pnt.y;
+		}
+		catch (CMemoryException* e)
+		{
+			break;
+		}
+		catch (CFileException* e)
+		{
+			break;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+		malaPointFile MyPoint(pnt, pntpro);
+		mPoint.push_back(MyPoint);
+	}
+}
+
+//添加点实现
+long CPointIO::pointAdd(malaPoint &Point, malaPointPro &PointPro, CString &fileName)
+{
+	int ID = getMaxID(fileName) + 1;
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::store);
+	file.SeekToEnd();
+	ar << ID << PointPro.pointRadio << PointPro.pointStyle << PointPro.pointColor;
+	ar << Point.x << Point.y;
+	ar.Close();
+	file.Close();
+
+	return ID;
+}
+//获取某个文件中某一范围的所有的点
+void CPointIO::getAllPoint(malaScreen &pScreen, vector<malaPointFile>&pAllPoints, CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+
+	malaPoint pnt;
+	malaPointPro pntpro;
+	while (1)
+	{
+		try
+		{
+			ar >> pntpro.pointId >> pntpro.pointRadio >> pntpro.pointStyle >> pntpro.pointColor;
+			ar >> pnt.x >> pnt.y;
+		}
+		catch (CMemoryException* e)
+		{
+			break;
+		}
+		catch (CFileException* e)
+		{
+			break;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+		malaLogic mylog;
+		malaRect myrc;
+		myrc.xmin = pScreen.lbx;
+		myrc.ymin = pScreen.lby;
+		ScreenToCoord(pScreen.wScreen, 0, pScreen, &myrc.xmax, &myrc.ymax);
+		if (mylog.isPntInRect(pnt, myrc))
+		{
+			malaPointFile MyPoint(pnt, pntpro);
+			pAllPoints.push_back(MyPoint);
+		}
+		
+	}
+}
+
+

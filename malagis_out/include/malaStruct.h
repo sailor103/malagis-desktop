@@ -27,7 +27,6 @@ typedef struct
 	long      pointId;    //点序号
 	int		  pointRadio; //点半径
 	int		  pointStyle; //点类型
-	int       pointLayer; //图层编号
 	COLORREF  pointColor; //点的颜色
 }malaPointPro;
 
@@ -41,5 +40,12 @@ typedef struct
   CString   filePath;//文件路径
 }malaTree;
 
-
+//外接矩形
+typedef struct
+{
+	double xmin;
+	double xmax;
+	double ymin;
+	double ymax;
+}malaRect;
 #endif

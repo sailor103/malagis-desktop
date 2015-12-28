@@ -12,7 +12,6 @@ bool maladialogsdll dlgInputPoint(malaPointPro& paramPointPro)
 	if (IDOK==dlg.DoModal())
 	{
 		paramPointPro.pointStyle = dlg.mPointStyle;
-		paramPointPro.pointLayer = dlg.mPointLayer;
 		paramPointPro.pointRadio = dlg.mPointRadio;
 		paramPointPro.pointColor = dlg.mPointColor;
 		return true;

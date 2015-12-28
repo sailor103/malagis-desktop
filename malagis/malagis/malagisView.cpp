@@ -58,6 +58,7 @@ CmalagisView::CmalagisView()
 	mScreen.lbx = 0.0;
 	mScreen.lby = 0.0;
 	mScreen.scale = 1.0;
+	
 }
 
 CmalagisView::~CmalagisView()
@@ -82,6 +83,7 @@ void CmalagisView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO:  在此处为本机数据添加绘制代码
+	displayAllGraphs();
 }
 
 
@@ -147,6 +149,68 @@ CmalagisDoc* CmalagisView::GetDocument() const // 非调试版本是内联的
 
 // CmalagisView 消息处理程序
 
+//获取目录树
+void CmalagisView::upadteTree()
+{
+	mNode.clear();
+	CMainFrame *pMainFrame = (CMainFrame *)AfxGetApp()->m_pMainWnd;
+	if (pMainFrame)
+	{
+		mNode = pMainFrame->m_wndPrjManage.fileNodeTree;
+	}
+	
+}
+
+//获取当前激活的文件
+CString CmalagisView::getActiveFile(CString fileType)
+{
+	upadteTree();
+	for (size_t i = 0; i < mNode.size(); i++)
+	{
+		if (mNode[i].fileType == fileType&&mNode[i].isActive == true)
+			return mNode[i].filePath;
+	}
+	return L"";
+}
+
+//重绘函数
+void CmalagisView::displayAllGraphs()
+{
+	upadteTree();
+	for (size_t i = 0; i < mNode.size(); i++)
+	{
+		if (mNode[i].isOpen == true)
+		{
+			if (mNode[i].fileType==L"mpt")//重绘点文件
+			{
+				//先获取所有符合条件的点
+				CPointIO pio;
+				vector<malaPointFile>allPoints;
+				pio.getAllPoint(mScreen, allPoints,mNode[i].filePath);
+				//再依次画点
+				malaCDC dc(this,mScreen);
+				for (size_t j = 0; j < allPoints.size();j++)
+				{
+					switch (allPoints[j].m_pointpro.pointStyle)
+					{
+					case 0:
+						dc.pointDrawRect(allPoints[j].m_point, allPoints[j].m_pointpro);
+						break;
+					case 1:
+						dc.pointDrawTriangle(allPoints[j].m_point, allPoints[j].m_pointpro);
+						break;
+					case 2:
+						dc.pointDrawCircle(allPoints[j].m_point, allPoints[j].m_pointpro);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+	}
+}
+
 void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
@@ -164,7 +228,11 @@ void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 void CmalagisView::OnButtonPointsInput()
 {
 	// TODO:  在此添加命令处理程序代码
-	mBaseOper = new CmalaPointsInput(this,mScreen);
+	if (getActiveFile(L"mpt")!=L"")
+		mBaseOper = new CmalaPointsInput(this, &mScreen, getActiveFile(L"mpt"));
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+
 }
 
 

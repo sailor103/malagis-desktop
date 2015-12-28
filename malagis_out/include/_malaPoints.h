@@ -15,14 +15,15 @@
 class malapointsdll CmalaPointsInput : public CmalaMouseAction
 {
 public:
-	CmalaPointsInput(CView* mView,malaScreen pScreen);
+	CmalaPointsInput(CView* mView,malaScreen *pScreen,CString &fileFullPath);
 	~CmalaPointsInput();
 	void LButtonDown(UINT nFlags, malaPoint point);
 	void GetPointPro();//获取点的参数
 private:
 	malaPoint mPont;
 	malaPointPro mPointPro;
-	malaScreen mScreen;
+	malaScreen *mScreen;
+	CString mPath;//文件路径
 };
 
 
