@@ -8,6 +8,8 @@
 #define IDS_STAUTS_COORD_TITLE          101
 #define IDS_STAUTS_COORD_POS            102
 #define IDS_PRJMANAGE                   103
+#define IDS_STATUS_CURRENT_ACTION       104
+#define IDS_STATUS_CURRENT_ACTION_CONTENT 105
 #define IDB_WRITESMALL                  110
 #define IDB_WRITELARGE                  111
 #define IDB_MAIN                        112
@@ -84,6 +86,8 @@
 #define ID_STATUS_COORD_TITLE           1000
 #define ID_STATUS_COORD_POS             1001
 #define ID_PRJMANAGE                    1002
+#define ID_STATUS_CURRENT_ACTION        1003
+#define ID_STATUS_CURRENT_ACTION_CONTENT 1004
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_BUTTON_POINTS_INPUT          32771
 #define ID_BUTTON2                      32772

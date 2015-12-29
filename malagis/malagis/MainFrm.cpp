@@ -81,18 +81,33 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CString strStatusCoordTitle;
 	CString strStatusCoordPos;
 	CString strTitlePane2;
+	CString strStatusCurrentAction;
+	CString strStatusCurrentActionContent;
 
 	bNameValid = strStatusCoordTitle.LoadString(IDS_STAUTS_COORD_TITLE);
 	ASSERT(bNameValid);
 	bNameValid = strStatusCoordPos.LoadString(IDS_STAUTS_COORD_POS);
 	ASSERT(bNameValid);
+	bNameValid = strStatusCurrentAction.LoadString(IDS_STATUS_CURRENT_ACTION);
+	ASSERT(bNameValid);
+	bNameValid = strStatusCurrentActionContent.LoadString(IDS_STATUS_CURRENT_ACTION_CONTENT);
+	ASSERT(bNameValid);
+
+
 	bNameValid = strTitlePane2.LoadString(IDS_STATUS_PANE2);
 	ASSERT(bNameValid);
 
+	//坐标状态显示
 	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUS_COORD_TITLE, strStatusCoordTitle, TRUE), strStatusCoordTitle);
 	m_wndStatusBar.AddSeparator();//添加分隔符
 	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUS_COORD_POS, strStatusCoordPos, TRUE), strStatusCoordPos);
 
+	//操作状态显示
+	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUS_CURRENT_ACTION, strStatusCurrentAction, TRUE), strStatusCurrentAction);
+	m_wndStatusBar.AddSeparator();//添加分隔符
+	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUS_CURRENT_ACTION_CONTENT, strStatusCurrentActionContent, TRUE), strStatusCurrentActionContent);
+
+	//浏览控件（还没实现）
 	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUSBAR_PANE2, strTitlePane2, TRUE), strTitlePane2); 
 
 

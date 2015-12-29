@@ -65,7 +65,7 @@ public:
 	malaLogic();
 	~malaLogic();
 public:
-	bool isPntInRect(malaPoint& Point, malaRect& rc);
+	bool isPntInRect(malaPoint& Point, malaRect& rc);//判断点是否在矩形内
 };
 
 #ifndef _MALABASE_EXPORT

@@ -134,7 +134,7 @@ bool CProjectIO::writeAllNode(vector<malaTree>&paraTree)
 CPointIO::CPointIO(){}
 CPointIO::~CPointIO(){}
 
-//获取点的ID，如果不成功返回-1
+//获取点的ID
 long CPointIO::getMaxID(CString &fileName)
 {
 	int ID = 0;

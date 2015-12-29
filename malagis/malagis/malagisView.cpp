@@ -214,6 +214,18 @@ void CmalagisView::displayAllGraphs()
 	}
 }
 
+//设置当前操作字符串
+void CmalagisView::setActionStr(CString str)
+{
+	//View中获取MainFrame指针
+	CMainFrame *pMainFrame = (CMainFrame *)AfxGetApp()->m_pMainWnd;
+	//获取状态栏指针
+	CMFCRibbonStatusBar *statusBar = (CMFCRibbonStatusBar *)pMainFrame->GetDescendantWindow(AFX_IDW_STATUS_BAR);
+	
+	statusBar->GetElement(5)->SetText(str);
+	statusBar->GetElement(5)->Redraw();
+}
+
 void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
@@ -226,26 +238,6 @@ void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	
 	CView::OnLButtonDown(nFlags, point);
-}
-
-void CmalagisView::OnButtonPointsInput()
-{
-	// TODO:  在此添加命令处理程序代码
-	if (getActiveFile(L"mpt")!=L"")
-		mBaseOper = new CmalaPointsInput(this, &mScreen, getActiveFile(L"mpt"));
-	else
-		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
-
-}
-
-
-void CmalagisView::OnSize(UINT nType, int cx, int cy)
-{
-	CView::OnSize(nType, cx, cy);
-
-	// TODO:  在此处添加消息处理程序代码
-	mScreen.hScreen = cy;//Client窗口高度
-	mScreen.wScreen = cx;//Client窗口宽度
 }
 
 
@@ -268,4 +260,30 @@ void CmalagisView::OnMouseMove(UINT nFlags, CPoint point)
 	statusBar->GetElement(2)->Redraw();
 
 	CView::OnMouseMove(nFlags, point);
+}
+
+void CmalagisView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	// TODO:  在此处添加消息处理程序代码
+	mScreen.hScreen = cy;//Client窗口高度
+	mScreen.wScreen = cx;//Client窗口宽度
+}
+
+
+/*
+* 输入点
+*/
+void CmalagisView::OnButtonPointsInput()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		mBaseOper = new CmalaPointsInput(this, &mScreen, getActiveFile(L"mpt"));
+		setActionStr(L"输入点");
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+
 }

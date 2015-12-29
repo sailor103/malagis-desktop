@@ -284,7 +284,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "打开工程",                        ID_OPEN_PRJ
         MENUITEM SEPARATOR
-        MENUITEM "打开文件",                        ID_PRJ_OPEN_FILE
+        MENUITEM "载入文件",                        ID_PRJ_OPEN_FILE
         MENUITEM SEPARATOR
         MENUITEM "新建点文件",                       ID_PRJ_NEW_POINTS_FILE
         MENUITEM "新建线文件",                       ID_PRJ_NEW_LINE_FILE
@@ -427,6 +427,8 @@ BEGIN
     IDS_STAUTS_COORD_TITLE  "坐标："
     IDS_STAUTS_COORD_POS    "X=000000000000,Y=000000000000"
     IDS_PRJMANAGE           "工程视图"
+    IDS_STATUS_CURRENT_ACTION "当前操作："
+    IDS_STATUS_CURRENT_ACTION_CONTENT "浏览地图"
 END
 
 STRINGTABLE

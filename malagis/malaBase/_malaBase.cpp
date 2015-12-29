@@ -126,6 +126,7 @@ void malaCDC::pointDrawRect(malaPoint Point, malaPointPro PntPro)
 malaLogic::malaLogic(){}
 malaLogic::~malaLogic(){}
 
+//判断点是否在矩形内
 bool malaLogic::isPntInRect(malaPoint& Point, malaRect& rc)
 {
 	if ((Point.x >= (rc.xmin - 4)) && (Point.x <= (rc.xmax + 4)) && (Point.y >= (rc.ymin - 4)) && (Point.y <= (rc.ymax + 4)))

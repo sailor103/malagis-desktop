@@ -61,17 +61,20 @@ public:
 //自定义变量
 private:
 	CmalaMouseAction *mBaseOper;
-public:
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+
 public:
 	malaScreen mScreen;
 	vector <malaTree> mNode;//存放当前工程中的目录树
 	void upadteTree();//获取目录树
 	CString getActiveFile(CString fileType);//获取当前激活文件
 	void displayAllGraphs();//重绘
+	void setActionStr(CString str);//设置当前操作字符串
+
+
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本
