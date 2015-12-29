@@ -61,6 +61,7 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_PRJ_FILE_HIDE, OnHideFile)
 	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
 	ON_COMMAND(ID_PRJ_FILE_DEL,OnDelFile)
+	ON_COMMAND(ID_PRJ_FILE_PRO, OnGraphFilePro)
 
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
@@ -591,7 +592,7 @@ void CPrjManage::OnDelFile()
 {
 	//更新fileNodeTree
 	CString str = m_wndPrjView.GetItemText(selTreeItem);
-	if (MessageBox(L"你确定要移除文件么？\n\n（文件仅从工程中移除，但依然存在硬盘中，可以通过载入文件的方式打开）", L"确认删除?", MB_OKCANCEL) == IDOK)
+	if (MessageBox(L"你确定要移除文件么？\n\n（文件仅从工程中移除，但依然存在硬盘中，可以通过载入文件的方式打开）", L"确认删除?", MB_OKCANCEL | MB_ICONWARNING) == IDOK)
 	{
 		//先删除fileNodeTree里的元素
 		vector< malaTree>::iterator itVec;
@@ -615,6 +616,21 @@ void CPrjManage::OnDelFile()
 	
 	//...ondraw
 	pjOnDraw();
+}
+
+//查看文件属性
+void CPrjManage::OnGraphFilePro()
+{
+	//更新fileNodeTree
+	CString str = m_wndPrjView.GetItemText(selTreeItem);
+	for (size_t i = 0; i < fileNodeTree.size(); i++)
+	{
+		if (fileNodeTree[i].itemnode == str)
+		{
+			dlgGraphFilePro(fileNodeTree[i]);
+		}
+	}
+	
 }
 
 //构造文件节点

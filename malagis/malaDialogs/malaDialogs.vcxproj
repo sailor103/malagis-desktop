@@ -107,6 +107,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DialogFilePro.cpp" />
     <ClCompile Include="DialogNewPointFile.cpp" />
     <ClCompile Include="DialogPointInput.cpp" />
     <ClCompile Include="dllmain.cpp">
@@ -129,6 +130,7 @@
     <None Include="res\malaDialogs.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DialogFilePro.h" />
     <ClInclude Include="DialogNewPointFile.h" />
     <ClInclude Include="DialogPointInput.h" />
     <ClInclude Include="Resource.h" />

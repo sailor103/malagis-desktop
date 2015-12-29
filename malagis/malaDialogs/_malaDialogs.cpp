@@ -2,6 +2,7 @@
 #include "_malaDialogs.h"
 #include "DialogPointInput.h"
 #include "DialogNewPointFile.h"
+#include "DialogFilePro.h"
 
 /*
 * 输入点的对话框实现
@@ -72,4 +73,27 @@ bool maladialogsdll dlgNewPointFile(CString &pointName)
 		return true;
 	}
 	return false;
+}
+
+/*
+* 文件属性对话框实现
+*/
+void maladialogsdll dlgGraphFilePro(malaTree fileNode)
+{
+	CDialogFilePro dlg;
+	dlg.mFileName = fileNode.itemnode;
+	dlg.mFilePath = fileNode.filePath;
+	
+	CFile file;
+	CFileStatus fileStatus;
+	file.GetStatus(fileNode.filePath, fileStatus);
+	
+	dlg.mFileSize.Format(L"%f KB", (float)fileStatus.m_size/1024.0);
+	dlg.mCreateTime = fileStatus.m_ctime.Format(L"%Y-%m-%d %H:%M:%S");
+	dlg.mModifyTime = fileStatus.m_mtime.Format(L"%Y-%m-%d %H:%M:%S");
+	//fileStatus.m_ctime //创建日期
+	//fileStatus.m_mtime //最后编辑日期
+	//fileStatus.m_size //文件大小
+
+	dlg.DoModal();
 }
