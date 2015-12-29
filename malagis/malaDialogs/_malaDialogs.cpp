@@ -97,3 +97,24 @@ void maladialogsdll dlgGraphFilePro(malaTree fileNode)
 
 	dlg.DoModal();
 }
+
+/*
+* 载入文件对话框实现
+*/
+bool maladialogsdll dlgLoadGraphFile(malaTree & tmpTree)
+{
+	CFileDialog loadDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"图形数据文件 (*.mpt;*.mle;*.mpn;*.mll)|*.mpt;*.mle;*.mpn;*.mll|All files (*.*)|*.*||");
+	loadDlg.m_ofn.lpstrTitle = L"打开麻辣GIS图形数据文件";
+	
+	if (IDOK == loadDlg.DoModal())
+	{
+		tmpTree.filePath = loadDlg.GetPathName();
+		tmpTree.fileType = loadDlg.GetFileExt();
+		tmpTree.isActive = false;
+		tmpTree.isOpen = false;
+		tmpTree.itemnode = loadDlg.GetFileName();
+		return true;
+	}
+	else
+		return false;
+}

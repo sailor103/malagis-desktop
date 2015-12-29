@@ -62,6 +62,7 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
 	ON_COMMAND(ID_PRJ_FILE_DEL,OnDelFile)
 	ON_COMMAND(ID_PRJ_FILE_PRO, OnGraphFilePro)
+	ON_COMMAND(ID_PRJ_OPEN_FILE,OnGraphFileOpen)
 
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
@@ -476,7 +477,7 @@ void CPrjManage::OnNewPoint()
 			}
 			else
 			{
-				MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+				MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
 			}
 
 			
@@ -633,6 +634,39 @@ void CPrjManage::OnGraphFilePro()
 	
 }
 
+//载入文件
+void CPrjManage::OnGraphFileOpen()
+{
+	//先判断有没打开工程
+	if (mBasePath != L"")
+	{
+		malaTree tmpTree;
+		if (dlgLoadGraphFile(tmpTree))
+		{
+			if (checkTree(tmpTree))
+			{
+				fileNodeTree.push_back(tmpTree);
+				int imgindex = 0;
+				if (tmpTree.fileType == L"mpt")
+					imgindex = 2;
+				if (tmpTree.fileType == L"mle")
+					imgindex = 5;
+				if (tmpTree.fileType == L"mpn")
+					imgindex = 8;
+				if (tmpTree.fileType == L"mll")
+					imgindex = 11;
+				if (currentPrj.writeAllNode(fileNodeTree))
+					m_wndPrjView.InsertItem(tmpTree.itemnode, imgindex, imgindex, m_wndPrjView.GetRootItem());
+			}
+		}
+	}
+	else
+		MessageBox(L"当前没有工程文件，请先新建工程或者打开已有工程", L"提示", MB_ICONWARNING);
+
+	//...ondraw
+	pjOnDraw();
+}
+
 //构造文件节点
 bool CPrjManage::makeTree(malaTree &rTree, CString fileName, CString fileType)
 {
@@ -641,15 +675,22 @@ bool CPrjManage::makeTree(malaTree &rTree, CString fileName, CString fileType)
 	rTree.itemnode = fileName + L"." + fileType;
 	rTree.isActive = false;
 	rTree.isOpen = false;
+	return checkTree(rTree);
+}
+
+//检查目录树中是否存在同名节点
+bool CPrjManage::checkTree(malaTree &tree)
+{
 	for (size_t i = 0; i < fileNodeTree.size(); i++)
 	{
-		if (fileNodeTree[i].filePath == rTree.filePath)
+		if (fileNodeTree[i].filePath == tree.filePath)
 		{
 			return false;
 		}
 	}
 	return true;
 }
+
 //删除所有子节点
 void CPrjManage::delAllChildrenItem()
 {

@@ -83,10 +83,12 @@ protected:
 	afx_msg void OnActiveFile();//显示文件
 	afx_msg void OnDelFile();//移除文件
 	afx_msg void OnGraphFilePro();//文件属性
+	afx_msg void OnGraphFileOpen();//载入文件
 
 	DECLARE_MESSAGE_MAP()
 protected:
 	bool makeTree(malaTree &rTree,CString fileName,CString fileType);//构造文件节点
+	bool checkTree(malaTree &tree);//检查目录树中是否存在同名节点
 	void delAllChildrenItem();//删除所以子节点
 	void cleanActiveMask(CString &activeType, HTREEITEM newActive);//清除激活状态
 	void pjOnDraw();//调用CXXXXView的重绘

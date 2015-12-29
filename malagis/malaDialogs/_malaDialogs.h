@@ -34,6 +34,11 @@ bool maladialogsdll dlgNewPointFile(CString &pointName);
 */
 void maladialogsdll dlgGraphFilePro(malaTree fileNode);
 
+/*
+* 载入文件对话框
+*/
+bool maladialogsdll dlgLoadGraphFile(malaTree & tmpTree);
+
 #ifndef _MALADIALOGS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaDialogs.lib")
