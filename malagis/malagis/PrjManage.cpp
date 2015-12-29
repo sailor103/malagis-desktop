@@ -11,6 +11,8 @@
 
 #include "stdafx.h"
 #include "mainfrm.h"
+#include "malagisDoc.h"
+#include "malagisView.h"
 #include "PrjManage.h"
 #include "Resource.h"
 #include "malagis.h"
@@ -660,4 +662,7 @@ void CPrjManage::pjOnDraw()
 	//刷新显示
 	CMainFrame*   pMainFrm = (CMainFrame*)AfxGetMainWnd();
 	pMainFrm->GetActiveView()->Invalidate(TRUE);
+	//清除当前操作
+	CmalagisView *myvw = (CmalagisView *)pMainFrm->GetActiveView();
+	myvw->clearActionStr();
 }

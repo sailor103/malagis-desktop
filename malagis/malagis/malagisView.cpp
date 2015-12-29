@@ -226,6 +226,14 @@ void CmalagisView::setActionStr(CString str)
 	statusBar->GetElement(5)->Redraw();
 }
 
+//清除当前操作
+void CmalagisView::clearActionStr()
+{
+	setActionStr(L"浏览地图");
+	if (mBaseOper)
+		mBaseOper = NULL;
+}
+
 void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值

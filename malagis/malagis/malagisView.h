@@ -69,6 +69,7 @@ public:
 	CString getActiveFile(CString fileType);//获取当前激活文件
 	void displayAllGraphs();//重绘
 	void setActionStr(CString str);//设置当前操作字符串
+	void clearActionStr();//清除当前操作
 
 
 public:
