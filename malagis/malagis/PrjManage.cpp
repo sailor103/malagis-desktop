@@ -60,7 +60,8 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_PRJ_FILE_DISPLAY, OnDisplayFile)
 	ON_COMMAND(ID_PRJ_FILE_HIDE, OnHideFile)
 	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
-	
+	ON_COMMAND(ID_PRJ_FILE_DEL,OnDelFile)
+
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
@@ -581,6 +582,37 @@ void CPrjManage::OnActiveFile()
 			
 		}
 	}
+	//...ondraw
+	pjOnDraw();
+}
+
+//移除文件
+void CPrjManage::OnDelFile()
+{
+	//更新fileNodeTree
+	CString str = m_wndPrjView.GetItemText(selTreeItem);
+	if (MessageBox(L"你确定要移除文件么？\n\n（文件仅从工程中移除，但依然存在硬盘中，可以通过载入文件的方式打开）", L"确认删除?", MB_OKCANCEL) == IDOK)
+	{
+		//先删除fileNodeTree里的元素
+		vector< malaTree>::iterator itVec;
+		for (itVec = fileNodeTree.begin(); itVec != fileNodeTree.end();)
+		{
+			malaTree tpTree = *itVec;
+			if (tpTree.itemnode == str)
+			{
+				itVec = fileNodeTree.erase(itVec);
+			}
+			else
+				++itVec;
+		}
+
+		//写入文件并更新目录树
+		if (currentPrj.writeAllNode(fileNodeTree))
+			m_wndPrjView.DeleteItem(selTreeItem);
+		else
+			MessageBox(L"移除文件失败", L"提示", MB_ICONWARNING);
+	}
+	
 	//...ondraw
 	pjOnDraw();
 }

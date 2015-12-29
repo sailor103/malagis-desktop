@@ -302,7 +302,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "¼¤»î",                          ID_PRJ_FILE_ACTIVE
         MENUITEM SEPARATOR
-        MENUITEM "É¾³ý",                          ID_PRJ_FILE_DEL
+        MENUITEM "ÒÆ³ý",                          ID_PRJ_FILE_DEL
         MENUITEM SEPARATOR
         MENUITEM "ÊôÐÔ",                          ID_PRJ_FILE_PRO
     END

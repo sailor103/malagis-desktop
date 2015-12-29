@@ -81,6 +81,7 @@ protected:
 	afx_msg void OnDisplayFile();//显示文件
 	afx_msg void OnHideFile();//显示文件
 	afx_msg void OnActiveFile();//显示文件
+	afx_msg void OnDelFile();//移除文件
 
 	DECLARE_MESSAGE_MAP()
 protected:
