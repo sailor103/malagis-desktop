@@ -25,6 +25,7 @@
 
 //自定义头文件
 #include "_malaPoints.h"
+#include "_malaTools.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -46,6 +47,9 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_SIZE()
 	ON_WM_MOUSEMOVE()
+	ON_COMMAND(ID_BUTTON_ZOOM_IN, &CmalagisView::OnButtonZoomIn)
+	ON_WM_LBUTTONUP()
+	ON_COMMAND(ID_BUTTON_ZOOM_RESET, &CmalagisView::OnButtonZoomReset)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -267,8 +271,29 @@ void CmalagisView::OnMouseMove(UINT nFlags, CPoint point)
 	statusBar->GetElement(2)->SetText(str);
 	statusBar->GetElement(2)->Redraw();
 
+	malaPoint tmpPoint;
+	ScreenToCoord(point.x, point.y, mScreen, &tmpPoint.x, &tmpPoint.y);
+	if (mBaseOper)
+	{
+		mBaseOper->MouseMove(nFlags, tmpPoint);
+	}
+
 	CView::OnMouseMove(nFlags, point);
 }
+
+void CmalagisView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	malaPoint tmpPoint;
+	ScreenToCoord(point.x, point.y, mScreen, &tmpPoint.x, &tmpPoint.y);
+	if (mBaseOper)
+	{
+		mBaseOper->LButtonUp(nFlags, tmpPoint);
+	}
+
+	CView::OnLButtonUp(nFlags, point);
+}
+
 
 void CmalagisView::OnSize(UINT nType, int cx, int cy)
 {
@@ -288,10 +313,37 @@ void CmalagisView::OnButtonPointsInput()
 	// TODO:  在此添加命令处理程序代码
 	if (getActiveFile(L"mpt") != L"")
 	{
+		
 		mBaseOper = new CmalaPointsInput(this, &mScreen, getActiveFile(L"mpt"));
 		setActionStr(L"输入点");
 	}
 	else
 		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
 
+}
+
+/*
+* 放大地图
+*/
+void CmalagisView::OnButtonZoomIn()
+{
+	// TODO:  在此添加命令处理程序代码
+	clearActionStr();
+	setActionStr(L"放大地图");
+	mBaseOper = new malaZoonIn(this,&mScreen);
+}
+
+/*
+* 重置地图
+*/
+void CmalagisView::OnButtonZoomReset()
+{
+	// TODO:  在此添加命令处理程序代码
+	clearActionStr();
+	setActionStr(L"浏览地图");
+	mScreen.lbx = 0;
+	mScreen.lby = 0;
+	mScreen.scale = 1;
+	displayAllGraphs();
+	Invalidate(TRUE);
 }

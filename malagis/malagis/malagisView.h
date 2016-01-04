@@ -76,6 +76,9 @@ public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnButtonZoomIn();
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnButtonZoomReset();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

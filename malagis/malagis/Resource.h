@@ -83,6 +83,7 @@
 #define IDR_MENU_PRJ                    313
 #define IDR_MENU_PRJ_FILE_CTRL          315
 #define IDB_PRJ_VIEW                    317
+#define IDB_BITMAP_TOOLS_ZOOM           318
 #define ID_STATUS_COORD_TITLE           1000
 #define ID_STATUS_COORD_POS             1001
 #define ID_PRJMANAGE                    1002
@@ -91,6 +92,7 @@
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_BUTTON_POINTS_INPUT          32771
 #define ID_BUTTON2                      32772
+#define ID_BUTTON_ZOOM_IN               32772
 #define ID_CHECK_PRJ_MANAGE             32773
 #define ID_32774                        32774
 #define ID_32775                        32775
@@ -113,13 +115,18 @@
 #define ID_PRJ_NEW_LABEL_FILE           32799
 #define ID_32801                        32801
 #define ID_PRJ_OPEN_FILE                32802
+#define ID_BUTTON_ZOOMOUT               32803
+#define ID_BUTTON_ZOOM_MOVE             32804
+#define ID_BUTTON_ZOOM_REFRESH          32805
+#define ID_BUTTON4                      32806
+#define ID_BUTTON_ZOOM_RESET            32806
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        318
-#define _APS_NEXT_COMMAND_VALUE         32803
+#define _APS_NEXT_RESOURCE_VALUE        319
+#define _APS_NEXT_COMMAND_VALUE         32807
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

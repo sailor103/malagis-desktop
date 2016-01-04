@@ -119,6 +119,24 @@ void malaCDC::pointDrawRect(malaPoint Point, malaPointPro PntPro)
 	dc.SelectObject(OldPen);
 	dc.SelectObject(OldBrush);
 }
+/*
+* 绘制空心矩形
+*/
+void malaCDC::drawRectNULLFill(malaPoint Point1, malaPoint point2)
+{
+	CClientDC dc(mView);
+	dc.SetROP2(R2_NOTXORPEN);
+	CPen pen(0, 1, RGB(255, 0, 0));
+	CPen* OldPen = dc.SelectObject(&pen);
+
+	CPoint MyPoint1;
+	CPoint MyPoint2;
+	CoordToScreen(Point1.x, Point1.y, mScreen, &MyPoint1.x, &MyPoint1.y);
+	CoordToScreen(point2.x, point2.y, mScreen, &MyPoint2.x, &MyPoint2.y);
+	CRect re(MyPoint1, MyPoint2);
+	dc.Rectangle(re);
+	dc.SelectObject(OldPen);
+}
 
 /*
 * 逻辑运算基类实现

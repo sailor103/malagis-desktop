@@ -49,6 +49,7 @@ public:
 	void pointDrawCircle(malaPoint Point, malaPointPro PntPro);//绘制一个圆点
 	void pointDrawRect(malaPoint Point, malaPointPro PntPro);//绘制一个矩形点
 	void pointDrawTriangle(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点
+	void drawRectNULLFill(malaPoint Point1, malaPoint point2);//绘制空心矩形
 
 private:
 	CView* mView;//绘图指针
@@ -65,7 +66,7 @@ public:
 	malaLogic();
 	~malaLogic();
 public:
-	bool isPntInRect(malaPoint& Point, malaRect& rc);//判断点是否在矩形内
+	bool isPntInRect(malaPoint& Point, malaRect& rc);
 };
 
 #ifndef _MALABASE_EXPORT
