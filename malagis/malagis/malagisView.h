@@ -79,6 +79,9 @@ public:
 	afx_msg void OnButtonZoomIn();
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnButtonZoomReset();
+	afx_msg void OnButtonZoomout();
+	afx_msg void OnButtonZoomMove();
+	afx_msg void OnButtonZoomRefresh();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

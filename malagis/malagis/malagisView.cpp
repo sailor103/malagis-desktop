@@ -50,6 +50,9 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_ZOOM_IN, &CmalagisView::OnButtonZoomIn)
 	ON_WM_LBUTTONUP()
 	ON_COMMAND(ID_BUTTON_ZOOM_RESET, &CmalagisView::OnButtonZoomReset)
+	ON_COMMAND(ID_BUTTON_ZOOMOUT, &CmalagisView::OnButtonZoomout)
+	ON_COMMAND(ID_BUTTON_ZOOM_MOVE, &CmalagisView::OnButtonZoomMove)
+	ON_COMMAND(ID_BUTTON_ZOOM_REFRESH, &CmalagisView::OnButtonZoomRefresh)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -345,5 +348,30 @@ void CmalagisView::OnButtonZoomReset()
 	mScreen.lby = 0;
 	mScreen.scale = 1;
 	displayAllGraphs();
+	Invalidate(TRUE);
+}
+
+/*
+* 缩小地图
+*/
+void CmalagisView::OnButtonZoomout()
+{
+	// TODO:  在此添加命令处理程序代码
+}
+
+/*
+* 移动地图
+*/
+void CmalagisView::OnButtonZoomMove()
+{
+	// TODO:  在此添加命令处理程序代码
+}
+
+/*
+* 刷新地图
+*/
+void CmalagisView::OnButtonZoomRefresh()
+{
+	// TODO:  在此添加命令处理程序代码
 	Invalidate(TRUE);
 }
