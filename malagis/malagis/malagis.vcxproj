@@ -161,6 +161,10 @@
     <Image Include="res\writesmall.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\cursor1.cur" />
+    <None Include="res\iconfont-hand.cur" />
+    <None Include="res\iconfont-zoomin.cur" />
+    <None Include="res\iconfont-zoomout.cur" />
     <None Include="res\malagis.rc2" />
     <None Include="res\ribbon.mfcribbon-ms" />
     <None Include="res\ribbon1.mfcribbon-ms" />

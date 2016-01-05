@@ -61,6 +61,7 @@ public:
 //自定义变量
 private:
 	CmalaMouseAction *mBaseOper;
+	int mouseCursor;//0 默认 1 放大 2 缩小 3 移动
 
 public:
 	malaScreen mScreen;
@@ -70,6 +71,7 @@ public:
 	void displayAllGraphs();//重绘
 	void setActionStr(CString str);//设置当前操作字符串
 	void clearActionStr();//清除当前操作
+	void setCurrentCursor();//设置当前鼠标指针
 
 
 public:

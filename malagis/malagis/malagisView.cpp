@@ -66,6 +66,7 @@ CmalagisView::CmalagisView()
 	mScreen.lbx = 0.0;
 	mScreen.lby = 0.0;
 	mScreen.scale = 1.0;
+	mouseCursor = 0;
 	
 }
 
@@ -238,14 +239,35 @@ void CmalagisView::setActionStr(CString str)
 void CmalagisView::clearActionStr()
 {
 	setActionStr(L"浏览地图");
+	mouseCursor = 0;
 	if (mBaseOper)
 		mBaseOper = NULL;
+}
+
+//设置当前鼠标指针
+void CmalagisView::setCurrentCursor()
+{
+	if (mouseCursor == 1)
+	{
+		HCURSOR hCursor = AfxGetApp()->LoadCursor(IDC_CURSOR_ZOOMIN);
+		SetCursor(hCursor);
+	}
+	if (mouseCursor == 2)
+	{
+		HCURSOR hCursor = AfxGetApp()->LoadCursor(IDC_CURSOR_ZOOMOUT);
+		SetCursor(hCursor);
+	}
+	if (mouseCursor == 3)
+	{
+		HCURSOR hCursor = AfxGetApp()->LoadCursor(IDC_CURSOR_HAND);
+		SetCursor(hCursor);
+	}
 }
 
 void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
-		
+	setCurrentCursor();
 	malaPoint tmpPoint;
 	ScreenToCoord(point.x, point.y, mScreen, &tmpPoint.x, &tmpPoint.y);
 	if (mBaseOper)
@@ -260,6 +282,7 @@ void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 void CmalagisView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	setCurrentCursor();
 	/*
 	* 实时显示坐标
 	*/
@@ -288,6 +311,7 @@ void CmalagisView::OnMouseMove(UINT nFlags, CPoint point)
 void CmalagisView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	setCurrentCursor();
 	malaPoint tmpPoint;
 	ScreenToCoord(point.x, point.y, mScreen, &tmpPoint.x, &tmpPoint.y);
 	if (mBaseOper)
@@ -345,6 +369,7 @@ void CmalagisView::OnButtonZoomIn()
 	clearActionStr();
 	setActionStr(L"放大地图");
 	mBaseOper = new malaZoonIn(this,&mScreen);
+	mouseCursor = 1;
 }
 
 /*
@@ -371,6 +396,7 @@ void CmalagisView::OnButtonZoomout()
 	clearActionStr();
 	setActionStr(L"缩小地图");
 	mBaseOper = new malaZoonOut(this, &mScreen);
+	mouseCursor = 2;
 }
 
 /*
@@ -382,6 +408,7 @@ void CmalagisView::OnButtonZoomMove()
 	clearActionStr();
 	setActionStr(L"移动地图");
 	mBaseOper = new malaMoveMap(this, &mScreen);
+	mouseCursor = 3;
 }
 
 /*

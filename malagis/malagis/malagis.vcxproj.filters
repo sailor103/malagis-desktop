@@ -170,5 +170,17 @@
     <None Include="res\ribbon1.mfcribbon-ms">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="res\cursor1.cur">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\iconfont-hand.cur">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\iconfont-zoomin.cur">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\iconfont-zoomout.cur">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
