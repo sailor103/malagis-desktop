@@ -154,7 +154,7 @@ void CPrjManage::FillPrjView()
 	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
 
 	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("----------"), 0, 0);
-
+	m_wndPrjView.Expand(m_wndPrjView.GetRootItem(), TVE_EXPAND);
 	
 	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
 	//m_wndPrjView.Expand(prjRoot, TVE_EXPAND);
@@ -342,6 +342,7 @@ void CPrjManage::OnNewPrj()
 		//创建node
 		HTREEITEM hItem = m_wndPrjView.GetRootItem();
 		m_wndPrjView.SetItemText(hItem, prjName);
+		m_wndPrjView.Expand(m_wndPrjView.GetRootItem(), TVE_EXPAND);
 
 		//更新容器
 		fileNodeTree.push_back(prjNode);
@@ -383,6 +384,7 @@ void CPrjManage::OnOpenPrj()
 			else
 			{
 				//点图标
+				m_wndPrjView.Expand(m_wndPrjView.GetRootItem(), TVE_EXPAND);
 				if (fileNodeTree[i].fileType == L"mpt"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
 				{
 					actPointItem = m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 4, 4, hItem);

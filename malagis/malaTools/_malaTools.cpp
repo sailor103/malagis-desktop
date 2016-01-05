@@ -195,14 +195,12 @@ void malaZoom::MouseWheel(UINT nFlags, short zDelta, malaPoint pt)
 	
 	if (zDelta < 0)
 	{
-		//再将图形放大
 		m_Screen->lbx = m_Screen->lbx + xmid * m_Screen->scale * 0.1;
 		m_Screen->lby = m_Screen->lby + ymid * m_Screen->scale * 0.1;
 		m_Screen->scale = m_Screen->scale*0.9;
 	}
 	else
 	{
-		//再将图形放大
 		m_Screen->lbx = m_Screen->lbx - xmid * m_Screen->scale * 0.1;
 		m_Screen->lby = m_Screen->lby - ymid * m_Screen->scale * 0.1;
 		m_Screen->scale = m_Screen->scale*1.1;

@@ -54,6 +54,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_ZOOM_MOVE, &CmalagisView::OnButtonZoomMove)
 	ON_COMMAND(ID_BUTTON_ZOOM_REFRESH, &CmalagisView::OnButtonZoomRefresh)
 	ON_WM_MOUSEWHEEL()
+	ON_COMMAND(ID_BUTTON_POINTS_SELECT, &CmalagisView::OnButtonPointsSelect)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -342,24 +343,6 @@ void CmalagisView::OnSize(UINT nType, int cx, int cy)
 	mScreen.wScreen = cx;//Client窗口宽度
 }
 
-
-/*
-* 输入点
-*/
-void CmalagisView::OnButtonPointsInput()
-{
-	// TODO:  在此添加命令处理程序代码
-	if (getActiveFile(L"mpt") != L"")
-	{
-		
-		mBaseOper = new CmalaPointsInput(this, &mScreen, getActiveFile(L"mpt"));
-		setActionStr(L"输入点");
-	}
-	else
-		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
-
-}
-
 /*
 * 放大地图
 */
@@ -418,4 +401,37 @@ void CmalagisView::OnButtonZoomRefresh()
 {
 	// TODO:  在此添加命令处理程序代码
 	Invalidate(TRUE);
+}
+
+/*
+* 输入点
+*/
+void CmalagisView::OnButtonPointsInput()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPointsInput(this, &mScreen, getActiveFile(L"mpt"));
+		setActionStr(L"输入点");
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+
+}
+
+/*
+* 选择点
+*/
+void CmalagisView::OnButtonPointsSelect()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPointsSelect(this, &mScreen, getActiveFile(L"mpt"));
+		setActionStr(L"输入点");
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }

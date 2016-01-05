@@ -86,7 +86,6 @@
 #define IDB_BITMAP_TOOLS_ZOOM           318
 #define IDC_CURSOR_HAND                 320
 #define IDC_CURSOR_ZOOMIN               321
-#define IDC_CURSOR4                     322
 #define IDC_CURSOR_ZOOMOUT              322
 #define ID_STATUS_COORD_TITLE           1000
 #define ID_STATUS_COORD_POS             1001
@@ -123,13 +122,14 @@
 #define ID_BUTTON_ZOOM_MOVE             32804
 #define ID_BUTTON_ZOOM_REFRESH          32805
 #define ID_BUTTON_ZOOM_RESET            32806
+#define ID_BUTTON_POINTS_SELECT         32808
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        323
-#define _APS_NEXT_COMMAND_VALUE         32808
+#define _APS_NEXT_COMMAND_VALUE         32809
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

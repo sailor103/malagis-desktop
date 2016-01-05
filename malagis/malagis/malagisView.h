@@ -85,6 +85,7 @@ public:
 	afx_msg void OnButtonZoomMove();
 	afx_msg void OnButtonZoomRefresh();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg void OnButtonPointsSelect();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

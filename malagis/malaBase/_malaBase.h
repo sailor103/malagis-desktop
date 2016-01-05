@@ -47,8 +47,14 @@ public:
 	~malaCDC();
 public:
 	void pointDrawCircle(malaPoint Point, malaPointPro PntPro);//绘制一个圆点
+	void pointDrawCircleX(malaPoint Point, malaPointPro PntPro);//绘制一个圆点(橡皮)
 	void pointDrawRect(malaPoint Point, malaPointPro PntPro);//绘制一个矩形点
+	void pointDrawRectX(malaPoint Point, malaPointPro PntPro);//绘制一个矩形点(橡皮)
 	void pointDrawTriangle(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点
+	void pointDrawTriangleX(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点(橡皮)
+	
+	void drawSelectRect(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
+
 	void drawRectNULLFill(malaPoint Point1, malaPoint point2);//绘制空心矩形
 
 private:
@@ -66,7 +72,7 @@ public:
 	malaLogic();
 	~malaLogic();
 public:
-	bool isPntInRect(malaPoint& Point, malaRect& rc);
+	bool isPntInRect(malaPoint &Point, malaRect& rc);
 };
 
 #ifndef _MALABASE_EXPORT
