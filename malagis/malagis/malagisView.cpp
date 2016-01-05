@@ -53,6 +53,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_ZOOMOUT, &CmalagisView::OnButtonZoomout)
 	ON_COMMAND(ID_BUTTON_ZOOM_MOVE, &CmalagisView::OnButtonZoomMove)
 	ON_COMMAND(ID_BUTTON_ZOOM_REFRESH, &CmalagisView::OnButtonZoomRefresh)
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -297,6 +298,16 @@ void CmalagisView::OnLButtonUp(UINT nFlags, CPoint point)
 	CView::OnLButtonUp(nFlags, point);
 }
 
+BOOL CmalagisView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	setActionStr(L"滚轮缩放");
+	malaZoom tpZoom(this, &mScreen);
+	malaPoint tmpPoint;
+	ScreenToCoord(pt.x, pt.y, mScreen, &tmpPoint.x, &tmpPoint.y);
+	tpZoom.MouseWheel(nFlags, zDelta, tmpPoint);
+	return CView::OnMouseWheel(nFlags, zDelta, pt);
+}
 
 void CmalagisView::OnSize(UINT nType, int cx, int cy)
 {
@@ -357,6 +368,9 @@ void CmalagisView::OnButtonZoomReset()
 void CmalagisView::OnButtonZoomout()
 {
 	// TODO:  在此添加命令处理程序代码
+	clearActionStr();
+	setActionStr(L"缩小地图");
+	mBaseOper = new malaZoonOut(this, &mScreen);
 }
 
 /*
@@ -365,6 +379,9 @@ void CmalagisView::OnButtonZoomout()
 void CmalagisView::OnButtonZoomMove()
 {
 	// TODO:  在此添加命令处理程序代码
+	clearActionStr();
+	setActionStr(L"移动地图");
+	mBaseOper = new malaMoveMap(this, &mScreen);
 }
 
 /*
