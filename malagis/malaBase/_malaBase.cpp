@@ -198,7 +198,7 @@ void malaCDC::drawRectNULLFill(malaPoint Point1, malaPoint point2)
 /*
 * 绘制选中状态的外接矩形
 */
-void malaCDC::drawSelectRect(malaPoint Point, malaPointPro PntPro)
+void malaCDC::drawSelectRectPoint(malaPoint Point, malaPointPro PntPro)
 {
 	PntPro.pointRadio++;
 	

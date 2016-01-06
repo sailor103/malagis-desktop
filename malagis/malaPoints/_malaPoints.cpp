@@ -131,7 +131,7 @@ void CmalaPointsSelect::LButtonUp(UINT nFlags, malaPoint point)
 				KillTimer(mBaseView->m_hWnd, 1);
 				mBaseView->InvalidateRect(CRect(A, B), TRUE);
 				malaCDC dc(mBaseView,*m_Screen);
-				dc.drawSelectRect(m_pnt, m_PntPro);
+				dc.drawSelectRectPoint(m_pnt, m_PntPro);
 				m_Selected = TRUE;
 				break;
 			}

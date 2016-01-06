@@ -53,7 +53,7 @@ public:
 	void pointDrawTriangle(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点
 	void pointDrawTriangleX(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点(橡皮)
 	
-	void drawSelectRect(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
+	void drawSelectRectPoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
 
 	void drawRectNULLFill(malaPoint Point1, malaPoint point2);//绘制空心矩形
 
