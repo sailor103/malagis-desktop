@@ -72,15 +72,40 @@ public:
 	void MouseMove(UINT nFlags, malaPoint point);
 private:
 	bool m_Selected;
-	malaPoint m_Point;
-	malaPointPro m_PointPro;
+	malaPoint m_Point;//选择的点
+	malaPointPro m_PointPro;//选择的点的属性
 	CmalaPointsSelect m_SelectPnt;
 
 	CString mPath;//文件路径
 
 	bool m_bDraw;
-	malaPoint m_ptOrigin;
-	malaPoint m_perPoint;
+	malaPoint m_ptOrigin;//起点
+	malaPoint m_perPoint;//临时点
+	malaScreen *m_Screen;
+};
+
+/*
+* 复制点
+*/
+class malapointsdll  CmalaPointsCopy :public CmalaMouseAction
+{
+public:
+	CmalaPointsCopy(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaPointsCopy();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	malaPoint m_Point;//选择的点
+	malaPointPro m_PointPro;//选择的点的属性
+	CmalaPointsSelect m_SelectPnt;
+
+	CString mPath;//文件路径
+
+	bool m_bDraw;
+	malaPoint m_ptOrigin;//起点
+	malaPoint m_perPoint;//临时点
 	malaScreen *m_Screen;
 };
 #ifndef _MALAPOINTS_EXPORT

@@ -198,12 +198,84 @@ void CmalaPointsMove::MouseMove(UINT nFlags, malaPoint point)
 {
 	if (!m_Selected)
 		m_SelectPnt.MouseMove(nFlags, point);
-	if (m_bDraw)
+	else if (m_bDraw)
 	{
 		malaCDC dc(mBaseView, *m_Screen);
 		dc.pointDrawAutoX(m_perPoint, m_PointPro);
 		m_perPoint.x = m_ptOrigin.x + point.x - m_ptOrigin.x;
 		m_perPoint.y = m_ptOrigin.y + point.y - m_ptOrigin.y;
 		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+		
 	}
+}
+
+/*
+* 复制点实现
+*/
+CmalaPointsCopy::CmalaPointsCopy(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaPointsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+}
+
+CmalaPointsCopy::~CmalaPointsCopy()
+{
+
+}
+
+void CmalaPointsCopy::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = point;
+	}
+}
+
+void CmalaPointsCopy::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+	else
+	{
+		CPointIO pio;
+		pio.pointAdd(point, m_PointPro, mPath);
+		mBaseView->Invalidate(TRUE);
+		m_bDraw = FALSE;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+
+	}
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_PointPro = m_SelectPnt.m_PntPro;
+		m_perPoint = m_Point;
+	}
+
+}
+
+void CmalaPointsCopy::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
+	else if (m_bDraw)
+	{
+		malaCDC dc(mBaseView, *m_Screen);
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+		m_perPoint.x = m_ptOrigin.x + point.x - m_ptOrigin.x;
+		m_perPoint.y = m_ptOrigin.y + point.y - m_ptOrigin.y;
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+		dc.pointDrawAuto(m_Point, m_PointPro);
+	}
+
 }

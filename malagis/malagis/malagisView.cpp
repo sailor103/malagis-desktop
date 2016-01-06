@@ -315,7 +315,6 @@ void CmalagisView::OnLButtonUp(UINT nFlags, CPoint point)
 BOOL CmalagisView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
-	setActionStr(L"滚轮缩放");
 	malaZoom tpZoom(this, &mScreen);
 	malaPoint tmpPoint;
 	ScreenToCoord(pt.x, pt.y, mScreen, &tmpPoint.x, &tmpPoint.y);
@@ -419,7 +418,7 @@ void CmalagisView::OnButtonPointsSelect()
 	{
 		clearActionStr();
 		mBaseOper = new CmalaPointsSelect(this, &mScreen, getActiveFile(L"mpt"));
-		setActionStr(L"输入点");
+		setActionStr(L"选择点");
 	}
 	else
 		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
@@ -431,12 +430,11 @@ void CmalagisView::OnButtonPointsSelect()
 void CmalagisView::OnButtonPointsMove()
 {
 	// TODO:  在此添加命令处理程序代码
-	// TODO:  在此添加命令处理程序代码
 	if (getActiveFile(L"mpt") != L"")
 	{
 		clearActionStr();
 		mBaseOper = new CmalaPointsMove(this, &mScreen, getActiveFile(L"mpt"));
-		setActionStr(L"输入点");
+		setActionStr(L"移动点");
 	}
 	else
 		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
@@ -448,4 +446,12 @@ void CmalagisView::OnButtonPointsMove()
 void CmalagisView::OnButtonPointsCopy()
 {
 	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPointsCopy(this, &mScreen, getActiveFile(L"mpt"));
+		setActionStr(L"复制点");
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }
