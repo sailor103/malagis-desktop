@@ -45,7 +45,7 @@ END_MESSAGE_MAP()
 void CDialogPointInput::OnBnClickedButtonPointColor()
 {
 	// TODO:  在此添加控件通知处理程序代码
-	CColorDialog MyCorDlg;
+	CColorDialog MyCorDlg(mPointColor, CC_FULLOPEN);
 	if (MyCorDlg.DoModal() == IDOK)
 	{
 		mPointColor = MyCorDlg.GetColor();

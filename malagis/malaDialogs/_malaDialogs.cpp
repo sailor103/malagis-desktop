@@ -118,3 +118,22 @@ bool maladialogsdll dlgLoadGraphFile(malaTree & tmpTree)
 	else
 		return false;
 }
+
+/*
+* 修改点属性对话框实现
+*/
+bool maladialogsdll dlgModifyPointPro(malaPointPro& pro)
+{
+	CDialogPointInput dlg;
+	dlg.mPointStyle = pro.pointStyle;
+	dlg.mPointRadio = pro.pointRadio;
+	dlg.mPointColor = pro.pointColor;
+	if (IDOK == dlg.DoModal())
+	{
+		pro.pointStyle = dlg.mPointStyle;
+		pro.pointRadio = dlg.mPointRadio;
+		pro.pointColor = dlg.mPointColor;
+		return true;
+	}
+	return false;
+}

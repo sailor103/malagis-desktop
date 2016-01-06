@@ -108,6 +108,28 @@ private:
 	malaPoint m_perPoint;//临时点
 	malaScreen *m_Screen;
 };
+
+/*
+* 修改点参数
+*/
+class malapointsdll  CmalaPointsModify :public CmalaMouseAction
+{
+public:
+	CmalaPointsModify(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaPointsModify();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	malaPoint m_Point;//选择的点
+	malaPointPro m_PointPro;//选择的点的属性
+	CmalaPointsSelect m_SelectPnt;
+
+	CString mPath;//文件路径
+	malaScreen *m_Screen;
+};
+
 #ifndef _MALAPOINTS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaPoints.lib")

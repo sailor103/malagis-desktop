@@ -88,6 +88,7 @@ public:
 	afx_msg void OnButtonPointsSelect();
 	afx_msg void OnButtonPointsMove();
 	afx_msg void OnButtonPointsCopy();
+	afx_msg void OnButtonPointsChangePro();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

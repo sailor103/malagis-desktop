@@ -277,5 +277,59 @@ void CmalaPointsCopy::MouseMove(UINT nFlags, malaPoint point)
 		dc.pointDrawAutoX(m_perPoint, m_PointPro);
 		dc.pointDrawAuto(m_Point, m_PointPro);
 	}
+}
 
+/*
+* 修改点参数实现
+*/
+CmalaPointsModify::CmalaPointsModify(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaPointsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+}
+
+CmalaPointsModify::~CmalaPointsModify()
+{
+
+}
+
+void CmalaPointsModify::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+}
+
+void CmalaPointsModify::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_PointPro = m_SelectPnt.m_PntPro;
+
+		if (dlgModifyPointPro(m_PointPro))
+		{
+			CPointIO pio;
+			pio.pointUpdate(m_Point, m_PointPro, mPath);
+			mBaseView->Invalidate(TRUE);
+		}
+
+		m_Point.x = m_Point.y = 0;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+	}
+
+}
+
+void CmalaPointsModify::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
 }

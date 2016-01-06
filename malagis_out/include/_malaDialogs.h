@@ -39,6 +39,11 @@ void maladialogsdll dlgGraphFilePro(malaTree fileNode);
 */
 bool maladialogsdll dlgLoadGraphFile(malaTree & tmpTree);
 
+/*
+* 修改点属性对话框
+*/
+bool maladialogsdll dlgModifyPointPro(malaPointPro& pro);
+
 #ifndef _MALADIALOGS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaDialogs.lib")
