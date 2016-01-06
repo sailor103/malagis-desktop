@@ -55,6 +55,8 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_ZOOM_REFRESH, &CmalagisView::OnButtonZoomRefresh)
 	ON_WM_MOUSEWHEEL()
 	ON_COMMAND(ID_BUTTON_POINTS_SELECT, &CmalagisView::OnButtonPointsSelect)
+	ON_COMMAND(ID_BUTTON_POINTS_MOVE, &CmalagisView::OnButtonPointsMove)
+	ON_COMMAND(ID_BUTTON_POINTS_COPY, &CmalagisView::OnButtonPointsCopy)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -202,20 +204,7 @@ void CmalagisView::displayAllGraphs()
 				malaCDC dc(this,mScreen);
 				for (size_t j = 0; j < allPoints.size();j++)
 				{
-					switch (allPoints[j].m_pointpro.pointStyle)
-					{
-					case 0:
-						dc.pointDrawRect(allPoints[j].m_point, allPoints[j].m_pointpro);
-						break;
-					case 1:
-						dc.pointDrawTriangle(allPoints[j].m_point, allPoints[j].m_pointpro);
-						break;
-					case 2:
-						dc.pointDrawCircle(allPoints[j].m_point, allPoints[j].m_pointpro);
-						break;
-					default:
-						break;
-					}
+					dc.pointDrawAuto(allPoints[j].m_point, allPoints[j].m_pointpro);
 				}
 				if (allPoints.size())
 					allPoints.clear();
@@ -434,4 +423,29 @@ void CmalagisView::OnButtonPointsSelect()
 	}
 	else
 		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 移动点
+*/
+void CmalagisView::OnButtonPointsMove()
+{
+	// TODO:  在此添加命令处理程序代码
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPointsMove(this, &mScreen, getActiveFile(L"mpt"));
+		setActionStr(L"输入点");
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 复制点
+*/
+void CmalagisView::OnButtonPointsCopy()
+{
+	// TODO:  在此添加命令处理程序代码
 }

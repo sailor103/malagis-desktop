@@ -58,6 +58,48 @@ malaCDC::~malaCDC()
 {
 }
 /*
+* 根据点型自动绘制点
+*/
+void malaCDC::pointDrawAuto(malaPoint Point, malaPointPro PntPro)
+{
+	switch (PntPro.pointStyle)
+	{
+	case 0:
+		pointDrawRect(Point, PntPro);
+		break;
+	case 1:
+		pointDrawTriangle(Point, PntPro);
+		break;
+	case 2:
+		pointDrawCircle(Point, PntPro);
+		break;
+	default:
+		break;
+	}
+}
+
+/*
+* 根据点型自动绘制点(橡皮)
+*/
+void malaCDC::pointDrawAutoX(malaPoint Point, malaPointPro PntPro)
+{
+	switch (PntPro.pointStyle)
+	{
+	case 0:
+		pointDrawRectX(Point, PntPro);
+		break;
+	case 1:
+		pointDrawTriangleX(Point, PntPro);
+		break;
+	case 2:
+		pointDrawCircleX(Point, PntPro);
+		break;
+	default:
+		break;
+	}
+}
+
+/*
 * 绘制圆点
 */
 void malaCDC::pointDrawCircle(malaPoint Point, malaPointPro PntPro)
@@ -184,7 +226,7 @@ void malaCDC::drawRectNULLFill(malaPoint Point1, malaPoint point2)
 {
 	CClientDC dc(mView);
 	dc.SetROP2(R2_NOTXORPEN);
-	CPen pen(0, 1, RGB(255, 0, 0));
+	CPen pen(PS_DASH, 1, RGB(255, 0, 0));
 	CPen* OldPen = dc.SelectObject(&pen);
 
 	CPoint MyPoint1;

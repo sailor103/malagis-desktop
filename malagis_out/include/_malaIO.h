@@ -61,9 +61,11 @@ public:
 public:
 	long getMaxID(CString &fileName);//获取点ID
 	void readPoints(CString &fileName);//读取所有的点
+	void savePoints(CString &fileName);//写入所有的点
 public:
 	long pointAdd(malaPoint &Point, malaPointPro &PointPro, CString &fileName);//添加点
 	void getAllPoint(malaScreen &pScreen,vector<malaPointFile>&pAllPoints,CString &fileName);//获取某个文件中某一范围的所有的点
+	long pointUpdate(malaPoint &Point, malaPointPro &PointPro, CString &fileName);//更新点
 private:
 	vector<malaPointFile> mPoint;//临时数据变量
 };

@@ -46,6 +46,9 @@ public:
 	malaCDC(CView* ptView,malaScreen pScreen);
 	~malaCDC();
 public:
+	void pointDrawAuto(malaPoint Point, malaPointPro PntPro);//根据点型自动绘制点
+	void pointDrawAutoX(malaPoint Point, malaPointPro PntPro);//根据点型自动绘制点(橡皮)
+
 	void pointDrawCircle(malaPoint Point, malaPointPro PntPro);//绘制一个圆点
 	void pointDrawCircleX(malaPoint Point, malaPointPro PntPro);//绘制一个圆点(橡皮)
 	void pointDrawRect(malaPoint Point, malaPointPro PntPro);//绘制一个矩形点

@@ -183,21 +183,25 @@ void CPointIO::readPoints(CString &fileName)
 	}
 }
 
-//添加点实现
-long CPointIO::pointAdd(malaPoint &Point, malaPointPro &PointPro, CString &fileName)
+//写入所有的点
+void CPointIO::savePoints(CString &fileName)
 {
-	int ID = getMaxID(fileName) + 1;
 	CFile file;
-	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite | CFile::modeNoTruncate);
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite);
 	CArchive ar(&file, CArchive::store);
-	file.SeekToEnd();
-	ar << ID << PointPro.pointRadio << PointPro.pointStyle << PointPro.pointColor;
-	ar << Point.x << Point.y;
+	
+	int Size = mPoint.size();
+	for (int i = 0; i < Size; i++)
+	{
+		ar << mPoint[i].m_pointpro.pointId << mPoint[i].m_pointpro.pointRadio << mPoint[i].m_pointpro.pointStyle << mPoint[i].m_pointpro.pointColor;
+		ar << mPoint[i].m_point.x << mPoint[i].m_point.y;
+	}
+
+	
 	ar.Close();
 	file.Close();
-
-	return ID;
 }
+
 //获取某个文件中某一范围的所有的点
 void CPointIO::getAllPoint(malaScreen &pScreen, vector<malaPointFile>&pAllPoints, CString &fileName)
 {
@@ -240,4 +244,36 @@ void CPointIO::getAllPoint(malaScreen &pScreen, vector<malaPointFile>&pAllPoints
 	}
 }
 
+//添加点实现
+long CPointIO::pointAdd(malaPoint &Point, malaPointPro &PointPro, CString &fileName)
+{
+	int ID = getMaxID(fileName) + 1;
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::store);
+	file.SeekToEnd();
+	ar << ID << PointPro.pointRadio << PointPro.pointStyle << PointPro.pointColor;
+	ar << Point.x << Point.y;
+	ar.Close();
+	file.Close();
 
+	return ID;
+}
+//更新点实现
+long CPointIO::pointUpdate(malaPoint &Point, malaPointPro &PointPro, CString &fileName)
+{
+	long ID = PointPro.pointId;
+	readPoints(fileName);
+	int Size = mPoint.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mPoint[i].m_pointpro.pointId == ID)
+		{
+			mPoint[i].m_point = Point;
+			mPoint[i].m_pointpro = PointPro;
+			break;
+		}
+	}
+	savePoints(fileName);
+	return ID;
+}

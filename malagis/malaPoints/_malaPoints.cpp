@@ -19,20 +19,7 @@ CmalaPointsInput::~CmalaPointsInput(){}
 void CmalaPointsInput::LButtonDown(UINT nFlags, malaPoint point)
 {
 	malaCDC dc(mBaseView, *mScreen);
-	switch (mPointPro.pointStyle)
-	{
-	case 0:
-		dc.pointDrawRect(point, mPointPro);
-		break;
-	case 1:
-		dc.pointDrawTriangle(point, mPointPro);
-		break;
-	case 2:
-		dc.pointDrawCircle(point, mPointPro);
-		break;
-	default:
-		break;
-	}
+	dc.pointDrawAuto(point, mPointPro);
 	CPointIO pio;
 	pio.pointAdd(point, mPointPro, mPath);
 
@@ -151,4 +138,72 @@ void CmalaPointsSelect::MouseMove(UINT nFlags, malaPoint point)
 		m_perPoint = point;
 	}
 
+}
+/*
+* 移动点实现
+*/
+CmalaPointsMove::CmalaPointsMove(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaPointsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+}
+
+CmalaPointsMove::~CmalaPointsMove()
+{
+
+}
+
+void CmalaPointsMove::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = point;
+	}
+}
+
+void CmalaPointsMove::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+	else
+	{
+		CPointIO pio;
+		pio.pointUpdate(point, m_PointPro, mPath);
+		mBaseView->Invalidate(TRUE);
+		m_bDraw = FALSE;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+
+	}
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_PointPro = m_SelectPnt.m_PntPro;
+		m_perPoint = m_Point;
+	}
+
+}
+
+void CmalaPointsMove::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
+	if (m_bDraw)
+	{
+		malaCDC dc(mBaseView, *m_Screen);
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+		m_perPoint.x = m_ptOrigin.x + point.x - m_ptOrigin.x;
+		m_perPoint.y = m_ptOrigin.y + point.y - m_ptOrigin.y;
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+	}
 }

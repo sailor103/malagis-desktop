@@ -55,24 +55,34 @@ public:
 	inline static void CALLBACK TimerProc(HWND hWnd, UINT nMsg, UINT nTimerid, DWORD dwTime)
 	{
 		malaCDC dc(m_StaticView, *m_Screen);
-
-		switch (m_PntPro.pointStyle)
-		{
-		case 0:
-			dc.pointDrawRectX(m_pnt, m_PntPro);
-			break;
-		case 1:
-			dc.pointDrawTriangleX(m_pnt, m_PntPro);
-			break;
-		case 2:
-			dc.pointDrawCircleX(m_pnt, m_PntPro);
-			break;
-		default:
-			break;
-		}
+		dc.pointDrawAutoX(m_pnt, m_PntPro);
 	}
 };
 
+/*
+* 移动点
+*/
+class malapointsdll  CmalaPointsMove :public CmalaMouseAction
+{
+public:
+	CmalaPointsMove(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaPointsMove();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	malaPoint m_Point;
+	malaPointPro m_PointPro;
+	CmalaPointsSelect m_SelectPnt;
+
+	CString mPath;//文件路径
+
+	bool m_bDraw;
+	malaPoint m_ptOrigin;
+	malaPoint m_perPoint;
+	malaScreen *m_Screen;
+};
 #ifndef _MALAPOINTS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaPoints.lib")
