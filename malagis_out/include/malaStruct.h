@@ -30,6 +30,21 @@ typedef struct
 	COLORREF  pointColor; //点的颜色
 }malaPointPro;
 
+//线结构体
+typedef struct
+{
+	vector<malaPoint>linePoints;
+}malaLine;
+
+//线属性
+typedef struct
+{
+	long lineId;
+	int  lineWidth;
+	int  lineStyle;
+	COLORREF lineColor;
+}malaLinePro;
+
 //目录树节点
 typedef struct
 {
