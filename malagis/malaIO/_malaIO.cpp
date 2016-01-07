@@ -299,3 +299,11 @@ long CPointIO::pointDelete(malaPointPro &PointPro, CString &fileName)
 	savePoints(fileName);
 	return ID;
 }
+
+//删除所有点实现
+void CPointIO::pointDeleteAll(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate);
+	file.Close();
+}

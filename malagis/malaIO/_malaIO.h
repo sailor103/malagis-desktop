@@ -67,6 +67,7 @@ public:
 	long pointAdd(malaPoint &Point, malaPointPro &PointPro, CString &fileName);//添加点
 	long pointUpdate(malaPoint &Point, malaPointPro &PointPro, CString &fileName);//更新点
 	long pointDelete(malaPointPro &PointPro, CString &fileName);//删除点
+	void pointDeleteAll(CString &fileName);//删除所有点
 
 private:
 	vector<malaPointFile> mPoint;//临时数据变量

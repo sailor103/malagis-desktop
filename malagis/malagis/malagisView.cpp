@@ -497,4 +497,17 @@ void CmalagisView::OnButtonPointsDelete()
 void CmalagisView::OnButtonPointsDeleteAll()
 {
 	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		clearActionStr();
+		setActionStr(L"删除所有点");
+		if (MessageBox(L"删除后将无法恢复，确定删除所有的点吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			CPointIO pio;
+			pio.pointDeleteAll(getActiveFile(L"mpt"));
+			this->Invalidate(TRUE);
+		}
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }
