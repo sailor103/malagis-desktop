@@ -73,7 +73,7 @@ CmalagisView::CmalagisView()
 	mScreen.lby = 0.0;
 	mScreen.scale = 1.0;
 	mouseCursor = 0;
-	
+	hAccel = ::LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_RIBBON));
 }
 
 CmalagisView::~CmalagisView()
@@ -257,6 +257,17 @@ void CmalagisView::setCurrentCursor()
 	}
 }
 
+/*
+* 快捷键响应
+*/
+BOOL CmalagisView::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO:  在此添加专用代码和/或调用基类
+	if (::TranslateAccelerator(GetSafeHwnd(), hAccel, pMsg))
+		return true;
+	return CView::PreTranslateMessage(pMsg);
+}
+
 void CmalagisView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
@@ -391,6 +402,7 @@ void CmalagisView::OnButtonZoomMove()
 void CmalagisView::OnButtonZoomRefresh()
 {
 	// TODO:  在此添加命令处理程序代码
+	clearActionStr();
 	Invalidate(TRUE);
 }
 
@@ -511,3 +523,4 @@ void CmalagisView::OnButtonPointsDeleteAll()
 	else
 		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }
+

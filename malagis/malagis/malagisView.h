@@ -62,6 +62,7 @@ public:
 private:
 	CmalaMouseAction *mBaseOper;
 	int mouseCursor;//0 默认 1 放大 2 缩小 3 移动
+	HACCEL hAccel;//快捷键
 
 public:
 	malaScreen mScreen;
@@ -91,6 +92,7 @@ public:
 	afx_msg void OnButtonPointsChangePro();
 	afx_msg void OnButtonPointsDelete();
 	afx_msg void OnButtonPointsDeleteAll();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

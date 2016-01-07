@@ -333,6 +333,12 @@ BEGIN
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
 END
 
+IDR_RIBBON ACCELERATORS
+BEGIN
+    "R",            ID_BUTTON_ZOOM_REFRESH, VIRTKEY, NOINVERT
+    "M",            ID_BUTTON_ZOOM_MOVE,    VIRTKEY, NOINVERT
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
