@@ -153,8 +153,8 @@ void malaMoveMap::MouseMove(UINT nFlags, malaPoint point)
 {
 	if (m_bDraw)
 	{
-		m_Screen->lbx = m_Screen->lbx - m_Screen->scale*(point.x - m_PtOrigin.x);
-		m_Screen->lby = m_Screen->lby - m_Screen->scale*(point.y - m_PtOrigin.y);
+		m_Screen->lbx = m_Screen->lbx - (point.x - m_PtOrigin.x);
+		m_Screen->lby = m_Screen->lby - (point.y - m_PtOrigin.y);
 		m_PtOrigin.x = point.x;
 		m_PtOrigin.y = point.y;
 	}
