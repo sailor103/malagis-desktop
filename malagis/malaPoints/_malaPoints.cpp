@@ -333,3 +333,64 @@ void CmalaPointsModify::MouseMove(UINT nFlags, malaPoint point)
 	if (!m_Selected)
 		m_SelectPnt.MouseMove(nFlags, point);
 }
+
+/*
+* 删除点实现
+*/
+CmalaPointsDelete::CmalaPointsDelete(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaPointsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+}
+
+CmalaPointsDelete::~CmalaPointsDelete()
+{
+
+}
+
+void CmalaPointsDelete::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+}
+
+void CmalaPointsDelete::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_PointPro = m_SelectPnt.m_PntPro;
+
+		if (MessageBox(mBaseView->m_hWnd, L"删除后将无法恢复，确定删除该点吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			/*CoConnect conn(m_DB.szDsn, m_DB.szName, m_DB.szPassword);
+			CoFeatureset feature;
+			feature.Open(&conn, m_ActiveTB);
+			feature.PointDelete(m_PointPro.PntID);
+			m_ptView->Invalidate(TRUE);*/
+			CPointIO pio;
+			pio.pointDelete(m_PointPro, mPath);
+			mBaseView->Invalidate(TRUE);
+			
+		}
+		m_Point.x = m_Point.y = 0;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+		
+	}
+
+}
+
+void CmalaPointsDelete::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
+}

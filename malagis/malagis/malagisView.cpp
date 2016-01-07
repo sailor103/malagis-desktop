@@ -58,6 +58,8 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_POINTS_MOVE, &CmalagisView::OnButtonPointsMove)
 	ON_COMMAND(ID_BUTTON_POINTS_COPY, &CmalagisView::OnButtonPointsCopy)
 	ON_COMMAND(ID_BUTTON_POINTS_CHANGE_PRO, &CmalagisView::OnButtonPointsChangePro)
+	ON_COMMAND(ID_BUTTON_POINTS_DELETE, &CmalagisView::OnButtonPointsDelete)
+	ON_COMMAND(ID_BUTTON_POINTS_DELETE_ALL, &CmalagisView::OnButtonPointsDeleteAll)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -471,4 +473,28 @@ void CmalagisView::OnButtonPointsChangePro()
 	}
 	else
 		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 删除点
+*/
+void CmalagisView::OnButtonPointsDelete()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPointsDelete(this, &mScreen, getActiveFile(L"mpt"));
+		setActionStr(L"删除点");
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 删除所有点
+*/
+void CmalagisView::OnButtonPointsDeleteAll()
+{
+	// TODO:  在此添加命令处理程序代码
 }

@@ -130,6 +130,27 @@ private:
 	malaScreen *m_Screen;
 };
 
+/*
+* 删除点
+*/
+class malapointsdll  CmalaPointsDelete :public CmalaMouseAction
+{
+public:
+	CmalaPointsDelete(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaPointsDelete();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	malaPoint m_Point;//选择的点
+	malaPointPro m_PointPro;//选择的点的属性
+	CmalaPointsSelect m_SelectPnt;
+
+	CString mPath;//文件路径
+	malaScreen *m_Screen;
+};
+
 #ifndef _MALAPOINTS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaPoints.lib")

@@ -277,3 +277,25 @@ long CPointIO::pointUpdate(malaPoint &Point, malaPointPro &PointPro, CString &fi
 	savePoints(fileName);
 	return ID;
 }
+
+//É¾³ýµãÊµÏÖ
+long CPointIO::pointDelete(malaPointPro &PointPro, CString &fileName)
+{
+	long ID = PointPro.pointId;
+	readPoints(fileName);
+
+	vector<malaPointFile>tempPoints;
+
+	int Size = mPoint.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mPoint[i].m_pointpro.pointId != ID)
+		{
+			tempPoints.push_back(mPoint[i]);
+		}
+	}
+	mPoint.clear();
+	mPoint = tempPoints;
+	savePoints(fileName);
+	return ID;
+}
