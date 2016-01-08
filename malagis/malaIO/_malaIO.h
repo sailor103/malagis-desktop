@@ -51,6 +51,25 @@ public:
 };
 
 /*
+* 线文件存取类
+* 用来定义一个点的存取
+*/
+class malaLineFile
+{
+public:
+	malaLineFile(vector<malaPoint>& Line, malaLinePro LinePro)
+	{
+		mLine = Line;
+		mLinePro = LinePro;
+	}
+	~malaLineFile(){}
+public:
+	vector<malaPoint> mLine;
+	malaLinePro mLinePro;
+
+};
+
+/*
 * 点文件操作类
 */
 class malaio CPointIO
@@ -71,6 +90,27 @@ public:
 
 private:
 	vector<malaPointFile> mPoint;//临时数据变量
+};
+
+/*
+* 线文件操作类
+*/
+class malaio CLineIO
+{
+public:
+	CLineIO();
+	virtual ~CLineIO();
+public:
+	long getMaxID(CString &fileName);//获取线ID
+	void readLines(CString &fileName);//读取所有的线
+	void getAllLines(malaScreen &pScreen, vector<malaLineFile>&pAllLines, CString &fileName);//获取某个文件中某一范围的所有的线
+
+public:
+	long lineAdd(vector<malaPoint> &pLine, malaLinePro &linePro, CString &fileName);//添加线
+
+private:
+	vector<malaLineFile> mLine;//临时数据变量
+
 };
 
 #ifndef _MALAIO_EXPORT

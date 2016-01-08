@@ -93,6 +93,8 @@ public:
 	afx_msg void OnButtonPointsDelete();
 	afx_msg void OnButtonPointsDeleteAll();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnButtonLinesInput();
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

@@ -263,6 +263,79 @@ void malaCDC::drawSelectRectPoint(malaPoint Point, malaPointPro PntPro)
 }
 
 /*
+* 绘制直线实现
+*/
+void malaCDC::lineDraw(malaPoint PointStart, malaPoint PointEnd, malaLinePro LinePro)
+{
+	CClientDC dc(mView);
+
+	COLORREF cor = LinePro.lineColor;
+	int LineWide = ceil((double)LinePro.lineWidth / mScreen.scale);
+	int LineStyle = LinePro.lineStyle;
+
+	LOGBRUSH log;
+	log.lbColor = cor;
+	log.lbStyle = BS_SOLID;
+	CPen Pen(PS_GEOMETRIC | LineStyle, LineWide, &log);
+
+	CPen* OldPen = dc.SelectObject(&Pen);
+	CPoint Point1;
+	CPoint Point2;
+	CoordToScreen(PointStart.x, PointStart.y, mScreen,&Point1.x, &Point1.y);
+	CoordToScreen(PointEnd.x, PointEnd.y, mScreen, &Point2.x, &Point2.y);
+	dc.MoveTo(Point1);
+	dc.LineTo(Point2);
+	dc.SelectObject(OldPen);
+}
+
+/*
+* 绘制直线实现（橡皮）
+*/
+void malaCDC::lineDrawX(malaPoint PointStart, malaPoint PointEnd, malaLinePro LinePro)
+{
+	CClientDC dc(mView);
+	dc.SetROP2(R2_NOTXORPEN);
+	COLORREF cor = LinePro.lineColor;
+	int LineWide = ceil((double)LinePro.lineWidth / mScreen.scale);
+	int LineStyle = LinePro.lineStyle;
+	
+	LOGBRUSH log;
+	log.lbColor = cor;
+	log.lbStyle = BS_SOLID;
+	CPen Pen(PS_GEOMETRIC | LineStyle, LineWide, &log);
+
+	CPen* OldPen = dc.SelectObject(&Pen);
+	CPoint Point1;
+	CPoint Point2;
+	CoordToScreen(PointStart.x, PointStart.y, mScreen, &Point1.x, &Point1.y);
+	CoordToScreen(PointEnd.x, PointEnd.y, mScreen, &Point2.x, &Point2.y);
+	dc.MoveTo(Point1);
+	dc.LineTo(Point2);
+	dc.SelectObject(OldPen);
+}
+
+/*
+* 绘制一条折线
+*/
+void malaCDC::lineDrawAll(vector<malaPoint>& Line, malaLinePro LinePro)
+{
+	int LineNum = Line.size();
+	for (int i = 1; i < LineNum; i++)
+		lineDraw(Line[i - 1], Line[i], LinePro);
+}
+
+/*
+* 绘制一条折线（橡皮）
+*/
+void malaCDC::lineDrawAllX(vector<malaPoint>& Line, malaLinePro LinePro)
+{
+	int LineNum = Line.size();
+	for (int i = 1; i < LineNum; i++)
+		lineDrawX(Line[i - 1], Line[i], LinePro);
+}
+
+
+/*
 * 逻辑运算基类实现
 */
 malaLogic::malaLogic(){}
@@ -272,6 +345,85 @@ malaLogic::~malaLogic(){}
 bool malaLogic::isPntInRect(malaPoint &Point, malaRect& rc)
 {
 	if ((Point.x >= (rc.xmin - 4)) && (Point.x <= (rc.xmax + 4)) && (Point.y >= (rc.ymin - 4)) && (Point.y <= (rc.ymax + 4)))
+		return true;
+	return false;
+}
+/*
+*返回一个图元的外接矩形
+*/
+malaRect malaLogic::getRect(vector<malaPoint>& Point)
+{
+	int LineNum = Point.size();
+	malaRect rect;
+	rect.xmax = getMaxX(Point);
+	rect.ymax = getMaxY(Point);
+	rect.xmin = getMinX(Point);
+	rect.ymin = getMinY(Point);
+	return rect;
+}
+/*
+* 获取最大的X
+*/
+double malaLogic::getMaxX(vector<malaPoint>& Point)
+{
+	int LineNum = Point.size();
+	int pos = 0;
+	for (int i = 1; i < LineNum; i++)
+	{
+		if (Point[pos].x < Point[i].x)
+			pos = i;
+	}
+	return Point[pos].x;
+}
+/*
+* 获取最大的Y
+*/
+double malaLogic::getMaxY(vector<malaPoint>& Point)
+{
+	int LineNum = Point.size();
+	int pos = 0;
+	for (int i = 1; i < LineNum; i++)
+	{
+		if (Point[pos].y < Point[i].y)
+			pos = i;
+	}
+	return Point[pos].y;
+}
+/*
+* 获取最小的X
+*/
+double malaLogic::getMinX(vector<malaPoint>& Point)
+{
+
+	int LineNum = Point.size();
+	int pos = 0;
+	for (int i = 1; i < LineNum; i++)
+	{
+		if (Point[pos].x >= Point[i].x)
+			pos = i;
+	}
+	return Point[pos].x;
+}
+/*
+* 获取最小的Y
+*/
+double malaLogic::getMinY(vector<malaPoint>& Point)
+{
+	int LineNum = Point.size();
+	int pos = 0;
+	for (int i = 1; i < LineNum; i++)
+	{
+		if (Point[pos].y >= Point[i].y)
+			pos = i;
+	}
+	return Point[pos].y;
+}
+/*
+* 判断两个矩形是否相交（不能判断包含）
+*/
+bool malaLogic::isRectIntersect(malaRect &r1, malaRect &r2)
+{
+	if (abs((r1.xmin + r1.xmax) / 2.0 - (r2.xmin + r2.xmax) / 2.0) < ((r1.xmax + r2.xmax - r1.xmin - r2.xmin) / 2.0) && abs((r1.ymin + r1.ymax) / 2.0 - (r2.ymin + r2.ymax) / 2.0) < ((r1.ymax + r2.ymax - r1.ymin - r2.ymin) / 2.0))
 		return true;
 	return false;
 }

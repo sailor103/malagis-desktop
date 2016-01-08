@@ -105,6 +105,7 @@ IDB_MENU_IMAGES_24      BITMAP                  "res\\menuimages_hc.bmp"
 IDB_BITMAP_POINTS_BAR   BITMAP                  "res\\points_bar.bmp"
 IDB_PRJ_VIEW            BITMAP                  "res\\prjview.bmp"
 IDB_BITMAP_TOOLS_ZOOM   BITMAP                  "res\\res_tools.bmp"
+IDB_BITMAP_LINES_BAR    BITMAP                  "res\\lines_bar.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

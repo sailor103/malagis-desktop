@@ -26,6 +26,7 @@
 //自定义头文件
 #include "_malaPoints.h"
 #include "_malaTools.h"
+#include "_malaLines.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -60,6 +61,8 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_POINTS_CHANGE_PRO, &CmalagisView::OnButtonPointsChangePro)
 	ON_COMMAND(ID_BUTTON_POINTS_DELETE, &CmalagisView::OnButtonPointsDelete)
 	ON_COMMAND(ID_BUTTON_POINTS_DELETE_ALL, &CmalagisView::OnButtonPointsDeleteAll)
+	ON_COMMAND(ID_BUTTON_LINES_INPUT, &CmalagisView::OnButtonLinesInput)
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -137,7 +140,7 @@ void CmalagisView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 void CmalagisView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
+	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
 #endif
 }
 
@@ -212,6 +215,23 @@ void CmalagisView::displayAllGraphs()
 				if (allPoints.size())
 					allPoints.clear();
 			}
+			//重绘线文件
+			if (mNode[i].fileType == L"mle")
+			{
+				//先获取可视范围所有的线
+				CLineIO lio;
+				vector<malaLineFile>allLines;
+				lio.getAllLines(mScreen, allLines, mNode[i].filePath);
+				//再依次画线
+				malaCDC dc(this, mScreen);
+				for (size_t j = 0; j < allLines.size();j++)
+				{
+					dc.lineDrawAll(allLines[j].mLine,allLines[j].mLinePro);
+				}
+				if (allLines.size())
+					allLines.clear();
+			}
+
 		}
 	}
 }
@@ -334,6 +354,18 @@ BOOL CmalagisView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	ScreenToCoord(pt.x, pt.y, mScreen, &tmpPoint.x, &tmpPoint.y);
 	tpZoom.MouseWheel(nFlags, zDelta, tmpPoint);
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+void CmalagisView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+	malaPoint tmpPoint;
+	ScreenToCoord(point.x, point.y, mScreen, &tmpPoint.x, &tmpPoint.y);
+	if (mBaseOper)
+	{
+		mBaseOper->RButtonDown(nFlags, tmpPoint);
+	}
+	CView::OnRButtonDown(nFlags, point);
 }
 
 void CmalagisView::OnSize(UINT nType, int cx, int cy)
@@ -522,5 +554,23 @@ void CmalagisView::OnButtonPointsDeleteAll()
 	}
 	else
 		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+
+/*
+* 输入线
+*/
+void CmalagisView::OnButtonLinesInput()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesInput(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"输入线");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+
 }
 

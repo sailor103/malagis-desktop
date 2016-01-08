@@ -145,6 +145,7 @@
     <Image Include="res\fileview_hc.bmp" />
     <Image Include="res\file_view.ico" />
     <Image Include="res\file_view_hc.ico" />
+    <Image Include="res\lines_bar.bmp" />
     <Image Include="res\main.bmp" />
     <Image Include="res\malagis.ico" />
     <Image Include="res\malagisDoc.ico" />

@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DialogFilePro.cpp" />
+    <ClCompile Include="DialogLineInput.cpp" />
     <ClCompile Include="DialogNewLineFile.cpp" />
     <ClCompile Include="DialogNewPointFile.cpp" />
     <ClCompile Include="DialogPointInput.cpp" />
@@ -132,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DialogFilePro.h" />
+    <ClInclude Include="DialogLineInput.h" />
     <ClInclude Include="DialogNewLineFile.h" />
     <ClInclude Include="DialogNewPointFile.h" />
     <ClInclude Include="DialogPointInput.h" />

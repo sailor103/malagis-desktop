@@ -55,6 +55,11 @@ public:
 	void pointDrawRectX(malaPoint Point, malaPointPro PntPro);//绘制一个矩形点(橡皮)
 	void pointDrawTriangle(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点
 	void pointDrawTriangleX(malaPoint Point, malaPointPro PntPro);//绘制一个三角形点(橡皮)
+
+	void lineDraw(malaPoint PointStart, malaPoint PointEnd, malaLinePro LinePro); //绘制直线
+	void lineDrawX(malaPoint PointStart, malaPoint PointEnd, malaLinePro LinePro);//绘制直线（橡皮）
+	void lineDrawAll(vector<malaPoint>& Line, malaLinePro LinePro);//绘制一条折线
+	void lineDrawAllX(vector<malaPoint>& Line, malaLinePro LinePro);//绘制一条折线（橡皮）
 	
 	void drawSelectRectPoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
 
@@ -75,7 +80,16 @@ public:
 	malaLogic();
 	~malaLogic();
 public:
-	bool isPntInRect(malaPoint &Point, malaRect& rc);
+	
+	double getMaxX(vector<malaPoint>& Point);//从所有的点中找到最大的x
+	double getMaxY(vector<malaPoint>& Point);//从所有的点中找到最大的y
+	double getMinX(vector<malaPoint>& Point);//从所有的点中找到最小的x
+	double getMinY(vector<malaPoint>& Point);//从所有的点中找到最小的y
+	
+	malaRect getRect(vector<malaPoint>& Point);//返回一个图元的外接矩形
+public:
+	bool isPntInRect(malaPoint &Point, malaRect& rc);//点是否在矩形内部
+	bool isRectIntersect(malaRect &r1, malaRect &r2);//判断两个矩形是否相交（不能判断包含）
 };
 
 #ifndef _MALABASE_EXPORT

@@ -307,3 +307,145 @@ void CPointIO::pointDeleteAll(CString &fileName)
 	file.Open(LPCTSTR(fileName), CFile::modeCreate);
 	file.Close();
 }
+
+/************************************************************************/
+/* 线文件相关函数实现                                                   */
+/************************************************************************/
+CLineIO::CLineIO(){}
+CLineIO::~CLineIO(){}
+
+//获取线的最大id
+long CLineIO::getMaxID(CString &fileName)
+{
+	int ID = 0;
+	readLines(fileName);
+
+	int Size = mLine.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mLine[i].mLinePro.lineId >= ID)
+			ID = mLine[i].mLinePro.lineId;
+	}
+
+	return ID;
+}
+
+//读取所有的线
+void CLineIO::readLines(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+	if (mLine.size())
+		mLine.clear();
+
+	vector<malaPoint> tLine;
+	malaLinePro tLinePro;
+	malaPoint tPoint;
+	int pointNum;
+	while (1)
+	{
+		try
+		{
+			ar >> tLinePro.lineId >> tLinePro.lineStyle >> tLinePro.lineWidth >> tLinePro.lineColor;
+			ar >> pointNum;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+		
+		for (int i = 0; i < pointNum; i++)
+		{
+			try
+			{
+				ar >> tPoint.x >> tPoint.y;
+			}
+			catch (CException* e)
+			{
+				break;
+			}
+			tLine.push_back(tPoint);
+		}
+		malaLineFile MyLine(tLine, tLinePro);
+		mLine.push_back(MyLine);
+		tLine.clear();
+	}
+}
+
+//获取某个文件中某一范围的所有的线
+void CLineIO::getAllLines(malaScreen &pScreen, vector<malaLineFile>&pAllLines, CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+	if (pAllLines.size())
+		pAllLines.clear();
+
+	vector<malaPoint> tLine;
+	malaLinePro tLinePro;
+	malaPoint tPoint;
+	int pointNum;
+	while (1)
+	{
+		try
+		{
+			ar >> tLinePro.lineId >> tLinePro.lineStyle >> tLinePro.lineWidth >> tLinePro.lineColor;
+			ar >> pointNum;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+
+		for (int i = 0; i < pointNum; i++)
+		{
+			try
+			{
+				ar >> tPoint.x >> tPoint.y;
+			}
+			catch (CException* e)
+			{
+				break;
+			}
+			tLine.push_back(tPoint);
+		}
+		//检查是否在可视范围内
+		
+		malaLogic mylog;
+		malaRect lineRc = mylog.getRect(tLine);
+		malaRect screenRc;
+		screenRc.xmin = pScreen.lbx;
+		screenRc.ymin = pScreen.lby;
+		ScreenToCoord(pScreen.wScreen, 0, pScreen, &screenRc.xmax, &screenRc.ymax);
+
+		if (mylog.isRectIntersect(lineRc,screenRc))
+		{
+			malaLineFile MyLine(tLine, tLinePro);
+			pAllLines.push_back(MyLine);
+		}
+		tLine.clear();
+	}
+}
+
+//添加线
+long CLineIO::lineAdd(vector<malaPoint> &pLine, malaLinePro &linePro, CString &fileName)
+{
+	int ID = getMaxID(fileName) + 1;
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::store);
+	file.SeekToEnd();
+	
+	//写入文件
+	int pointnum = pLine.size();
+	ar << ID << linePro.lineStyle << linePro.lineWidth << linePro.lineColor;
+	ar << pointnum;
+	for (int i = 0; i < pointnum; i++)
+		ar << pLine[i].x << pLine[i].y;
+
+	ar.Close();
+	file.Close();
+
+	return ID;
+}
