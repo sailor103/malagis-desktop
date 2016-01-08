@@ -60,13 +60,13 @@ void  CProjectIO::openPrj(vector<malaTree>&paraTree)
 	file.Close();
 }
 
-//新建点文件
-bool CProjectIO::newPointFile(vector<malaTree>&paraTree, CString pointFileName)
+//新建文件
+bool CProjectIO::newFile(vector<malaTree>&paraTree, CString fileName)
 {
 	if (writeAllNode(paraTree))
 	{
 		CFile file;
-		file.Open(LPCTSTR(pointFileName), CFile::modeCreate | CFile::modeWrite);
+		file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite);
 		CArchive ar(&file, CArchive::store);
 		ar.Close();
 		file.Close();

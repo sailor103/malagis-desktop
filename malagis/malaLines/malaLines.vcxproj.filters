@@ -18,7 +18,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="malaDialogs.cpp">
+    <ClCompile Include="malaLines.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
@@ -27,27 +27,15 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="_malaDialogs.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogPointInput.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogNewPointFile.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogFilePro.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogNewLineFile.cpp">
+    <ClCompile Include="_malaLines.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="malaDialogs.def">
+    <None Include="malaLines.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="res\malaDialogs.rc2">
+    <None Include="res\malaLines.rc2">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
@@ -61,24 +49,12 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="_malaDialogs.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogPointInput.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogNewPointFile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogFilePro.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogNewLineFile.h">
+    <ClInclude Include="_malaLines.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="malaDialogs.rc">
+    <ResourceCompile Include="malaLines.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>

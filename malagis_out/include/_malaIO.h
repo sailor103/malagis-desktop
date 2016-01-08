@@ -23,7 +23,7 @@ public:
 	void newPrj(malaTree pNode);//新建工程文件
 	void openPrj(vector<malaTree>&paraTree);//打开工程文件
 	
-	bool newPointFile(vector<malaTree>&paraTree, CString pointFileName);//新建点文件
+	bool newFile(vector<malaTree>&paraTree, CString fileName);//新建文件
 	bool writeAllNode(vector<malaTree>&paraTree);//更新整个节点树
 	//bool writeHeader(CString fPath,CString fHeader);//写入文件头
 

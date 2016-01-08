@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{74FA1BD9-9279-4273-8C37-5C019145B95C}</ProjectGuid>
-    <RootNamespace>malaDialogs</RootNamespace>
+    <ProjectGuid>{2D97921B-430B-418E-8AB9-3CD0EFE7EB10}</ProjectGuid>
+    <RootNamespace>malaLines</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -53,14 +53,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AFXEXT;_MALADIALOGS_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_MALALINES_EXPORT;_DEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>F:\malagis-desktop\malagis_out\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>.\malaDialogs.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\malaLines.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>F:\malagis-desktop\malagis_out\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
@@ -73,7 +73,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy _malaDialogs.h F:\malagis-desktop\malagis_out\include\</Command>
+      <Command>COPY _malaLines.h  F:\malagis-desktop\malagis_out\include\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>.\malaDialogs.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\malaLines.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -107,10 +107,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DialogFilePro.cpp" />
-    <ClCompile Include="DialogNewLineFile.cpp" />
-    <ClCompile Include="DialogNewPointFile.cpp" />
-    <ClCompile Include="DialogPointInput.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -119,36 +115,27 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="malaDialogs.cpp" />
+    <ClCompile Include="malaLines.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="_malaDialogs.cpp" />
+    <ClCompile Include="_malaLines.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="malaDialogs.def" />
-    <None Include="res\malaDialogs.rc2" />
+    <None Include="malaLines.def" />
+    <None Include="res\malaLines.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DialogFilePro.h" />
-    <ClInclude Include="DialogNewLineFile.h" />
-    <ClInclude Include="DialogNewPointFile.h" />
-    <ClInclude Include="DialogPointInput.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="_malaDialogs.h" />
+    <ClInclude Include="_malaLines.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="malaDialogs.rc" />
+    <ResourceCompile Include="malaLines.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="malaDialogs.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

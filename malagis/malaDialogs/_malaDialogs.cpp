@@ -3,6 +3,7 @@
 #include "DialogPointInput.h"
 #include "DialogNewPointFile.h"
 #include "DialogFilePro.h"
+#include "DialogNewLineFile.h"
 
 /*
 * 输入点的对话框实现
@@ -133,6 +134,19 @@ bool maladialogsdll dlgModifyPointPro(malaPointPro& pro)
 		pro.pointStyle = dlg.mPointStyle;
 		pro.pointRadio = dlg.mPointRadio;
 		pro.pointColor = dlg.mPointColor;
+		return true;
+	}
+	return false;
+}
+/*
+* 新建线文件对话框
+*/
+bool maladialogsdll dlgNewLineFile(CString &lineName)
+{
+	CDialogNewLineFile dlg;
+	if (IDOK == dlg.DoModal())
+	{
+		lineName = dlg.mLineFileName;
 		return true;
 	}
 	return false;

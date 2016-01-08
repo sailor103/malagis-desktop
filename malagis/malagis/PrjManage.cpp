@@ -57,6 +57,7 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_NEW_PRJ, OnNewPrj)
 	ON_COMMAND(ID_OPEN_PRJ,OnOpenPrj)
 	ON_COMMAND(ID_PRJ_NEW_POINTS_FILE, OnNewPoint)
+	ON_COMMAND(ID_PRJ_NEW_LINE_FILE, OnNewLine)
 	ON_COMMAND(ID_PRJ_FILE_DISPLAY, OnDisplayFile)
 	ON_COMMAND(ID_PRJ_FILE_HIDE, OnHideFile)
 	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
@@ -455,21 +456,28 @@ void CPrjManage::OnNewPoint()
 		CString pointFileName;
 		if (dlgNewPointFile(pointFileName))
 		{
-			malaTree tpNode;
-			if (makeTree(tpNode, pointFileName, L"mpt"))
+			if (pointFileName!="")
 			{
-				CFileFind fFind;
-				if (!fFind.FindFile(tpNode.filePath))
+				malaTree tpNode;
+				if (makeTree(tpNode, pointFileName, L"mpt"))
 				{
-					fileNodeTree.push_back(tpNode);
-					if (currentPrj.newPointFile(fileNodeTree, tpNode.filePath))
+					CFileFind fFind;
+					if (!fFind.FindFile(tpNode.filePath))
 					{
-						HTREEITEM hItem = m_wndPrjView.GetRootItem();
-						m_wndPrjView.InsertItem(tpNode.itemnode, 2, 2, hItem);
+						fileNodeTree.push_back(tpNode);
+						if (currentPrj.newFile(fileNodeTree, tpNode.filePath))
+						{
+							HTREEITEM hItem = m_wndPrjView.GetRootItem();
+							m_wndPrjView.InsertItem(tpNode.itemnode, 2, 2, hItem);
+						}
+						else
+						{
+							MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+						}
 					}
 					else
 					{
-						MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+						MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
 					}
 				}
 				else
@@ -478,15 +486,57 @@ void CPrjManage::OnNewPoint()
 				}
 			}
 			else
-			{
-				MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
-			}
-
-			
+				MessageBox(L"文件名不能为空", L"提示", MB_ICONWARNING);
 		}
-		else
+	}
+	else
+	{
+		MessageBox(L"当前没有工程文件，请先新建工程或者打开已有工程", L"提示", MB_ICONWARNING);
+	}
+}
+
+/*
+* 新建线文件
+*/
+void CPrjManage::OnNewLine()
+{
+	//先判断有没打开工程
+	if (mBasePath != L"")
+	{
+		CString pointFileName;
+		if (dlgNewLineFile(pointFileName))
 		{
-			MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+			if (pointFileName != "")
+			{
+				malaTree tpNode;
+				if (makeTree(tpNode, pointFileName, L"mle"))
+				{
+					CFileFind fFind;
+					if (!fFind.FindFile(tpNode.filePath))
+					{
+						fileNodeTree.push_back(tpNode);
+						if (currentPrj.newFile(fileNodeTree, tpNode.filePath))
+						{
+							HTREEITEM hItem = m_wndPrjView.GetRootItem();
+							m_wndPrjView.InsertItem(tpNode.itemnode, 5, 5, hItem);
+						}
+						else
+						{
+							MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+						}
+					}
+					else
+					{
+						MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
+					}
+				}
+				else
+				{
+					MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
+				}
+			}
+			else
+				MessageBox(L"文件名不能为空", L"提示", MB_ICONWARNING);
 		}
 	}
 	else

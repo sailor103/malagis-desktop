@@ -78,6 +78,7 @@ protected:
 	afx_msg void OnNewPrj();//新建工程
 	afx_msg void OnOpenPrj();//打开工程
 	afx_msg void OnNewPoint();//新建点文件
+	afx_msg void OnNewLine();//新建线文件
 	afx_msg void OnDisplayFile();//显示文件
 	afx_msg void OnHideFile();//显示文件
 	afx_msg void OnActiveFile();//显示文件
