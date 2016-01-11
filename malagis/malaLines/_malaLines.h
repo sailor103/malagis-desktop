@@ -31,6 +31,39 @@ private:
 	CString mPath;//文件路径
 };
 
+/*
+* 选择线
+*/
+class malalinesdll CmalaLinesSelect :public CmalaMouseAction
+{
+public:
+	CmalaLinesSelect();
+	CmalaLinesSelect(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLinesSelect();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+
+public:
+	malaRect m_rect;
+	malaPoint m_ptOrigin;
+	malaPoint m_perPoint;
+	static vector<malaPoint> mLine;//存放当前编辑的点；
+	static malaLinePro mLinePro;//存放当前编辑的点属性
+	static malaScreen *m_Screen;
+	static CView* m_StaticView;
+
+	CString mPath;//文件路径
+	bool m_bDraw;
+	bool m_Selected;
+public:
+
+	inline static void CALLBACK TimerLine(HWND hWnd, UINT nMsg, UINT nTimerid, DWORD dwTime)
+	{
+		malaCDC dc(m_StaticView, *m_Screen);
+		dc.lineDrawAllX(mLine, mLinePro); 
+	}
+};
 
 #ifndef _MALALINES_EXPORT
 #ifdef _DEBUG

@@ -427,3 +427,73 @@ bool malaLogic::isRectIntersect(malaRect &r1, malaRect &r2)
 		return true;
 	return false;
 }
+
+/*
+* 判断两条直线是否相交
+*/
+bool  malaLogic::isLineIntersect(malaPoint startPointA, malaPoint endPointA, malaPoint startPointB, malaPoint endPointB)
+{
+	double x1 = startPointA.x;
+	double y1 = startPointA.y;
+	double x2 = endPointA.x;
+	double y2 = endPointA.y;
+	double x3 = startPointB.x;
+	double y3 = startPointB.y;
+	double x4 = endPointB.x;
+	double y4 = endPointB.y;
+	double result = (x2 - x1)*(y4 - y3) - (x4 - x3)*(y2 - y1);
+	if (result)
+	{
+		double G_x1y1 = (y1 - y3)*(x4 - x3) - (y4 - y3)*(x1 - x3);
+		double G_x2y2 = (y2 - y3)*(x4 - x3) - (y4 - y3)*(x2 - x3);
+		double F_x3y3 = (y3 - y1)*(x2 - x1) - (y2 - y1)*(x3 - x1);
+		double F_x4y4 = (y4 - y1)*(x2 - x1) - (y2 - y1)*(x4 - x1);
+		if (F_x3y3*F_x4y4 <= 0 && G_x1y1*G_x2y2 <= 0)
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+/*
+* 判断线是否和矩形相交
+*/
+bool malaLogic::isLineInRect(malaRect& rc, vector<malaPoint>& Line)
+{
+	malaPoint A, B, C, D;
+	A.x = rc.xmin - 2;
+	A.y = rc.ymin - 2;
+	B.x = rc.xmax + 2;
+	B.y = rc.ymin + 2;
+	C.x = rc.xmax + 2;
+	C.y = rc.ymax + 2;
+	D.x = rc.xmin - 2;
+	D.y = rc.ymax + 2;
+	if (isLinePolylineIntersect(A, B, Line))
+		return TRUE;
+	if (isLinePolylineIntersect(B, C, Line))
+		return TRUE;
+	if (isLinePolylineIntersect(C, D, Line))
+		return TRUE;
+	if (isLinePolylineIntersect(A, D, Line))
+		return TRUE;
+	return FALSE;
+}
+
+/*
+* 判断线是否与折线相交
+*/
+bool malaLogic::isLinePolylineIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Line)
+{
+	int Size = Line.size();
+	for (int i = 1; i < Size; i++)
+	{
+		if (isLineIntersect(startPointA, endPointA, Line[i - 1], Line[i]))
+			return TRUE;
+	}
+	return FALSE;
+}

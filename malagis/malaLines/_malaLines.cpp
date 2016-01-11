@@ -4,7 +4,7 @@
 #include "_malaIO.h"
 
 /*
-* 输入点
+* 输入线
 */
 CmalaLinesInput::CmalaLinesInput(CView* mView, malaScreen *pScreen, CString &fileFullPath)
 {
@@ -48,15 +48,6 @@ void CmalaLinesInput::RButtonDown(UINT nFlags, malaPoint point)
 		lio.lineAdd(m_Line, m_LinePro, mPath);
 		m_Line.clear();
 	}
-	
-	/*CoConnect conn(m_DB.szDsn, m_DB.szName, m_DB.szPassword);
-	CoFeatureset feature;
-	if (m_Line.size())
-	{
-		feature.Open(&conn, m_ActiveTable);
-		feature.LineAdd(m_Line, m_LinePro);
-		m_Line.clear();
-	}*/
 }
 
 void CmalaLinesInput::GetLinePro()
@@ -68,4 +59,118 @@ void CmalaLinesInput::GetLinePro()
 		m_LinePro.lineWidth = 1;
 	}
 	
+}
+
+/*
+* 选择线实现
+*/
+vector<malaPoint> CmalaLinesSelect::mLine;
+malaLinePro CmalaLinesSelect::mLinePro;
+CView* CmalaLinesSelect::m_StaticView = NULL;
+malaScreen* CmalaLinesSelect::m_Screen = NULL;
+
+CmalaLinesSelect::CmalaLinesSelect()
+{
+
+}
+
+CmalaLinesSelect::CmalaLinesSelect(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	m_StaticView = mView;
+	mPath = fileFullPath;
+
+	m_bDraw = FALSE;
+	m_Selected = FALSE;
+	m_Screen = pScreen;
+}
+
+CmalaLinesSelect::~CmalaLinesSelect()
+{
+
+}
+
+void CmalaLinesSelect::LButtonDown(UINT nFlags, malaPoint point)
+{
+	m_bDraw = TRUE;
+	m_ptOrigin = m_perPoint = point;
+}
+
+void CmalaLinesSelect::LButtonUp(UINT nFlags, malaPoint point)
+{
+	m_bDraw = FALSE;
+	malaCDC dc(mBaseView, *m_Screen);
+	dc.drawRectNULLFill(m_ptOrigin, point);
+	if (m_ptOrigin.x > point.x)
+	{
+		m_rect.xmax = m_ptOrigin.x;
+		m_rect.xmin = point.x;
+	}
+	else
+	{
+		m_rect.xmin = m_ptOrigin.x;
+		m_rect.xmax = point.x;
+	}
+
+	if (m_ptOrigin.y > point.y)
+	{
+		m_rect.ymax = m_ptOrigin.y;
+		m_rect.ymin = point.y;
+	}
+	else
+	{
+		m_rect.ymin = m_ptOrigin.y;
+		m_rect.ymax = point.y;
+	}
+	//先获取所有符合条件的点
+	CLineIO pio;
+	vector<malaLineFile>allLines;
+	pio.getAllLines(*m_Screen, allLines, mPath);
+	//再查找是否被选中
+	malaLogic tlog;
+	for (size_t j = 0; j < allLines.size(); j++)
+	{
+		//先获取一条线的外接矩形
+		if (tlog.isLineInRect(m_rect, allLines[j].mLine))
+		{
+			mLine = allLines[j].mLine;
+			mLinePro = allLines[j].mLinePro;
+			
+			SetTimer(mBaseView->m_hWnd, 1, 500, TimerLine);
+			if (MessageBox(mBaseView->m_hWnd, L"选择该线吗?", L"提示", MB_YESNO | MB_ICONQUESTION) == IDYES)
+			{
+				malaCDC dc(mBaseView, *m_Screen);
+				dc.lineDrawAll(mLine, mLinePro);
+				KillTimer(mBaseView->m_hWnd, 1);
+				//绘制选中标志
+				for (size_t k = 0; k < mLine.size(); k++)
+				{
+					malaPointPro tpPointPro;
+					tpPointPro.pointRadio = mLinePro.lineWidth+2;
+					tpPointPro.pointColor = mLinePro.lineColor;
+					
+					dc.drawSelectRectPoint(mLine[k], tpPointPro);
+				}
+				
+				m_Selected = TRUE;
+				break;
+			}
+			malaCDC dc(mBaseView, *m_Screen);
+			dc.lineDrawAll(mLine, mLinePro);
+			KillTimer(mBaseView->m_hWnd, 1);
+			//mBaseView->InvalidateRect(CRect(A, B), TRUE);
+		}
+	}
+}
+
+void CmalaLinesSelect::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (m_bDraw)
+	{
+		malaCDC dc(mBaseView, *m_Screen);
+		dc.drawRectNULLFill(m_ptOrigin, m_perPoint);
+		dc.drawRectNULLFill(m_ptOrigin, point);
+		m_perPoint = point;
+	}
+
 }

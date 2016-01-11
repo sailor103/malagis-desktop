@@ -90,6 +90,11 @@ public:
 public:
 	bool isPntInRect(malaPoint &Point, malaRect& rc);//点是否在矩形内部
 	bool isRectIntersect(malaRect &r1, malaRect &r2);//判断两个矩形是否相交（不能判断包含）
+
+	bool isLineIntersect(malaPoint startPointA, malaPoint endPointA, malaPoint startPointB, malaPoint endPointB);//判断两条直线是否相交
+	bool isLinePolylineIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Line);//判断线是否与折线相交
+	bool isLineInRect(malaRect& rc, vector<malaPoint>& Line);//判断线与线是否相交
+
 };
 
 #ifndef _MALABASE_EXPORT

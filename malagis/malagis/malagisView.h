@@ -95,6 +95,7 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnButtonLinesInput();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnButtonLinesSelect();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本
