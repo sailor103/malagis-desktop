@@ -628,3 +628,33 @@ bool malaLogic::addPointInLine(malaPoint point, vector<malaPoint>& Line)
 	}
 	return FALSE;
 }
+
+/*
+* 计算两点之间距离
+*/
+double malaLogic::distancePointToPoint(malaPoint point1, malaPoint point2)
+{
+	double x1, y1;
+	double x2, y2;
+	double dis(0.0);
+	x1 = point1.x; y1 = point1.y;
+	x2 = point2.x; y2 = point2.y;
+	dis = sqrt(double((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)));
+	return dis;
+}
+
+/*
+* 得到点在线的位置
+*/
+int malaLogic::getPointPosInLine(malaPoint point, vector<malaPoint>& Line)
+{
+	int length = Line.size();
+	double dis = 0.0;
+	for (int i = 0; i < length; i++)
+	{
+		dis = distancePointToPoint(point, Line[i]);
+		if (dis <= 5)
+			return i;
+	}
+	return -1;
+}

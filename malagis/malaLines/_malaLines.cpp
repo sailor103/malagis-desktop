@@ -518,3 +518,120 @@ void CmalaLinesAddPoint::MouseMove(UINT nFlags, malaPoint point)
 	if (!m_Selected)
 		m_SelectLine.MouseMove(nFlags, point);
 }
+
+/*
+* 线上移点实现
+*/
+CmalaLinesMovePoint::CmalaLinesMovePoint(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+	m_Pos = 0;
+	m_Double = TRUE;
+}
+
+CmalaLinesMovePoint::~CmalaLinesMovePoint()
+{
+
+}
+
+void CmalaLinesMovePoint::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonDown(nFlags, point);
+	else
+	{
+		malaLogic math;
+		m_Pos = math.getPointPosInLine(point, m_line);
+		if (m_Pos >= 0)
+		{
+			m_bDraw = TRUE;
+			if (m_Pos == 0)
+			{
+				m_Double = FALSE;
+				mPerPoint = m_line[m_Pos + 1];
+			}
+			if (m_Pos == m_line.size() - 1)
+			{
+				m_Double = FALSE;
+				mPerPoint = m_line[m_Pos - 1];
+			}
+			if (m_Double)
+			{
+				mPerPoint = m_line[m_Pos];
+				//m_perPoint2 = m_line[m_Pos + 1];
+			}
+		}
+	}
+}
+
+void CmalaLinesMovePoint::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonUp(nFlags, point);
+
+	if (m_bDraw)
+	{
+		m_bDraw = FALSE;
+		m_line[m_Pos] = point;
+
+		CLineIO lio;
+		lio.lineUpdate(m_line, m_linepro, mPath);
+
+		m_line.clear();
+		m_SelectLine.m_Selected = FALSE;
+		m_Double = TRUE;//+
+		mBaseView->Invalidate(TRUE);//+
+	}
+	m_Selected = m_SelectLine.m_Selected;
+	if (m_Selected)
+	{
+		m_line = m_perLine = m_SelectLine.mLine;
+		m_linepro = m_SelectLine.mLinePro;
+	}
+}
+
+void CmalaLinesMovePoint::MouseMove(UINT nFlags, malaPoint point)
+{
+	malaCDC dc(mBaseView, *m_Screen);
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
+	if (m_bDraw)
+	{
+		/*dc.XDrawLine(m_line[m_Pos-1],m_perPoint1,m_linepro);
+		dc.XDrawLine(m_line[m_Pos-1],point,m_linepro);
+
+		dc.XDrawLine(m_line[m_Pos+1],m_perPoint2,m_linepro);
+		dc.XDrawLine(m_line[m_Pos+1],point,m_linepro);
+
+		m_perPoint1 = m_perPoint2 = point;*/
+		if (m_Double)
+		{
+			dc.lineDrawX(m_line[m_Pos - 1], mPerPoint, m_linepro);
+			dc.lineDrawX(m_line[m_Pos - 1], point, m_linepro);
+
+			dc.lineDrawX(m_line[m_Pos + 1], mPerPoint, m_linepro);
+			dc.lineDrawX(m_line[m_Pos + 1], point, m_linepro);
+		}
+		else
+		{
+			if (m_Pos == 0)
+			{
+				dc.lineDrawX(m_line[m_Pos + 1], mPerPoint, m_linepro);
+				dc.lineDrawX(m_line[m_Pos + 1], point, m_linepro);
+			}
+			else
+			{
+				dc.lineDrawX(m_line[m_Pos - 1], mPerPoint, m_linepro);
+				dc.lineDrawX(m_line[m_Pos - 1], point, m_linepro);
+			}
+		}
+
+		mPerPoint  = point;
+	}
+}

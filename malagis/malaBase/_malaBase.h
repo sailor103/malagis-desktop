@@ -98,6 +98,10 @@ public:
 
 	bool cutLine(malaPoint point, vector<malaPoint>& Line1, vector<malaPoint>& Line2);//剪断线
 	bool addPointInLine(malaPoint point, vector<malaPoint>& Line);//线上加点
+	
+	double distancePointToPoint(malaPoint point1, malaPoint point2);//计算两点距离
+	int getPointPosInLine(malaPoint point, vector<malaPoint>& Line);//得到点在线的位置
+
 	bool isPointInLine(malaPoint point, malaPoint startPoint, malaPoint endPoint);//判断点是否在线上
 
 };

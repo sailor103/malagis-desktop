@@ -69,6 +69,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LINES_CHANGE_PRO, &CmalagisView::OnButtonLinesChangePro)
 	ON_COMMAND(ID_BUTTON_LINES_CUT, &CmalagisView::OnButtonLinesCut)
 	ON_COMMAND(ID_BUTTON_LINES_POINT_ADD, &CmalagisView::OnButtonLinesPointAdd)
+	ON_COMMAND(ID_BUTTON_LINES_POINT_MOVE, &CmalagisView::OnButtonLinesPointMove)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -671,6 +672,22 @@ void CmalagisView::OnButtonLinesPointAdd()
 		clearActionStr();
 		mBaseOper = new CmalaLinesAddPoint(this, &mScreen, getActiveFile(L"mle"));
 		setActionStr(L"线上加点");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 线上移点
+*/
+void CmalagisView::OnButtonLinesPointMove()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesMovePoint(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"线上移点");
 	}
 	else
 		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);

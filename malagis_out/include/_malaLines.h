@@ -181,6 +181,35 @@ private:
 	malaScreen *m_Screen;
 	CString mPath;//文件路径
 };
+
+/*
+*线上移点
+*/
+class malalinesdll CmalaLinesMovePoint :public CmalaMouseAction
+{
+public:
+	CmalaLinesMovePoint(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	virtual ~CmalaLinesMovePoint();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	vector<malaPoint>m_line;
+	vector<malaPoint>m_perLine;
+	malaLinePro m_linepro;
+	CmalaLinesSelect m_SelectLine;
+
+	bool m_bDraw;
+	bool m_Double;//标记是否是起点
+	int m_Pos;
+	//malaPoint m_perPoint1;
+	//malaPoint m_perPoint2;
+	malaPoint mPerPoint;
+
+	malaScreen *m_Screen;
+	CString mPath;//文件路径
+};
 #ifndef _MALALINES_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaLines.lib")
