@@ -97,6 +97,7 @@ public:
 	bool isLineInRect(malaRect& rc, vector<malaPoint>& Line);//判断线与线是否相交
 
 	bool cutLine(malaPoint point, vector<malaPoint>& Line1, vector<malaPoint>& Line2);//剪断线
+	bool addPointInLine(malaPoint point, vector<malaPoint>& Line);//线上加点
 	bool isPointInLine(malaPoint point, malaPoint startPoint, malaPoint endPoint);//判断点是否在线上
 
 };

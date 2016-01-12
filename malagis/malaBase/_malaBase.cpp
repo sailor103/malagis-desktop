@@ -593,3 +593,38 @@ bool  malaLogic::isPointInLine(malaPoint point, malaPoint startPoint, malaPoint 
 		return false;
 	}
 }
+
+/*
+* 线上加点实现
+*/
+bool malaLogic::addPointInLine(malaPoint point, vector<malaPoint>& Line)
+{
+	bool Tug = FALSE;
+	int length = Line.size();
+	vector<malaPoint>MyLine;
+	int pos = 0;
+	for (int i = 1; i < length; i++)
+	{
+		if (isPointInLine(point, Line[i - 1], Line[i]))
+		{
+			Tug = TRUE;
+			pos = i;
+		}
+		MyLine.push_back(Line[i - 1]);
+		if (Tug)
+			break;
+	}
+
+	if (Tug)
+	{
+		MyLine.push_back(point);
+		for (int j = pos; j < length; j++)
+		{
+			MyLine.push_back(Line[j]);
+		}
+		Line = MyLine;
+		MyLine.clear();
+		return TRUE;
+	}
+	return FALSE;
+}

@@ -158,6 +158,29 @@ private:
 	malaScreen *m_Screen;
 	CString mPath;//文件路径
 };
+
+/*
+*线上加点
+*/
+class malalinesdll CmalaLinesAddPoint :public CmalaMouseAction
+{
+public:
+	CmalaLinesAddPoint(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	virtual ~CmalaLinesAddPoint();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+
+	bool m_Selected;
+	vector<malaPoint> mSLine;//选择的线
+	malaLinePro mSLinePro;//选择的点的属性
+	CmalaLinesSelect m_SelectLine;
+	bool callSel;//控制是否触发选择线
+
+	malaScreen *m_Screen;
+	CString mPath;//文件路径
+};
 #ifndef _MALALINES_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaLines.lib")

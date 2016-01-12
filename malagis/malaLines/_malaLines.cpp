@@ -446,3 +446,75 @@ void CmalaLinesCut::MouseMove(UINT nFlags, malaPoint point)
 	if (!m_Selected)
 		m_SelectLine.MouseMove(nFlags, point);
 }
+
+/*
+* 线上加点实现
+*/
+CmalaLinesAddPoint::CmalaLinesAddPoint(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+	callSel = false;
+}
+
+CmalaLinesAddPoint::~CmalaLinesAddPoint()
+{
+
+}
+
+void CmalaLinesAddPoint::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected&&!callSel)
+		m_SelectLine.LButtonDown(nFlags, point);
+	else
+	{
+		malaLogic cutlog;
+		if (cutlog.addPointInLine(point, mSLine))
+		{
+			CLineIO lio;
+			lio.lineUpdate(mSLine, mSLinePro, mPath);
+
+			//绘制选中标志
+			malaCDC cutcdc(mBaseView, *m_Screen);
+			for (size_t k = 0; k < mSLine.size(); k++)
+			{
+				malaPointPro tpPointPro;
+				tpPointPro.pointRadio = mSLinePro.lineWidth + 2;
+				tpPointPro.pointColor = mSLinePro.lineColor;
+
+				cutcdc.drawSelectRectPoint(mSLine[k], tpPointPro);
+			}
+
+			mSLine.clear();
+			m_Selected = FALSE;
+			m_SelectLine.m_Selected = FALSE;
+			callSel = true;
+		}
+
+	}
+}
+
+void CmalaLinesAddPoint::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected&&!callSel)
+		m_SelectLine.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectLine.m_Selected;
+
+	if (m_Selected)
+	{
+		this->mSLine = m_SelectLine.mLine;
+		this->mSLinePro = m_SelectLine.mLinePro;
+	}
+
+}
+
+void CmalaLinesAddPoint::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
+}

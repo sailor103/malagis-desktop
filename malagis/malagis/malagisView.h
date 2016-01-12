@@ -100,6 +100,7 @@ public:
 	afx_msg void OnButtonLinesMove();
 	afx_msg void OnButtonLinesChangePro();
 	afx_msg void OnButtonLinesCut();
+	afx_msg void OnButtonLinesPointAdd();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本
