@@ -70,6 +70,9 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LINES_CUT, &CmalagisView::OnButtonLinesCut)
 	ON_COMMAND(ID_BUTTON_LINES_POINT_ADD, &CmalagisView::OnButtonLinesPointAdd)
 	ON_COMMAND(ID_BUTTON_LINES_POINT_MOVE, &CmalagisView::OnButtonLinesPointMove)
+	ON_COMMAND(ID_BUTTON_LINES_POINT_DELETE, &CmalagisView::OnButtonLinesPointDelete)
+	ON_COMMAND(ID_BUTTON_LINES_DELETE, &CmalagisView::OnButtonLinesDelete)
+	ON_COMMAND(ID_BUTTON_LINES_DELETE_ALL, &CmalagisView::OnButtonLinesDeleteAll)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -688,6 +691,59 @@ void CmalagisView::OnButtonLinesPointMove()
 		clearActionStr();
 		mBaseOper = new CmalaLinesMovePoint(this, &mScreen, getActiveFile(L"mle"));
 		setActionStr(L"线上移点");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 线上删点
+*/
+void CmalagisView::OnButtonLinesPointDelete()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesDeletePoint(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"线上删点");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 删除一条线
+*/
+void CmalagisView::OnButtonLinesDelete()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesDelete(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"删除线");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 删除所有线
+*/
+void CmalagisView::OnButtonLinesDeleteAll()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		setActionStr(L"删除所有线");
+		if (MessageBox(L"删除后将无法恢复，确定删除所有的线吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			CLineIO lio;
+			lio.lineDeleteAll(getActiveFile(L"mle"));
+			this->Invalidate(TRUE);
+		}
 	}
 	else
 		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);

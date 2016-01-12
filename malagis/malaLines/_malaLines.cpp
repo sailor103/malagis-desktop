@@ -591,7 +591,7 @@ void CmalaLinesMovePoint::LButtonUp(UINT nFlags, malaPoint point)
 	m_Selected = m_SelectLine.m_Selected;
 	if (m_Selected)
 	{
-		m_line = m_perLine = m_SelectLine.mLine;
+		m_line  = m_SelectLine.mLine;
 		m_linepro = m_SelectLine.mLinePro;
 	}
 }
@@ -603,13 +603,6 @@ void CmalaLinesMovePoint::MouseMove(UINT nFlags, malaPoint point)
 		m_SelectLine.MouseMove(nFlags, point);
 	if (m_bDraw)
 	{
-		/*dc.XDrawLine(m_line[m_Pos-1],m_perPoint1,m_linepro);
-		dc.XDrawLine(m_line[m_Pos-1],point,m_linepro);
-
-		dc.XDrawLine(m_line[m_Pos+1],m_perPoint2,m_linepro);
-		dc.XDrawLine(m_line[m_Pos+1],point,m_linepro);
-
-		m_perPoint1 = m_perPoint2 = point;*/
 		if (m_Double)
 		{
 			dc.lineDrawX(m_line[m_Pos - 1], mPerPoint, m_linepro);
@@ -634,4 +627,127 @@ void CmalaLinesMovePoint::MouseMove(UINT nFlags, malaPoint point)
 
 		mPerPoint  = point;
 	}
+}
+
+/*
+* 线上删点实现
+*/
+CmalaLinesDeletePoint::CmalaLinesDeletePoint(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+	callSel = FALSE;
+	m_Pos = 0;
+}
+
+CmalaLinesDeletePoint::~CmalaLinesDeletePoint()
+{
+
+}
+
+void CmalaLinesDeletePoint::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected&&!callSel)
+		m_SelectLine.LButtonDown(nFlags, point);
+	else
+	{
+		malaLogic math;
+		m_Pos = math.getPointPosInLine(point, m_line);
+		if (m_Pos >= 0)
+		{
+			for (size_t i = 0; i < m_line.size(); i++)
+			{
+				if (i!=m_Pos)
+					m_perLine.push_back(m_line[i]);	
+			}
+
+			CLineIO lio;
+			lio.lineUpdate(m_perLine, m_linepro, mPath);
+
+			m_line.clear();
+			m_SelectLine.m_Selected = FALSE;
+			mBaseView->Invalidate(TRUE);//+
+			callSel = true;
+		}
+	}
+}
+
+void CmalaLinesDeletePoint::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected&&!callSel)
+		m_SelectLine.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectLine.m_Selected;
+	if (m_Selected)
+	{
+		m_line = m_SelectLine.mLine;
+		m_linepro = m_SelectLine.mLinePro;
+	}
+}
+
+void CmalaLinesDeletePoint::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected&&!callSel)
+		m_SelectLine.MouseMove(nFlags, point);
+}
+
+/*
+* 删除线实现
+*/
+CmalaLinesDelete::CmalaLinesDelete(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+}
+
+CmalaLinesDelete::~CmalaLinesDelete()
+{
+
+}
+
+void CmalaLinesDelete::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonDown(nFlags, point);
+}
+
+void CmalaLinesDelete::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectLine.m_Selected;
+
+	if (m_Selected)
+	{
+		this->mSLine = m_SelectLine.mLine;
+		this->mSLinePro = m_SelectLine.mLinePro;
+
+		if (MessageBox(mBaseView->m_hWnd, L"删除后将无法恢复，确定删除吗？", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			//feature.LineDelete(m_linepro.LineID);
+			CLineIO lio;
+			lio.lineDelete(mSLinePro.lineId,mPath);
+			mBaseView->Invalidate(TRUE);
+		}
+		
+		mSLine.clear();
+		m_Selected = FALSE;
+		m_SelectLine.m_Selected = FALSE;
+	}
+
+}
+
+void CmalaLinesDelete::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
 }

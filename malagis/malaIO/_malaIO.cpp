@@ -498,3 +498,31 @@ long CLineIO::lineUpdate(vector<malaPoint> &pLine, malaLinePro &linePro, CString
 	saveLines(fileName);
 	return ID;
 }
+
+/*
+* 删除一条线
+*/
+long CLineIO::lineDelete(long ID, CString &fileName)
+{
+	readLines(fileName);
+	vector<malaLineFile>LineArray;
+	int Size = mLine.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mLine[i].mLinePro.lineId != ID)
+			LineArray.push_back(mLine[i]);
+	}
+	mLine = LineArray;
+	LineArray.clear();
+	saveLines(fileName);
+	return ID;
+}
+/*
+* 删除所有线
+*/
+void CLineIO::lineDeleteAll(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate);
+	file.Close();
+}

@@ -109,6 +109,8 @@ public:
 public:
 	long lineAdd(vector<malaPoint> &pLine, malaLinePro &linePro, CString &fileName);//添加线
 	long lineUpdate(vector<malaPoint> &pLine, malaLinePro &linePro, CString &fileName);//更新线
+	long lineDelete(long ID, CString &fileName);//删除一条线
+	void lineDeleteAll(CString &fileName);//删除所有点
 
 private:
 	vector<malaLineFile> mLine;//临时数据变量
