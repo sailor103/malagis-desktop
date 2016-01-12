@@ -73,6 +73,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LINES_POINT_DELETE, &CmalagisView::OnButtonLinesPointDelete)
 	ON_COMMAND(ID_BUTTON_LINES_DELETE, &CmalagisView::OnButtonLinesDelete)
 	ON_COMMAND(ID_BUTTON_LINES_DELETE_ALL, &CmalagisView::OnButtonLinesDeleteAll)
+	ON_COMMAND(ID_BUTTON_PLOYGON_INPUT, &CmalagisView::OnButtonPloygonInput)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -747,4 +748,20 @@ void CmalagisView::OnButtonLinesDeleteAll()
 	}
 	else
 		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 输入区
+*/
+void CmalagisView::OnButtonPloygonInput()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpn") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesDelete(this, &mScreen, getActiveFile(L"mpn"));
+		setActionStr(L"输入区");
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }

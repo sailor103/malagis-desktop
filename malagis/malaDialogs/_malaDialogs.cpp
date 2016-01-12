@@ -5,6 +5,7 @@
 #include "DialogFilePro.h"
 #include "DialogNewLineFile.h"
 #include "DialogLineInput.h"
+#include "DialogNewPloyFile.h"
 
 /*
 * 输入点的对话框实现
@@ -182,6 +183,19 @@ bool maladialogsdll dlgModifyLinePro(malaLinePro& paramPro)
 		paramPro.lineStyle = dlg.mLineStyle;
 		paramPro.lineWidth = dlg.mLineWidth;
 		paramPro.lineColor = dlg.mLineColor;
+		return true;
+	}
+	return false;
+}
+/*
+* 新建区文件对话框
+*/
+bool maladialogsdll dlgNewPloyFile(CString &ployName)
+{
+	CDialogNewPloyFile dlg;
+	if (IDOK == dlg.DoModal())
+	{
+		ployName = dlg.mPloyFileName;
 		return true;
 	}
 	return false;

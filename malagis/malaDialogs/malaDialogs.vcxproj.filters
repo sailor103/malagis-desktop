@@ -45,6 +45,9 @@
     <ClCompile Include="DialogLineInput.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DialogNewPloyFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="malaDialogs.def">
@@ -80,6 +83,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DialogLineInput.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogNewPloyFile.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

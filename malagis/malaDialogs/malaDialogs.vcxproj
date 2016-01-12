@@ -110,6 +110,7 @@
     <ClCompile Include="DialogFilePro.cpp" />
     <ClCompile Include="DialogLineInput.cpp" />
     <ClCompile Include="DialogNewLineFile.cpp" />
+    <ClCompile Include="DialogNewPloyFile.cpp" />
     <ClCompile Include="DialogNewPointFile.cpp" />
     <ClCompile Include="DialogPointInput.cpp" />
     <ClCompile Include="dllmain.cpp">
@@ -135,6 +136,7 @@
     <ClInclude Include="DialogFilePro.h" />
     <ClInclude Include="DialogLineInput.h" />
     <ClInclude Include="DialogNewLineFile.h" />
+    <ClInclude Include="DialogNewPloyFile.h" />
     <ClInclude Include="DialogNewPointFile.h" />
     <ClInclude Include="DialogPointInput.h" />
     <ClInclude Include="Resource.h" />

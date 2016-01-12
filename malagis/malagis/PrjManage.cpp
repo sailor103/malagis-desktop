@@ -58,6 +58,7 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_OPEN_PRJ,OnOpenPrj)
 	ON_COMMAND(ID_PRJ_NEW_POINTS_FILE, OnNewPoint)
 	ON_COMMAND(ID_PRJ_NEW_LINE_FILE, OnNewLine)
+	ON_COMMAND(ID_PRJ_NEW_PLOY_FILE, OnNewPloy)
 	ON_COMMAND(ID_PRJ_FILE_DISPLAY, OnDisplayFile)
 	ON_COMMAND(ID_PRJ_FILE_HIDE, OnHideFile)
 	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
@@ -519,6 +520,56 @@ void CPrjManage::OnNewLine()
 						{
 							HTREEITEM hItem = m_wndPrjView.GetRootItem();
 							m_wndPrjView.InsertItem(tpNode.itemnode, 5, 5, hItem);
+						}
+						else
+						{
+							MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+						}
+					}
+					else
+					{
+						MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
+					}
+				}
+				else
+				{
+					MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
+				}
+			}
+			else
+				MessageBox(L"文件名不能为空", L"提示", MB_ICONWARNING);
+		}
+	}
+	else
+	{
+		MessageBox(L"当前没有工程文件，请先新建工程或者打开已有工程", L"提示", MB_ICONWARNING);
+	}
+}
+
+/*
+* 新建区文件
+*/
+void CPrjManage::OnNewPloy()
+{
+	//先判断有没打开工程
+	if (mBasePath != L"")
+	{
+		CString ployFileName;
+		if (dlgNewPloyFile(ployFileName))
+		{
+			if (ployFileName != "")
+			{
+				malaTree tpNode;
+				if (makeTree(tpNode, ployFileName, L"mpn"))
+				{
+					CFileFind fFind;
+					if (!fFind.FindFile(tpNode.filePath))
+					{
+						fileNodeTree.push_back(tpNode);
+						if (currentPrj.newFile(fileNodeTree, tpNode.filePath))
+						{
+							HTREEITEM hItem = m_wndPrjView.GetRootItem();
+							m_wndPrjView.InsertItem(tpNode.itemnode, 8, 8, hItem);
 						}
 						else
 						{
