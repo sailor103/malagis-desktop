@@ -263,6 +263,31 @@ void malaCDC::drawSelectRectPoint(malaPoint Point, malaPointPro PntPro)
 }
 
 /*
+* 绘制选中状态的外接圆
+*/
+void malaCDC::drawSelectCirclePoint(malaPoint Point, malaPointPro PntPro)
+{
+	PntPro.pointRadio++;
+
+	CClientDC dc(mView);
+
+	LOGBRUSH log;
+	log.lbColor = RGB(255, 0, 0);
+	log.lbStyle = BS_SOLID;
+
+	CPen pen(PS_GEOMETRIC | PS_DASH, 2, &log);
+	CPen* OldPen = dc.SelectObject(&pen);
+
+	CPoint Point1, Point2;
+	CoordToScreen(Point.x - PntPro.pointRadio, Point.y + PntPro.pointRadio, mScreen, &Point1.x, &Point1.y);
+	CoordToScreen(Point.x + PntPro.pointRadio, Point.y - PntPro.pointRadio, mScreen, &Point2.x, &Point2.y);
+
+	dc.Ellipse(CRect(Point1, Point2));
+	dc.SelectObject(OldPen);
+
+}
+
+/*
 * 绘制直线实现
 */
 void malaCDC::lineDraw(malaPoint PointStart, malaPoint PointEnd, malaLinePro LinePro)
@@ -496,4 +521,75 @@ bool malaLogic::isLinePolylineIntersect(malaPoint startPointA, malaPoint endPoin
 			return TRUE;
 	}
 	return FALSE;
+}
+/*
+* 剪断线
+*/
+bool malaLogic::cutLine(malaPoint point, vector<malaPoint>& Line1, vector<malaPoint>& Line2)
+{
+	vector<malaPoint>Line;
+	Line = Line1;
+	int length = Line1.size();
+	int pos = 0;
+	bool cutflag = FALSE;
+	for (int i = 1; i < length; i++)
+	{
+		if (isPointInLine(point, Line[i - 1], Line[i]))
+		{
+			pos = i;
+			cutflag = TRUE;
+			break;
+		}
+	}
+
+	if (cutflag)
+	{
+		Line1.clear();
+		int j;
+		for (j = 0; j < pos; j++)
+			Line1.push_back(Line[j]);
+		Line1.push_back(point);
+
+		Line2.push_back(point);
+		for (j = pos; j < length; j++)
+			Line2.push_back(Line[j]);
+
+		return TRUE;
+	}
+
+	return FALSE;
+
+}
+
+/*
+* 判断点是否在线上
+*/
+bool  malaLogic::isPointInLine(malaPoint point, malaPoint startPoint, malaPoint endPoint)
+{
+	long AX = startPoint.x;
+	long AY = startPoint.y;
+	long BX = endPoint.x;
+	long BY = endPoint.y;
+	long PX = point.x;
+	long PY = point.y;
+
+	double dx_AB = AX - BX;
+	double dy_AB = AY - BY;
+	double dx_PA = PX - AX;
+	double dy_PA = PY - AY;
+	double dx_PB = PX - BX;
+	double dy_PB = PY - BY;
+
+	double AB = sqrt(dx_AB*dx_AB + dy_AB*dy_AB);
+	double PA = sqrt(dx_PA*dx_PA + dy_PA*dy_PA);
+	double PB = sqrt(dx_PB*dx_PB + dy_PB*dy_PB);
+	double rate = abs(PA + PB - AB) / AB;
+	if (rate < 0.001)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

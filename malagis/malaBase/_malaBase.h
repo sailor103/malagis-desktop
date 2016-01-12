@@ -62,6 +62,7 @@ public:
 	void lineDrawAllX(vector<malaPoint>& Line, malaLinePro LinePro);//绘制一条折线（橡皮）
 	
 	void drawSelectRectPoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
+	void drawSelectCirclePoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接圆
 
 	void drawRectNULLFill(malaPoint Point1, malaPoint point2);//绘制空心矩形
 
@@ -94,6 +95,9 @@ public:
 	bool isLineIntersect(malaPoint startPointA, malaPoint endPointA, malaPoint startPointB, malaPoint endPointB);//判断两条直线是否相交
 	bool isLinePolylineIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Line);//判断线是否与折线相交
 	bool isLineInRect(malaRect& rc, vector<malaPoint>& Line);//判断线与线是否相交
+
+	bool cutLine(malaPoint point, vector<malaPoint>& Line1, vector<malaPoint>& Line2);//剪断线
+	bool isPointInLine(malaPoint point, malaPoint startPoint, malaPoint endPoint);//判断点是否在线上
 
 };
 

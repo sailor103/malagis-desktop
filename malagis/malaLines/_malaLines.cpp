@@ -217,7 +217,7 @@ void CmalaLinesMove::LButtonUp(UINT nFlags, malaPoint point)
 		m_bDraw = FALSE;
 		m_Selected = FALSE;
 		m_SelectLine.m_Selected = FALSE;
-
+		mSLine.clear();
 	}
 
 	m_Selected = m_SelectLine.m_Selected;
@@ -289,7 +289,7 @@ void CmalaLinesCopy::LButtonUp(UINT nFlags, malaPoint point)
 		m_bDraw = FALSE;
 		m_Selected = FALSE;
 		m_SelectLine.m_Selected = FALSE;
-
+		mSLine.clear();
 	}
 
 	m_Selected = m_SelectLine.m_Selected;
@@ -331,7 +331,6 @@ CmalaLinesModify::CmalaLinesModify(CView* mView, malaScreen *pScreen, CString &f
 	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
 	m_SelectLine = obj;
 	m_Selected = FALSE;
-	m_bDraw = FALSE;
 }
 
 CmalaLinesModify::~CmalaLinesModify()
@@ -363,8 +362,7 @@ void CmalaLinesModify::LButtonUp(UINT nFlags, malaPoint point)
 			lio.lineUpdate(mSLine, mSLinePro, mPath);
 			mBaseView->Invalidate(TRUE);
 		}
-		
-		m_bDraw = FALSE;
+		mSLine.clear();
 		m_Selected = FALSE;
 		m_SelectLine.m_Selected = FALSE;
 	}
@@ -372,6 +370,78 @@ void CmalaLinesModify::LButtonUp(UINT nFlags, malaPoint point)
 }
 
 void CmalaLinesModify::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
+}
+
+/*
+* ¼ô¶ÏÏßÊµÏÖ
+*/
+CmalaLinesCut::CmalaLinesCut(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+	callSel = false;
+}
+
+CmalaLinesCut::~CmalaLinesCut()
+{
+
+}
+
+void CmalaLinesCut::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected&&!callSel)
+		m_SelectLine.LButtonDown(nFlags, point);
+	else
+	{
+		malaLogic cutlog;
+		if (cutlog.cutLine(point,mSLine,mPLine))
+		{
+			CLineIO lio;
+			lio.lineUpdate(mSLine, mSLinePro,mPath);
+			lio.lineAdd(mPLine, mSLinePro,mPath);
+			
+			//mBaseView->Invalidate(TRUE);
+
+			malaCDC cutcdc(mBaseView, *m_Screen);
+			malaPointPro tPro;
+			tPro.pointColor = mSLinePro.lineColor;
+			tPro.pointRadio = mSLinePro.lineWidth + 2;
+			tPro.pointStyle = 0;
+			cutcdc.drawSelectCirclePoint(mSLine[mSLine.size()-1], tPro);
+
+			mSLine.clear();
+			mPLine.clear();
+			m_Selected = FALSE;
+			m_SelectLine.m_Selected = FALSE;
+			callSel = true;
+		}
+		
+	}
+}
+
+void CmalaLinesCut::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected&&!callSel)
+		m_SelectLine.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectLine.m_Selected;
+
+	if (m_Selected)
+	{
+		this->mSLine = m_SelectLine.mLine;
+		this->mSLinePro = m_SelectLine.mLinePro;
+	}
+
+}
+
+void CmalaLinesCut::MouseMove(UINT nFlags, malaPoint point)
 {
 	if (!m_Selected)
 		m_SelectLine.MouseMove(nFlags, point);

@@ -643,14 +643,16 @@ void CmalagisView::OnButtonLinesChangePro()
 		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }
 
-
+/*
+* 剪断线
+*/
 void CmalagisView::OnButtonLinesCut()
 {
 	// TODO:  在此添加命令处理程序代码
 	if (getActiveFile(L"mle") != L"")
 	{
 		clearActionStr();
-		//mBaseOper = new CmalaLinesModify(this, &mScreen, getActiveFile(L"mle"));
+		mBaseOper = new CmalaLinesCut(this, &mScreen, getActiveFile(L"mle"));
 		setActionStr(L"剪断线");
 	}
 	else
