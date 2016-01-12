@@ -103,10 +103,12 @@ public:
 public:
 	long getMaxID(CString &fileName);//获取线ID
 	void readLines(CString &fileName);//读取所有的线
+	void saveLines(CString &fileName);//保存所有的线
 	void getAllLines(malaScreen &pScreen, vector<malaLineFile>&pAllLines, CString &fileName);//获取某个文件中某一范围的所有的线
 
 public:
 	long lineAdd(vector<malaPoint> &pLine, malaLinePro &linePro, CString &fileName);//添加线
+	long lineUpdate(vector<malaPoint> &pLine, malaLinePro &linePro, CString &fileName);//更新线
 
 private:
 	vector<malaLineFile> mLine;//临时数据变量

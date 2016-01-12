@@ -54,6 +54,11 @@ bool maladialogsdll dlgNewLineFile(CString &lineName);
 */
 bool maladialogsdll dlgInputLine(malaLinePro& paramPro);
 
+/*
+* 修改线属性对话框
+*/
+bool maladialogsdll dlgModifyLinePro(malaLinePro& paramPro);
+
 #ifndef _MALADIALOGS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaDialogs.lib")

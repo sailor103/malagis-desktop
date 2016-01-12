@@ -174,3 +174,205 @@ void CmalaLinesSelect::MouseMove(UINT nFlags, malaPoint point)
 	}
 
 }
+
+/*
+* 移动线实现
+*/
+CmalaLinesMove::CmalaLinesMove(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+}
+
+CmalaLinesMove::~CmalaLinesMove()
+{
+
+}
+
+void CmalaLinesMove::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = point;
+	}
+}
+
+void CmalaLinesMove::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonUp(nFlags, point);
+	else
+	{
+		CLineIO lio;
+		lio.lineUpdate(m_perLine, mSLinePro, mPath);
+		mBaseView->Invalidate(TRUE);
+		m_bDraw = FALSE;
+		m_Selected = FALSE;
+		m_SelectLine.m_Selected = FALSE;
+
+	}
+
+	m_Selected = m_SelectLine.m_Selected;
+	if (m_Selected)
+	{
+		this->mSLine = m_SelectLine.mLine;
+		this->mSLinePro = m_SelectLine.mLinePro;
+		m_perLine = mSLine;
+	}
+
+}
+
+void CmalaLinesMove::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
+	else if (m_bDraw)
+	{
+		malaCDC dc(mBaseView, *m_Screen);
+		dc.lineDrawAllX(m_perLine, mSLinePro);
+		for (size_t i = 0; i < m_perLine.size(); i++)
+		{
+			m_perLine[i].x = mSLine[i].x + point.x - m_ptOrigin.x;
+			m_perLine[i].y = mSLine[i].y + point.y - m_ptOrigin.y;
+		}
+		dc.lineDrawAllX(m_perLine, mSLinePro);
+	}
+}
+
+/*
+* 复制线实现
+*/
+CmalaLinesCopy::CmalaLinesCopy(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+}
+
+CmalaLinesCopy::~CmalaLinesCopy()
+{
+
+}
+
+void CmalaLinesCopy::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = point;
+	}
+}
+
+void CmalaLinesCopy::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonUp(nFlags, point);
+	else
+	{
+		CLineIO lio;
+		lio.lineAdd(m_perLine, mSLinePro, mPath);
+		mBaseView->Invalidate(TRUE);
+		m_bDraw = FALSE;
+		m_Selected = FALSE;
+		m_SelectLine.m_Selected = FALSE;
+
+	}
+
+	m_Selected = m_SelectLine.m_Selected;
+	if (m_Selected)
+	{
+		this->mSLine = m_SelectLine.mLine;
+		this->mSLinePro = m_SelectLine.mLinePro;
+		m_perLine = mSLine;
+	}
+
+}
+
+void CmalaLinesCopy::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
+	else if (m_bDraw)
+	{
+		malaCDC dc(mBaseView, *m_Screen);
+		dc.lineDrawAllX(m_perLine, mSLinePro);
+		for (size_t i = 0; i < m_perLine.size(); i++)
+		{
+			m_perLine[i].x = mSLine[i].x + point.x - m_ptOrigin.x;
+			m_perLine[i].y = mSLine[i].y + point.y - m_ptOrigin.y;
+		}
+		dc.lineDrawAllX(m_perLine, mSLinePro);
+		dc.lineDrawAll(mSLine, mSLinePro);
+	}
+}
+
+/*
+* 修改线属性实现
+*/
+CmalaLinesModify::CmalaLinesModify(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLinesSelect obj(mView, pScreen, fileFullPath);
+	m_SelectLine = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+}
+
+CmalaLinesModify::~CmalaLinesModify()
+{
+
+}
+
+void CmalaLinesModify::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonDown(nFlags, point);
+}
+
+void CmalaLinesModify::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonUp(nFlags, point);
+	
+	m_Selected = m_SelectLine.m_Selected;
+
+	if (m_Selected)
+	{
+		this->mSLine = m_SelectLine.mLine;
+		this->mSLinePro = m_SelectLine.mLinePro;
+
+		if (dlgModifyLinePro(mSLinePro))
+		{
+			CLineIO lio;
+			lio.lineUpdate(mSLine, mSLinePro, mPath);
+			mBaseView->Invalidate(TRUE);
+		}
+		
+		m_bDraw = FALSE;
+		m_Selected = FALSE;
+		m_SelectLine.m_Selected = FALSE;
+	}
+
+}
+
+void CmalaLinesModify::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
+}

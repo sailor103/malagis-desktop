@@ -96,6 +96,10 @@ public:
 	afx_msg void OnButtonLinesInput();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnButtonLinesSelect();
+	afx_msg void OnButtonLinesCopy();
+	afx_msg void OnButtonLinesMove();
+	afx_msg void OnButtonLinesChangePro();
+	afx_msg void OnButtonLinesCut();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

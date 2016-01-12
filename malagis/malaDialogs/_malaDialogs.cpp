@@ -167,3 +167,22 @@ bool maladialogsdll dlgInputLine(malaLinePro& paramPro)
 	}
 	return false;
 }
+
+/*
+* 修改线属性对话框
+*/
+bool maladialogsdll dlgModifyLinePro(malaLinePro& paramPro)
+{
+	CDialogLineInput dlg;
+	dlg.mLineColor = paramPro.lineColor;
+	dlg.mLineStyle = paramPro.lineStyle;
+	dlg.mLineWidth = paramPro.lineWidth;
+	if (IDOK == dlg.DoModal())
+	{
+		paramPro.lineStyle = dlg.mLineStyle;
+		paramPro.lineWidth = dlg.mLineWidth;
+		paramPro.lineColor = dlg.mLineColor;
+		return true;
+	}
+	return false;
+}

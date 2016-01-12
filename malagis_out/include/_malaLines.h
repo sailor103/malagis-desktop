@@ -64,7 +64,78 @@ public:
 		dc.lineDrawAllX(mLine, mLinePro); 
 	}
 };
+/*
+* 移动线
+*/
+class malalinesdll  CmalaLinesMove :public CmalaMouseAction
+{
+public:
+	CmalaLinesMove(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLinesMove();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	vector<malaPoint> mSLine;//选择的线
+	malaLinePro mSLinePro;//选择的点的属性
+	CmalaLinesSelect m_SelectLine;
 
+	CString mPath;//文件路径
+
+	bool m_bDraw;
+	malaPoint m_ptOrigin;//起点
+	vector<malaPoint> m_perLine;//临时线
+	malaScreen *m_Screen;
+};
+
+/*
+* 复制线
+*/
+class malalinesdll  CmalaLinesCopy :public CmalaMouseAction
+{
+public:
+	CmalaLinesCopy(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLinesCopy();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	vector<malaPoint> mSLine;//选择的线
+	malaLinePro mSLinePro;//选择的点的属性
+	CmalaLinesSelect m_SelectLine;
+
+	CString mPath;//文件路径
+
+	bool m_bDraw;
+	malaPoint m_ptOrigin;//起点
+	vector<malaPoint> m_perLine;//临时线
+	malaScreen *m_Screen;
+};
+
+/*
+* 修改线属性
+*/
+class malalinesdll  CmalaLinesModify :public CmalaMouseAction
+{
+public:
+	CmalaLinesModify(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLinesModify();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	vector<malaPoint> mSLine;//选择的线
+	malaLinePro mSLinePro;//选择的点的属性
+	CmalaLinesSelect m_SelectLine;
+
+	CString mPath;//文件路径
+
+	bool m_bDraw;
+	malaScreen *m_Screen;
+};
 #ifndef _MALALINES_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaLines.lib")

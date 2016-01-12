@@ -131,13 +131,17 @@
 #define ID_BUTTON_POINTS_DELETE_ALL     32814
 #define ID_BUTTON_LINES_INPUT           32820
 #define ID_BUTTON_LINES_SELECT          32821
+#define ID_BUTTON_LINES_COPY            32822
+#define ID_BUTTON_LINES_MOVE            32823
+#define ID_BUTTON_LINES_CHANGE_PRO      32824
+#define ID_BUTTON_LINES_CUT             32825
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        325
-#define _APS_NEXT_COMMAND_VALUE         32822
+#define _APS_NEXT_COMMAND_VALUE         32826
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

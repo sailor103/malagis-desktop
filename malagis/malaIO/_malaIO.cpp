@@ -181,6 +181,8 @@ void CPointIO::readPoints(CString &fileName)
 		malaPointFile MyPoint(pnt, pntpro);
 		mPoint.push_back(MyPoint);
 	}
+	ar.Close();
+	file.Close();
 }
 
 //写入所有的点
@@ -242,6 +244,8 @@ void CPointIO::getAllPoint(malaScreen &pScreen, vector<malaPointFile>&pAllPoints
 		}
 		
 	}
+	ar.Close();
+	file.Close();
 }
 
 //添加点实现
@@ -371,6 +375,30 @@ void CLineIO::readLines(CString &fileName)
 		mLine.push_back(MyLine);
 		tLine.clear();
 	}
+	ar.Close();
+	file.Close();
+}
+
+/*
+* 保存所有的线
+*/
+void CLineIO::saveLines(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite);
+	CArchive ar(&file, CArchive::store);
+
+	int Size = mLine.size();
+	for (int i = 0; i < Size; i++)
+	{
+		ar << mLine[i].mLinePro.lineId << mLine[i].mLinePro.lineStyle << mLine[i].mLinePro.lineWidth << mLine[i].mLinePro.lineColor;
+		ar << mLine[i].mLine.size();
+		for (int j = 0; j < mLine[i].mLine.size(); j++)
+			ar << mLine[i].mLine[j].x << mLine[i].mLine[j].y;
+	}
+	ar.Close();
+	file.Close();
+
 }
 
 //获取某个文件中某一范围的所有的线
@@ -426,6 +454,8 @@ void CLineIO::getAllLines(malaScreen &pScreen, vector<malaLineFile>&pAllLines, C
 		}
 		tLine.clear();
 	}
+	ar.Close();
+	file.Close();
 }
 
 //添加线
@@ -447,5 +477,24 @@ long CLineIO::lineAdd(vector<malaPoint> &pLine, malaLinePro &linePro, CString &f
 	ar.Close();
 	file.Close();
 
+	return ID;
+}
+
+//更新线
+long CLineIO::lineUpdate(vector<malaPoint> &pLine, malaLinePro &linePro, CString &fileName)
+{
+	readLines(fileName);
+	long ID = linePro.lineId;
+	int Size = mLine.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mLine[i].mLinePro.lineId == ID)
+		{
+			mLine[i].mLine = pLine;
+			mLine[i].mLinePro = linePro;
+			break;
+		}
+	}
+	saveLines(fileName);
 	return ID;
 }

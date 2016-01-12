@@ -64,6 +64,10 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LINES_INPUT, &CmalagisView::OnButtonLinesInput)
 	ON_WM_RBUTTONDOWN()
 	ON_COMMAND(ID_BUTTON_LINES_SELECT, &CmalagisView::OnButtonLinesSelect)
+	ON_COMMAND(ID_BUTTON_LINES_COPY, &CmalagisView::OnButtonLinesCopy)
+	ON_COMMAND(ID_BUTTON_LINES_MOVE, &CmalagisView::OnButtonLinesMove)
+	ON_COMMAND(ID_BUTTON_LINES_CHANGE_PRO, &CmalagisView::OnButtonLinesChangePro)
+	ON_COMMAND(ID_BUTTON_LINES_CUT, &CmalagisView::OnButtonLinesCut)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -586,6 +590,68 @@ void CmalagisView::OnButtonLinesSelect()
 		clearActionStr();
 		mBaseOper = new CmalaLinesSelect(this, &mScreen, getActiveFile(L"mle"));
 		setActionStr(L"选择线");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 移动线
+*/
+void CmalagisView::OnButtonLinesMove()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesMove(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"移动线");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 复制线
+*/
+void CmalagisView::OnButtonLinesCopy()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesCopy(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"复制线");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 修改线属性
+*/
+void CmalagisView::OnButtonLinesChangePro()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLinesModify(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"修改线属性");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+
+void CmalagisView::OnButtonLinesCut()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		//mBaseOper = new CmalaLinesModify(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"剪断线");
 	}
 	else
 		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
