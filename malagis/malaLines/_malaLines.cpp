@@ -17,7 +17,8 @@ CmalaLinesInput::CmalaLinesInput(CView* mView, malaScreen *pScreen, CString &fil
 }
 CmalaLinesInput::~CmalaLinesInput()
 {
-
+	if (m_Line.size())
+		m_Line.clear();
 }
 void CmalaLinesInput::LButtonDown(UINT nFlags, malaPoint point)
 {
@@ -191,7 +192,8 @@ CmalaLinesMove::CmalaLinesMove(CView* mView, malaScreen *pScreen, CString &fileF
 
 CmalaLinesMove::~CmalaLinesMove()
 {
-
+	if (mSLine.size())
+		mSLine.clear();
 }
 
 void CmalaLinesMove::LButtonDown(UINT nFlags, malaPoint point)
@@ -263,7 +265,8 @@ CmalaLinesCopy::CmalaLinesCopy(CView* mView, malaScreen *pScreen, CString &fileF
 
 CmalaLinesCopy::~CmalaLinesCopy()
 {
-
+	if (mSLine.size())
+		mSLine.clear();
 }
 
 void CmalaLinesCopy::LButtonDown(UINT nFlags, malaPoint point)
@@ -335,7 +338,8 @@ CmalaLinesModify::CmalaLinesModify(CView* mView, malaScreen *pScreen, CString &f
 
 CmalaLinesModify::~CmalaLinesModify()
 {
-
+	if (mSLine.size())
+		mSLine.clear();
 }
 
 void CmalaLinesModify::LButtonDown(UINT nFlags, malaPoint point)
@@ -391,7 +395,10 @@ CmalaLinesCut::CmalaLinesCut(CView* mView, malaScreen *pScreen, CString &fileFul
 
 CmalaLinesCut::~CmalaLinesCut()
 {
-
+	if (mSLine.size())
+		mSLine.clear();
+	if (mPLine.size())
+		mPLine.clear();
 }
 
 void CmalaLinesCut::LButtonDown(UINT nFlags, malaPoint point)
@@ -463,7 +470,8 @@ CmalaLinesAddPoint::CmalaLinesAddPoint(CView* mView, malaScreen *pScreen, CStrin
 
 CmalaLinesAddPoint::~CmalaLinesAddPoint()
 {
-
+	if (mSLine.size())
+		mSLine.clear();
 }
 
 void CmalaLinesAddPoint::LButtonDown(UINT nFlags, malaPoint point)
@@ -537,7 +545,8 @@ CmalaLinesMovePoint::CmalaLinesMovePoint(CView* mView, malaScreen *pScreen, CStr
 
 CmalaLinesMovePoint::~CmalaLinesMovePoint()
 {
-
+	if (m_line.size())
+		m_line.clear();
 }
 
 void CmalaLinesMovePoint::LButtonDown(UINT nFlags, malaPoint point)
@@ -646,7 +655,10 @@ CmalaLinesDeletePoint::CmalaLinesDeletePoint(CView* mView, malaScreen *pScreen, 
 
 CmalaLinesDeletePoint::~CmalaLinesDeletePoint()
 {
-
+	if (m_line.size())
+		m_line.clear();
+	if (m_perLine.size())
+		m_perLine.clear();
 }
 
 void CmalaLinesDeletePoint::LButtonDown(UINT nFlags, malaPoint point)
@@ -710,7 +722,8 @@ CmalaLinesDelete::CmalaLinesDelete(CView* mView, malaScreen *pScreen, CString &f
 
 CmalaLinesDelete::~CmalaLinesDelete()
 {
-
+	if (mSLine.size())
+		mSLine.clear();
 }
 
 void CmalaLinesDelete::LButtonDown(UINT nFlags, malaPoint point)

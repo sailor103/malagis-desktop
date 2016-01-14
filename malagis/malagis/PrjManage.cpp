@@ -35,7 +35,7 @@ CPrjManage::CPrjManage()
 	selTreeItem = NULL;
 	actPointItem = NULL;
 	actLineItem = NULL;
-	actPloyItem = NULL;
+	actPolyItem = NULL;
 	actLabelItem = NULL;
 }
 
@@ -58,7 +58,7 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_OPEN_PRJ,OnOpenPrj)
 	ON_COMMAND(ID_PRJ_NEW_POINTS_FILE, OnNewPoint)
 	ON_COMMAND(ID_PRJ_NEW_LINE_FILE, OnNewLine)
-	ON_COMMAND(ID_PRJ_NEW_PLOY_FILE, OnNewPloy)
+	ON_COMMAND(ID_PRJ_NEW_POLY_FILE, OnNewPoly)
 	ON_COMMAND(ID_PRJ_FILE_DISPLAY, OnDisplayFile)
 	ON_COMMAND(ID_PRJ_FILE_HIDE, OnHideFile)
 	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
@@ -415,7 +415,7 @@ void CPrjManage::OnOpenPrj()
 				//面图标
 				if (fileNodeTree[i].fileType == L"mpn"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == true)
 				{
-					actPloyItem = m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 10, 10, hItem);
+					actPolyItem = m_wndPrjView.InsertItem(fileNodeTree[i].itemnode, 10, 10, hItem);
 				}
 				if (fileNodeTree[i].fileType == L"mpn"&&fileNodeTree[i].isOpen == true && fileNodeTree[i].isActive == false)
 				{
@@ -549,18 +549,18 @@ void CPrjManage::OnNewLine()
 /*
 * 新建区文件
 */
-void CPrjManage::OnNewPloy()
+void CPrjManage::OnNewPoly()
 {
 	//先判断有没打开工程
 	if (mBasePath != L"")
 	{
-		CString ployFileName;
-		if (dlgNewPloyFile(ployFileName))
+		CString polyFileName;
+		if (dlgNewPolyFile(polyFileName))
 		{
-			if (ployFileName != "")
+			if (polyFileName != "")
 			{
 				malaTree tpNode;
-				if (makeTree(tpNode, ployFileName, L"mpn"))
+				if (makeTree(tpNode, polyFileName, L"mpn"))
 				{
 					CFileFind fFind;
 					if (!fFind.FindFile(tpNode.filePath))
@@ -832,11 +832,11 @@ void CPrjManage::cleanActiveMask(CString &activeType, HTREEITEM newActive)
 	}
 	if (activeType == L"mpn")
 	{
-		if (actPloyItem)
+		if (actPolyItem)
 		{
-			m_wndPrjView.SetItemImage(actPloyItem, 9, 9);
+			m_wndPrjView.SetItemImage(actPolyItem, 9, 9);
 		}
-		actPloyItem = newActive;
+		actPolyItem = newActive;
 	}	
 	if (activeType == L"mll")
 	{

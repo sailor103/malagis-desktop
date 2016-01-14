@@ -60,6 +60,8 @@ public:
 	void lineDrawX(malaPoint PointStart, malaPoint PointEnd, malaLinePro LinePro);//绘制直线（橡皮）
 	void lineDrawAll(vector<malaPoint>& Line, malaLinePro LinePro);//绘制一条折线
 	void lineDrawAllX(vector<malaPoint>& Line, malaLinePro LinePro);//绘制一条折线（橡皮）
+
+	void polyDraw(vector<malaPoint>& Poly, malaPolyPro PolyPro);//绘制一个多边形
 	
 	void drawSelectRectPoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
 	void drawSelectCirclePoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接圆

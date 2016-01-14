@@ -45,7 +45,10 @@
     <ClCompile Include="DialogLineInput.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DialogNewPloyFile.cpp">
+    <ClCompile Include="DialogNewPolyFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogPolyInput.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -85,7 +88,10 @@
     <ClInclude Include="DialogLineInput.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="DialogNewPloyFile.h">
+    <ClInclude Include="DialogNewPolyFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogPolyInput.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

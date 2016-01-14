@@ -116,7 +116,7 @@
 #define ID_PRJ_FILE_DEL                 32791
 #define ID_PRJ_FILE_PRO                 32792
 #define ID_PRJ_NEW_LINE_FILE            32795
-#define ID_PRJ_NEW_PLOY_FILE            32797
+#define ID_PRJ_NEW_POLY_FILE            32797
 #define ID_PRJ_NEW_LABEL_FILE           32799
 #define ID_32801                        32801
 #define ID_PRJ_OPEN_FILE                32802
@@ -141,7 +141,7 @@
 #define ID_BUTTON_LINES_POINT_DELETE    32828
 #define ID_BUTTON_LINES_DELETE          32829
 #define ID_BUTTON_LINES_DELETE_ALL      32830
-#define ID_BUTTON_PLOYGON_INPUT         32831
+#define ID_BUTTON_POLYGON_INPUT         32831
 
 // Next default values for new objects
 // 

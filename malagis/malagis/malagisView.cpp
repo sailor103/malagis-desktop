@@ -73,7 +73,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LINES_POINT_DELETE, &CmalagisView::OnButtonLinesPointDelete)
 	ON_COMMAND(ID_BUTTON_LINES_DELETE, &CmalagisView::OnButtonLinesDelete)
 	ON_COMMAND(ID_BUTTON_LINES_DELETE_ALL, &CmalagisView::OnButtonLinesDeleteAll)
-	ON_COMMAND(ID_BUTTON_PLOYGON_INPUT, &CmalagisView::OnButtonPloygonInput)
+	ON_COMMAND(ID_BUTTON_POLYGON_INPUT, &CmalagisView::OnButtonPolygonInput)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -753,7 +753,7 @@ void CmalagisView::OnButtonLinesDeleteAll()
 /*
 * 输入区
 */
-void CmalagisView::OnButtonPloygonInput()
+void CmalagisView::OnButtonPolygonInput()
 {
 	// TODO:  在此添加命令处理程序代码
 	if (getActiveFile(L"mpn") != L"")

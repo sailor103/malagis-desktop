@@ -47,7 +47,7 @@ protected:
 	//记录当前激活的4张表
 	HTREEITEM actPointItem;
 	HTREEITEM actLineItem;
-	HTREEITEM actPloyItem;
+	HTREEITEM actPolyItem;
 	HTREEITEM actLabelItem;
 
 protected:
@@ -79,7 +79,7 @@ protected:
 	afx_msg void OnOpenPrj();//打开工程
 	afx_msg void OnNewPoint();//新建点文件
 	afx_msg void OnNewLine();//新建线文件
-	afx_msg void OnNewPloy();//新建区文件
+	afx_msg void OnNewPoly();//新建区文件
 	afx_msg void OnDisplayFile();//显示文件
 	afx_msg void OnHideFile();//显示文件
 	afx_msg void OnActiveFile();//显示文件

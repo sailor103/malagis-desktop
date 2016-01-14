@@ -43,7 +43,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\malagis_out\bin</OutDir>
+    <OutDir>..\..\malagis_out\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,8 +110,9 @@
     <ClCompile Include="DialogFilePro.cpp" />
     <ClCompile Include="DialogLineInput.cpp" />
     <ClCompile Include="DialogNewLineFile.cpp" />
-    <ClCompile Include="DialogNewPloyFile.cpp" />
+    <ClCompile Include="DialogNewPolyFile.cpp" />
     <ClCompile Include="DialogNewPointFile.cpp" />
+    <ClCompile Include="DialogPolyInput.cpp" />
     <ClCompile Include="DialogPointInput.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -136,8 +137,9 @@
     <ClInclude Include="DialogFilePro.h" />
     <ClInclude Include="DialogLineInput.h" />
     <ClInclude Include="DialogNewLineFile.h" />
-    <ClInclude Include="DialogNewPloyFile.h" />
+    <ClInclude Include="DialogNewPolyFile.h" />
     <ClInclude Include="DialogNewPointFile.h" />
+    <ClInclude Include="DialogPolyInput.h" />
     <ClInclude Include="DialogPointInput.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />

@@ -45,6 +45,23 @@ typedef struct
 	COLORREF lineColor;
 }malaLinePro;
 
+//区结构体
+typedef struct
+{
+	vector<malaPoint> polyPoints;
+}malaPoly;
+
+//区属性
+typedef struct
+{
+	long polyId;
+	int polyStyle;//区类型 0 多边形 1 圆
+	int borderStyle;//边框类型
+	COLORREF borderColor;//边框颜色
+	COLORREF fillColor;//填充颜色
+	int fillStyle;//填充方式
+}malaPolyPro;
+
 //目录树节点
 typedef struct
 {
