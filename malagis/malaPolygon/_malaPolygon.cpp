@@ -391,3 +391,77 @@ void CmalaPolysModify::MouseMove(UINT nFlags, malaPoint point)
 	if (!mSelected)
 		mSelectPoly.MouseMove(nFlags, point);
 }
+
+/*
+* 边界加点实现
+*/
+CmalaPolysAddPoint::CmalaPolysAddPoint(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	mScreen = pScreen;
+	CmalaPolysSelect obj(mView, pScreen, fileFullPath);
+	mSelectPoly = obj;
+	mSelected = FALSE;
+	callSel = false;
+}
+
+CmalaPolysAddPoint::~CmalaPolysAddPoint()
+{
+	if (mSPoly.size())
+		mSPoly.clear();
+}
+
+void CmalaPolysAddPoint::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!mSelected&&!callSel)
+		mSelectPoly.LButtonDown(nFlags, point);
+	if (mSelected&&!callSel)
+	{
+		malaLogic cutlog;
+		if (cutlog.addPointPoly(point, mSPoly))
+		{
+			CPolyIO lio;
+			lio.polyUpdate(mSPoly, mSPolyPro, mPath);
+
+			//绘制选中标志
+			malaCDC cutcdc(mBaseView, *mScreen);
+			for (size_t k = 0; k < mSPoly.size(); k++)
+			{
+				malaPointPro tpPointPro;
+				tpPointPro.pointRadio = mSPolyPro.borderWidth + 2;
+				tpPointPro.pointColor = mSPolyPro.borderColor;
+
+				cutcdc.drawSelectRectPoint(mSPoly[k], tpPointPro);
+			}
+
+			mSPoly.clear();
+			mSelected = FALSE;
+			mSelectPoly.m_Selected = FALSE;
+			callSel = true;
+		}
+
+	}
+
+}
+
+void CmalaPolysAddPoint::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!mSelected&&!callSel)
+		mSelectPoly.LButtonUp(nFlags, point);
+
+	mSelected = mSelectPoly.m_Selected;
+
+	if (mSelected)
+	{
+		this->mSPoly = mSelectPoly.mSPoly;
+		this->mSPolyPro = mSelectPoly.mSPolyPro;
+	}
+
+}
+
+void CmalaPolysAddPoint::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!mSelected&&!callSel)
+		mSelectPoly.MouseMove(nFlags, point);
+}

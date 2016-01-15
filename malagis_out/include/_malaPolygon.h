@@ -134,6 +134,29 @@ private:
 	malaScreen *mScreen;
 };
 
+/*
+*边界加点
+*/
+class malapolygondll CmalaPolysAddPoint :public CmalaMouseAction
+{
+public:
+	CmalaPolysAddPoint(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	virtual ~CmalaPolysAddPoint();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+
+	bool mSelected;
+	vector<malaPoint> mSPoly;//选择的区
+	malaPolyPro mSPolyPro;//选择的区的属性
+	CmalaPolysSelect mSelectPoly;
+	bool callSel;//控制是否触发选择线
+
+	malaScreen *mScreen;
+	CString mPath;//文件路径
+};
+
 #ifndef _MALAPOLYGON_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaPolygon.lib")

@@ -110,6 +110,7 @@ public:
 	afx_msg void OnButtonPolysMove();
 	afx_msg void OnButtonPolysCopy();
 	afx_msg void OnButtonPolysModify();
+	afx_msg void OnButtonPolysAddPoint();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

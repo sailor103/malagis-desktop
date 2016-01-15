@@ -79,6 +79,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_POLYS_MOVE, &CmalagisView::OnButtonPolysMove)
 	ON_COMMAND(ID_BUTTON_POLYS_COPY, &CmalagisView::OnButtonPolysCopy)
 	ON_COMMAND(ID_BUTTON_POLYS_MODIFY, &CmalagisView::OnButtonPolysModify)
+	ON_COMMAND(ID_BUTTON_POLYS_ADD_POINT, &CmalagisView::OnButtonPolysAddPoint)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -846,6 +847,22 @@ void CmalagisView::OnButtonPolysModify()
 		clearActionStr();
 		mBaseOper = new CmalaPolysModify(this, &mScreen, getActiveFile(L"mpn"));
 		setActionStr(L"修改区属性");
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 边界加点
+*/
+void CmalagisView::OnButtonPolysAddPoint()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpn") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPolysAddPoint(this, &mScreen, getActiveFile(L"mpn"));
+		setActionStr(L"边界加点");
 	}
 	else
 		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);

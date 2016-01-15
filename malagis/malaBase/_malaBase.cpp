@@ -830,3 +830,87 @@ int malaLogic::getPointPosInLine(malaPoint point, vector<malaPoint>& Line)
 	}
 	return -1;
 }
+
+/*
+* 边界加点实现
+*/
+bool malaLogic::addPointPoly(malaPoint point, vector<malaPoint>& Poly)
+{
+	if (Poly.size() >= 2)
+	{
+		bool Tug = FALSE;
+		int length = Poly.size();
+		if (isPointInLine(point, Poly[0], Poly[length - 1]))
+		{
+			Poly.push_back(point);
+			return TRUE;
+		}
+		vector<malaPoint>MyPoly;
+		int pos = 0;
+		for (int i = 1; i < length; i++)
+		{
+			if (isPointInLine(point, Poly[i - 1], Poly[i]))
+			{
+				Tug = TRUE;
+				pos = i;
+			}
+			MyPoly.push_back(Poly[i - 1]);
+			if (Tug)
+				break;
+		}
+
+		if (Tug)
+		{
+			MyPoly.push_back(point);
+			for (int j = pos; j < length; j++)
+			{
+				MyPoly.push_back(Poly[j]);
+			}
+			Poly = MyPoly;
+			MyPoly.clear();
+			return TRUE;
+		}
+		return FALSE;
+	}
+	else
+		return false;
+	
+}
+
+/*
+* 边界删点实现
+*/
+bool malaLogic::delPointPoly(malaPoint point, vector<malaPoint>& Poly)
+{
+	bool tug = FALSE;
+	int length = Poly.size();
+	if (length <= 3)
+		return FALSE;
+	double dis = 0.0;
+	vector<malaPoint>MyPoints;
+	int pos = 0;
+	int i;
+	for (i = 0; i < length; i++)
+	{
+		dis = distancePointToPoint(point, Poly[i]);
+		if (dis <= 3)
+		{
+			tug = TRUE;
+			pos = i;
+			break;
+		}
+		MyPoints.push_back(Poly[i]);
+	}
+	if (tug)
+	{
+		if (pos < length - 1)
+		{
+			for (i = pos + 1; i < length; i++)
+				MyPoints.push_back(Poly[i]);
+		}
+		Poly = MyPoints;
+		MyPoints.clear();
+		return TRUE;
+	}
+	return FALSE;
+}

@@ -478,7 +478,7 @@ void CmalaLinesAddPoint::LButtonDown(UINT nFlags, malaPoint point)
 {
 	if (!m_Selected&&!callSel)
 		m_SelectLine.LButtonDown(nFlags, point);
-	else
+	if (m_Selected&&!callSel)
 	{
 		malaLogic cutlog;
 		if (cutlog.addPointInLine(point, mSLine))
@@ -665,7 +665,7 @@ void CmalaLinesDeletePoint::LButtonDown(UINT nFlags, malaPoint point)
 {
 	if (!m_Selected&&!callSel)
 		m_SelectLine.LButtonDown(nFlags, point);
-	else
+	if (m_Selected&&!callSel)
 	{
 		malaLogic math;
 		m_Pos = math.getPointPosInLine(point, m_line);
