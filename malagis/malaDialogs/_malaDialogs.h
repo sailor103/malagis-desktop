@@ -69,6 +69,11 @@ bool maladialogsdll dlgNewPolyFile(CString &polyName);
 */
 bool maladialogsdll dlgInputPoly(malaPolyPro &paramPro);
 
+/*
+* 修改区属性对话框
+*/
+bool maladialogsdll dlgModifyPolyPro(malaPolyPro &paramPro);
+
 #ifndef _MALADIALOGS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaDialogs.lib")

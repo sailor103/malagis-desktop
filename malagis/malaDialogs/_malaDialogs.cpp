@@ -219,3 +219,28 @@ bool maladialogsdll dlgInputPoly(malaPolyPro &paramPro)
 	}
 	return false;
 }
+
+/*
+* 修改区属性对话框实现
+*/
+bool maladialogsdll dlgModifyPolyPro(malaPolyPro &paramPro)
+{
+	CDialogPolyInput dlg;
+	dlg.mPolyType = paramPro.polyStyle;
+	dlg.mBorderType = paramPro.borderStyle;
+	dlg.mBorderWidth = paramPro.borderWidth;
+	dlg.mBorderColor = paramPro.borderColor;
+	dlg.mFillType = paramPro.fillStyle;
+	dlg.mFillColor = paramPro.fillColor;
+	if (IDOK == dlg.DoModal())
+	{
+		paramPro.polyStyle = dlg.mPolyType;
+		paramPro.borderStyle = dlg.mBorderType;
+		paramPro.borderWidth = dlg.mBorderWidth;
+		paramPro.borderColor = dlg.mBorderColor;
+		paramPro.fillStyle = dlg.mFillType;
+		paramPro.fillColor = dlg.mFillColor;
+		return true;
+	}
+	return false;
+}
