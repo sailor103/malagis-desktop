@@ -260,3 +260,77 @@ void CmalaPolysMove::MouseMove(UINT nFlags, malaPoint point)
 		dc.polyDrawAutoX(mPerPoly, mSPolyPro);
 	}
 }
+
+/*
+* 复制区实现
+*/
+CmalaPolysCopy::CmalaPolysCopy(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	mScreen = pScreen;
+	CmalaPolysSelect obj(mView, pScreen, fileFullPath);
+	mSelectPoly = obj;
+	mSelected = FALSE;
+	mIsDraw = FALSE;
+}
+
+CmalaPolysCopy::~CmalaPolysCopy()
+{
+	if (mSPoly.size())
+		mSPoly.clear();
+}
+
+void CmalaPolysCopy::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.LButtonDown(nFlags, point);
+	else
+	{
+		mIsDraw = TRUE;
+		mPointOri = point;
+	}
+}
+
+void CmalaPolysCopy::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.LButtonUp(nFlags, point);
+	else
+	{
+		CPolyIO lio;
+		lio.polyAdd(mPerPoly, mSPolyPro, mPath);
+		mBaseView->Invalidate(TRUE);
+		mIsDraw = FALSE;
+		mSelected = FALSE;
+		mSelectPoly.m_Selected = FALSE;
+		mSPoly.clear();
+	}
+
+	mSelected = mSelectPoly.m_Selected;
+	if (mSelected)
+	{
+		this->mSPoly = mSelectPoly.mSPoly;
+		this->mSPolyPro = mSelectPoly.mSPolyPro;
+		mPerPoly = mSPoly;
+	}
+
+}
+
+void CmalaPolysCopy::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.MouseMove(nFlags, point);
+	else if (mIsDraw)
+	{
+		malaCDC dc(mBaseView, *mScreen);
+		dc.polyDrawAutoX(mPerPoly, mSPolyPro);
+		for (size_t i = 0; i < mPerPoly.size(); i++)
+		{
+			mPerPoly[i].x = mSPoly[i].x + point.x - mPointOri.x;
+			mPerPoly[i].y = mSPoly[i].y + point.y - mPointOri.y;
+		}
+		dc.polyDrawAutoX(mPerPoly, mSPolyPro);
+		dc.polyDrawAuto(mSPoly, mSPolyPro);
+	}
+}
