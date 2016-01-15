@@ -12,6 +12,7 @@ IMPLEMENT_DYNAMIC(CDialogPolyInput, CDialog)
 
 CDialogPolyInput::CDialogPolyInput(CWnd* pParent /*=NULL*/)
 : CDialog(CDialogPolyInput::IDD, pParent)
+, mBorderWidth(1), mPolyType(0), mBorderType(0), mFillType(0)
 {
 
 }
@@ -29,6 +30,8 @@ void CDialogPolyInput::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_COMBO_POLY_BORDER_TYPE, mBorderType);
 	DDX_Control(pDX, IDC_COMBO_POLY_FILL_TYPE, mComFillType);
 	DDX_CBIndex(pDX, IDC_COMBO_POLY_FILL_TYPE, mFillType);
+	DDX_Text(pDX, IDC_EDIT_BORDER_WIDTH, mBorderWidth);
+	DDV_MinMaxInt(pDX, mBorderWidth, 1, 20);
 }
 
 

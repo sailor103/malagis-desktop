@@ -61,7 +61,12 @@ public:
 	void lineDrawAll(vector<malaPoint>& Line, malaLinePro LinePro);//绘制一条折线
 	void lineDrawAllX(vector<malaPoint>& Line, malaLinePro LinePro);//绘制一条折线（橡皮）
 
+	void polyDrawAuto(vector<malaPoint>& Poly, malaPolyPro PolyPro);//自动绘制一个多边形
+	void polyDrawAutoX(vector<malaPoint>& Poly, malaPolyPro PolyPro);//自动绘制一个多边形(橡皮)
 	void polyDraw(vector<malaPoint>& Poly, malaPolyPro PolyPro);//绘制一个多边形
+	void polyDrawX(vector<malaPoint>& Poly, malaPolyPro PolyPro);//绘制一个多边形(橡皮)
+	void ellipseDraw(vector<malaPoint>& Poly, malaPolyPro PolyPro);//根据一个多边形的外包矩形绘制一个椭圆
+	void ellipseDrawX(vector<malaPoint>& Poly, malaPolyPro PolyPro);//根据一个多边形的外包矩形绘制一个椭圆(橡皮)
 	
 	void drawSelectRectPoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
 	void drawSelectCirclePoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接圆
@@ -95,8 +100,11 @@ public:
 	bool isRectIntersect(malaRect &r1, malaRect &r2);//判断两个矩形是否相交（不能判断包含）
 
 	bool isLineIntersect(malaPoint startPointA, malaPoint endPointA, malaPoint startPointB, malaPoint endPointB);//判断两条直线是否相交
-	bool isLinePolylineIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Line);//判断线是否与折线相交
-	bool isLineInRect(malaRect& rc, vector<malaPoint>& Line);//判断线与线是否相交
+	bool isLinePolylineIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Line);//判断直线是否与折线相交
+	bool isLineInRect(malaRect& rc, vector<malaPoint>& Line);//判断折线与矩形是否相交
+
+	bool isPolyInRect(malaRect& rc, vector<malaPoint>& Poly);//判断区是否和矩形相交
+	bool isLinePolyIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Poly);//判断直线是否与多边形相交
 
 	bool cutLine(malaPoint point, vector<malaPoint>& Line1, vector<malaPoint>& Line2);//剪断线
 	bool addPointInLine(malaPoint point, vector<malaPoint>& Line);//线上加点

@@ -48,8 +48,8 @@ public:
 	malaRect m_rect;
 	malaPoint m_ptOrigin;
 	malaPoint m_perPoint;
-	static vector<malaPoint> mLine;//存放当前编辑的点；
-	static malaLinePro mLinePro;//存放当前编辑的点属性
+	static vector<malaPoint> mLine;//存放当前编辑的线；
+	static malaLinePro mLinePro;//存放当前编辑的线属性
 	static malaScreen *m_Screen;
 	static CView* m_StaticView;
 

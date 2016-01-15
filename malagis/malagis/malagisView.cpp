@@ -27,6 +27,7 @@
 #include "_malaPoints.h"
 #include "_malaTools.h"
 #include "_malaLines.h"
+#include "_malaPolygon.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -74,6 +75,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LINES_DELETE, &CmalagisView::OnButtonLinesDelete)
 	ON_COMMAND(ID_BUTTON_LINES_DELETE_ALL, &CmalagisView::OnButtonLinesDeleteAll)
 	ON_COMMAND(ID_BUTTON_POLYGON_INPUT, &CmalagisView::OnButtonPolygonInput)
+	ON_COMMAND(ID_BUTTON_POLYS_SELECT, &CmalagisView::OnButtonPolysSelect)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -233,7 +235,7 @@ void CmalagisView::displayAllGraphs()
 				CLineIO lio;
 				vector<malaLineFile>allLines;
 				lio.getAllLines(mScreen, allLines, mNode[i].filePath);
-				//再依次画线
+				//再依次画区
 				malaCDC dc(this, mScreen);
 				for (size_t j = 0; j < allLines.size();j++)
 				{
@@ -241,6 +243,22 @@ void CmalagisView::displayAllGraphs()
 				}
 				if (allLines.size())
 					allLines.clear();
+			}
+			//重绘区文件
+			if (mNode[i].fileType == L"mpn")
+			{
+				//先获取可视范围所有的线
+				CPolyIO lio;
+				vector<malaPolyFile>allPolys;
+				lio.getAllPolys(mScreen, allPolys, mNode[i].filePath);
+				//再依次画区
+				malaCDC dc(this, mScreen);
+				for (size_t j = 0; j < allPolys.size(); j++)
+				{
+					dc.polyDrawAuto(allPolys[j].mPoly, allPolys[j].mPolyPro);
+				}
+				if (allPolys.size())
+					allPolys.clear();
 			}
 
 		}
@@ -759,8 +777,24 @@ void CmalagisView::OnButtonPolygonInput()
 	if (getActiveFile(L"mpn") != L"")
 	{
 		clearActionStr();
-		mBaseOper = new CmalaLinesDelete(this, &mScreen, getActiveFile(L"mpn"));
+		mBaseOper = new CmalaPolysInput(this, &mScreen, getActiveFile(L"mpn"));
 		setActionStr(L"输入区");
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 选择区
+*/
+void CmalagisView::OnButtonPolysSelect()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpn") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPolysSelect(this, &mScreen, getActiveFile(L"mpn"));
+		setActionStr(L"选择区");
 	}
 	else
 		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);

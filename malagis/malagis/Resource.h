@@ -142,6 +142,7 @@
 #define ID_BUTTON_LINES_DELETE          32829
 #define ID_BUTTON_LINES_DELETE_ALL      32830
 #define ID_BUTTON_POLYGON_INPUT         32831
+#define ID_BUTTON_POLYS_SELECT          32832
 
 // Next default values for new objects
 // 

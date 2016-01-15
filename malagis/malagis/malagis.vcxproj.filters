@@ -165,6 +165,9 @@
     <Image Include="res\ploygons_bar.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\polygons_bar.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ribbon.mfcribbon-ms">

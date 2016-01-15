@@ -106,6 +106,7 @@ public:
 	afx_msg void OnButtonLinesDelete();
 	afx_msg void OnButtonLinesDeleteAll();
 	afx_msg void OnButtonPolygonInput();
+	afx_msg void OnButtonPolysSelect();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

@@ -57,6 +57,7 @@ typedef struct
 	long polyId;
 	int polyStyle;//区类型 0 多边形 1 圆
 	int borderStyle;//边框类型
+	int borderWidth;//边框宽度
 	COLORREF borderColor;//边框颜色
 	COLORREF fillColor;//填充颜色
 	int fillStyle;//填充方式

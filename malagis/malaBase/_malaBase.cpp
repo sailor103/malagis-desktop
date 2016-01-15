@@ -359,6 +359,135 @@ void malaCDC::lineDrawAllX(vector<malaPoint>& Line, malaLinePro LinePro)
 		lineDrawX(Line[i - 1], Line[i], LinePro);
 }
 
+/*
+* 绘制一个多边形实现
+*/
+void malaCDC::polyDraw(vector<malaPoint>& Poly, malaPolyPro PolyPro)
+{
+	int PolyNum = Poly.size();
+	CClientDC dc(mView);
+
+	CBrush MyBrush(PolyPro.fillStyle, PolyPro.fillColor);
+	CBrush* OldBrush = dc.SelectObject(&MyBrush);
+
+	LOGBRUSH log;
+	log.lbColor = PolyPro.borderColor;
+	log.lbStyle = BS_SOLID;
+	CPen Pen(PS_GEOMETRIC | PolyPro.borderStyle, PolyPro.borderWidth, &log);
+
+	CPen* OldPen = dc.SelectObject(&Pen);
+	CPoint* PointArray = new CPoint[PolyNum];
+	for (int i = 0; i < PolyNum; i++)
+	{
+		CoordToScreen(Poly[i].x, Poly[i].y, mScreen, &PointArray[i].x, &PointArray[i].y);
+	}
+	dc.Polygon(PointArray, PolyNum);
+	dc.SelectObject(OldPen);
+	dc.SelectObject(OldBrush);
+	delete[]PointArray;
+}
+
+/*
+* 绘制一个多边形实现（橡皮）
+*/
+void malaCDC::polyDrawX(vector<malaPoint>& Poly, malaPolyPro PolyPro)
+{
+	int PolyNum = Poly.size();
+	CClientDC dc(mView);
+	dc.SetROP2(R2_NOTXORPEN);
+
+	CBrush MyBrush(PolyPro.fillStyle, PolyPro.fillColor);
+	CBrush* OldBrush = dc.SelectObject(&MyBrush);
+
+	LOGBRUSH log;
+	log.lbColor = PolyPro.borderColor;
+	log.lbStyle = BS_SOLID;
+	CPen Pen(PS_GEOMETRIC | PolyPro.borderStyle, PolyPro.borderWidth, &log);
+
+	CPen* OldPen = dc.SelectObject(&Pen);
+	CPoint* PointArray = new CPoint[PolyNum];
+	for (int i = 0; i < PolyNum; i++)
+	{
+		CoordToScreen(Poly[i].x, Poly[i].y, mScreen, &PointArray[i].x, &PointArray[i].y);
+	}
+	dc.Polygon(PointArray, PolyNum);
+	dc.SelectObject(OldPen);
+	dc.SelectObject(OldBrush);
+	delete[]PointArray;
+}
+
+/*
+* 根据一个多边形的外包矩形绘制一个椭圆实现
+*/
+void malaCDC::ellipseDraw(vector<malaPoint>& Poly, malaPolyPro PolyPro)
+{
+	CClientDC dc(mView);
+
+	CBrush MyBrush(PolyPro.fillStyle, PolyPro.fillColor);
+	CBrush* OldBrush = dc.SelectObject(&MyBrush);
+
+	LOGBRUSH log;
+	log.lbColor = PolyPro.borderColor;
+	log.lbStyle = BS_SOLID;
+	CPen Pen(PS_GEOMETRIC | PolyPro.borderStyle, PolyPro.borderWidth, &log);
+	CPen* OldPen = dc.SelectObject(&Pen);
+
+	malaLogic tmplog;
+	malaRect polyrect = tmplog.getRect(Poly);
+	CPoint A, B;
+	CoordToScreen(polyrect.xmin, polyrect.ymin, mScreen, &A.x, &A.y);
+	CoordToScreen(polyrect.xmax, polyrect.ymax, mScreen, &B.x, &B.y);
+	dc.Ellipse(CRect(A,B));
+	dc.SelectObject(OldPen);
+	dc.SelectObject(OldBrush);
+}
+
+/*
+* 根据一个多边形的外包矩形绘制一个椭圆实现（橡皮）
+*/
+void malaCDC::ellipseDrawX(vector<malaPoint>& Poly, malaPolyPro PolyPro)
+{
+	CClientDC dc(mView);
+	dc.SetROP2(R2_NOTXORPEN);
+	CBrush MyBrush(PolyPro.fillStyle, PolyPro.fillColor);
+	CBrush* OldBrush = dc.SelectObject(&MyBrush);
+
+	LOGBRUSH log;
+	log.lbColor = PolyPro.borderColor;
+	log.lbStyle = BS_SOLID;
+	CPen Pen(PS_GEOMETRIC | PolyPro.borderStyle, PolyPro.borderWidth, &log);
+	CPen* OldPen = dc.SelectObject(&Pen);
+
+	malaLogic tmplog;
+	malaRect polyrect = tmplog.getRect(Poly);
+	CPoint A, B;
+	CoordToScreen(polyrect.xmin, polyrect.ymin, mScreen, &A.x, &A.y);
+	CoordToScreen(polyrect.xmax, polyrect.ymax, mScreen, &B.x, &B.y);
+	dc.Ellipse(CRect(A, B));
+	dc.SelectObject(OldPen);
+	dc.SelectObject(OldBrush);
+}
+
+/*
+* 自动绘制一个多边形
+*/
+void malaCDC::polyDrawAuto(vector<malaPoint>& Poly, malaPolyPro PolyPro)
+{
+	if (PolyPro.polyStyle == 0)
+		polyDraw(Poly, PolyPro);
+	if (PolyPro.polyStyle == 1)
+		ellipseDraw(Poly, PolyPro);
+}
+/*
+* 自动绘制一个多边形(橡皮)
+*/
+void malaCDC::polyDrawAutoX(vector<malaPoint>& Poly, malaPolyPro PolyPro)
+{
+	if (PolyPro.polyStyle == 0)
+		polyDrawX(Poly, PolyPro);
+	if (PolyPro.polyStyle == 1)
+		ellipseDrawX(Poly, PolyPro);
+}
 
 /*
 * 逻辑运算基类实现
@@ -485,7 +614,7 @@ bool  malaLogic::isLineIntersect(malaPoint startPointA, malaPoint endPointA, mal
 }
 
 /*
-* 判断线是否和矩形相交
+* 判断折线是否和矩形相交
 */
 bool malaLogic::isLineInRect(malaRect& rc, vector<malaPoint>& Line)
 {
@@ -510,7 +639,7 @@ bool malaLogic::isLineInRect(malaRect& rc, vector<malaPoint>& Line)
 }
 
 /*
-* 判断线是否与折线相交
+* 判断直线是否与折线相交
 */
 bool malaLogic::isLinePolylineIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Line)
 {
@@ -522,6 +651,49 @@ bool malaLogic::isLinePolylineIntersect(malaPoint startPointA, malaPoint endPoin
 	}
 	return FALSE;
 }
+
+/*
+* 判断区是否和矩形相交
+*/
+bool malaLogic::isPolyInRect(malaRect& rc, vector<malaPoint>& Poly)
+{
+	malaPoint A, B, C, D;
+	A.x = rc.xmin - 2;
+	A.y = rc.ymin - 2;
+	B.x = rc.xmax + 2;
+	B.y = rc.ymin + 2;
+	C.x = rc.xmax + 2;
+	C.y = rc.ymax + 2;
+	D.x = rc.xmin - 2;
+	D.y = rc.ymax + 2;
+	if (isLinePolyIntersect(A, B, Poly))
+		return TRUE;
+	if (isLinePolyIntersect(B, C, Poly))
+		return TRUE;
+	if (isLinePolyIntersect(C, D, Poly))
+		return TRUE;
+	if (isLinePolyIntersect(A, D, Poly))
+		return TRUE;
+	return FALSE;
+}
+
+/*
+* 判断直线是否与多边形相交
+*/
+bool malaLogic::isLinePolyIntersect(malaPoint startPointA, malaPoint endPointA, vector<malaPoint>& Poly)
+{
+	int Size = Poly.size();
+	for (int i = 1; i < Size; i++)
+	{
+		if (isLineIntersect(startPointA, endPointA, Poly[i - 1], Poly[i]))
+			return TRUE;
+	}
+	//判断起点和终点的线是否相交
+	if (isLineIntersect(startPointA, endPointA, Poly[0], Poly[Size-1]))
+		return TRUE;
+	return FALSE;
+}
+
 /*
 * 剪断线
 */

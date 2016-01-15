@@ -30,4 +30,5 @@ public:
 	COLORREF mFillColor;
 	afx_msg void OnBnClickedButtonBorder();
 	afx_msg void OnBnClickedButtonFill();
+	int mBorderWidth;
 };

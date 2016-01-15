@@ -214,6 +214,7 @@ bool maladialogsdll dlgInputPoly(malaPolyPro &paramPro)
 		paramPro.borderColor = dlg.mBorderColor;
 		paramPro.fillColor = dlg.mFillColor;
 		paramPro.fillStyle = dlg.mFillType;
+		paramPro.borderWidth = dlg.mBorderWidth;
 		return true;
 	}
 	return false;

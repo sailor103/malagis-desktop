@@ -132,7 +132,11 @@ bool CProjectIO::writeAllNode(vector<malaTree>&paraTree)
 /* 点文件相关函数实现                                                   */
 /************************************************************************/
 CPointIO::CPointIO(){}
-CPointIO::~CPointIO(){}
+CPointIO::~CPointIO()
+{
+	if (mPoint.size())
+		mPoint.clear();
+}
 
 //获取点的ID
 long CPointIO::getMaxID(CString &fileName)
@@ -316,7 +320,11 @@ void CPointIO::pointDeleteAll(CString &fileName)
 /* 线文件相关函数实现                                                   */
 /************************************************************************/
 CLineIO::CLineIO(){}
-CLineIO::~CLineIO(){}
+CLineIO::~CLineIO()
+{
+	if (mLine.size())
+		mLine.clear();
+}
 
 //获取线的最大id
 long CLineIO::getMaxID(CString &fileName)
@@ -521,6 +529,227 @@ long CLineIO::lineDelete(long ID, CString &fileName)
 * 删除所有线
 */
 void CLineIO::lineDeleteAll(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate);
+	file.Close();
+}
+
+/************************************************************************/
+/* 区文件相关函数实现                                                   */
+/************************************************************************/
+CPolyIO::CPolyIO(){}
+CPolyIO::~CPolyIO()
+{
+	if (mPoly.size())
+		mPoly.clear();
+}
+
+//获取区的最大id
+long CPolyIO::getMaxID(CString &fileName)
+{
+	int ID = 0;
+	readPolys(fileName);
+
+	int Size = mPoly.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mPoly[i].mPolyPro.polyId >= ID)
+			ID = mPoly[i].mPolyPro.polyId;
+	}
+
+	return ID;
+}
+
+//读取所有的区
+void CPolyIO::readPolys(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+	if (mPoly.size())
+		mPoly.clear();
+
+	vector<malaPoint> tPoly;
+	malaPolyPro tPolyPro;
+	malaPoint tPoint;
+	int pointNum;
+	while (1)
+	{
+		try
+		{
+			ar >> tPolyPro.polyId >> tPolyPro.polyStyle >> tPolyPro.borderStyle >> tPolyPro.borderColor >> tPolyPro.borderWidth >> tPolyPro.fillColor >> tPolyPro.fillStyle;
+			ar >> pointNum;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+
+		for (int i = 0; i < pointNum; i++)
+		{
+			try
+			{
+				ar >> tPoint.x >> tPoint.y;
+			}
+			catch (CException* e)
+			{
+				break;
+			}
+			tPoly.push_back(tPoint);
+		}
+		malaPolyFile MyPoly(tPoly, tPolyPro);
+		mPoly.push_back(MyPoly);
+		tPoly.clear();
+	}
+	ar.Close();
+	file.Close();
+}
+
+/*
+* 保存所有的区
+*/
+void CPolyIO::savePolys(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite);
+	CArchive ar(&file, CArchive::store);
+
+	int Size = mPoly.size();
+	for (int i = 0; i < Size; i++)
+	{
+		ar << mPoly[i].mPolyPro.polyId << mPoly[i].mPolyPro.polyStyle << mPoly[i].mPolyPro.borderStyle << mPoly[i].mPolyPro.borderColor << mPoly[i].mPolyPro.borderWidth << mPoly[i].mPolyPro.fillColor << mPoly[i].mPolyPro.fillStyle;
+		ar << mPoly[i].mPoly.size();
+		for (int j = 0; j < mPoly[i].mPoly.size(); j++)
+			ar << mPoly[i].mPoly[j].x << mPoly[i].mPoly[j].y;
+	}
+	ar.Close();
+	file.Close();
+
+}
+
+//获取某个文件中某一范围的所有的区
+void CPolyIO::getAllPolys(malaScreen &pScreen, vector<malaPolyFile>&pAllPolys, CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+	if (pAllPolys.size())
+		pAllPolys.clear();
+
+	vector<malaPoint> tPoly;
+	malaPolyPro tPolyPro;
+	malaPoint tPoint;
+	int pointNum;
+	while (1)
+	{
+		try
+		{
+			ar >> tPolyPro.polyId >> tPolyPro.polyStyle >> tPolyPro.borderStyle >> tPolyPro.borderColor >> tPolyPro.borderWidth >> tPolyPro.fillColor >> tPolyPro.fillStyle;
+			ar >> pointNum;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+
+		for (int i = 0; i < pointNum; i++)
+		{
+			try
+			{
+				ar >> tPoint.x >> tPoint.y;
+			}
+			catch (CException* e)
+			{
+				break;
+			}
+			tPoly.push_back(tPoint);
+		}
+		//检查是否在可视范围内
+
+		malaLogic mylog;
+		malaRect lineRc = mylog.getRect(tPoly);
+		malaRect screenRc;
+		screenRc.xmin = pScreen.lbx;
+		screenRc.ymin = pScreen.lby;
+		ScreenToCoord(pScreen.wScreen, 0, pScreen, &screenRc.xmax, &screenRc.ymax);
+
+		if (mylog.isRectIntersect(lineRc, screenRc))
+		{
+			malaPolyFile MyPoly(tPoly, tPolyPro);
+			pAllPolys.push_back(MyPoly);
+		}
+		tPoly.clear();
+	}
+	ar.Close();
+	file.Close();
+}
+
+//添加区
+long CPolyIO::polyAdd(vector<malaPoint> &Poly, malaPolyPro &PolyPro, CString &fileName)
+{
+	int ID = getMaxID(fileName) + 1;
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::store);
+	file.SeekToEnd();
+
+	//写入文件
+	int pointnum = Poly.size();
+
+	ar << PolyPro.polyId << PolyPro.polyStyle << PolyPro.borderStyle << PolyPro.borderColor << PolyPro.borderWidth << PolyPro.fillColor << PolyPro.fillStyle;
+	ar << pointnum;
+
+	for (int i = 0; i < pointnum; i++)
+		ar << Poly[i].x << Poly[i].y;
+
+	ar.Close();
+	file.Close();
+
+	return ID;
+}
+
+//更新区
+long CPolyIO::polyUpdate(vector<malaPoint> &Poly, malaPolyPro &PolyPro, CString &fileName)
+{
+	readPolys(fileName);
+	long ID = PolyPro.polyId;
+	int Size = mPoly.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mPoly[i].mPolyPro.polyId == ID)
+		{
+			mPoly[i].mPoly = Poly;
+			mPoly[i].mPolyPro = PolyPro;
+			break;
+		}
+	}
+	savePolys(fileName);
+	return ID;
+}
+
+/*
+* 删除一个区
+*/
+long CPolyIO::polyDelete(long ID, CString &fileName)
+{
+	readPolys(fileName);
+	vector<malaPolyFile>PolyArray;
+	int Size = mPoly.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mPoly[i].mPolyPro.polyId != ID)
+			PolyArray.push_back(mPoly[i]);
+	}
+	mPoly = PolyArray;
+	PolyArray.clear();
+	savePolys(fileName);
+	return ID;
+}
+/*
+* 删除所有区
+*/
+void CPolyIO::polyDeleteAll(CString &fileName)
 {
 	CFile file;
 	file.Open(LPCTSTR(fileName), CFile::modeCreate);
