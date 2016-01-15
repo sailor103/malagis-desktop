@@ -697,7 +697,7 @@ long CPolyIO::polyAdd(vector<malaPoint> &Poly, malaPolyPro &PolyPro, CString &fi
 	//Ğ´ÈëÎÄ¼ş
 	int pointnum = Poly.size();
 
-	ar << PolyPro.polyId << PolyPro.polyStyle << PolyPro.borderStyle << PolyPro.borderColor << PolyPro.borderWidth << PolyPro.fillColor << PolyPro.fillStyle;
+	ar << ID << PolyPro.polyStyle << PolyPro.borderStyle << PolyPro.borderColor << PolyPro.borderWidth << PolyPro.fillColor << PolyPro.fillStyle;
 	ar << pointnum;
 
 	for (int i = 0; i < pointnum; i++)

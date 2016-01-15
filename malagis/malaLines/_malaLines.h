@@ -78,7 +78,7 @@ public:
 private:
 	bool m_Selected;
 	vector<malaPoint> mSLine;//选择的线
-	malaLinePro mSLinePro;//选择的点的属性
+	malaLinePro mSLinePro;//选择的区的属性
 	CmalaLinesSelect m_SelectLine;
 
 	CString mPath;//文件路径

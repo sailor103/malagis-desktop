@@ -63,6 +63,31 @@ public:
 	}
 };
 
+/*
+* 移动区
+*/
+class malapolygondll  CmalaPolysMove :public CmalaMouseAction
+{
+public:
+	CmalaPolysMove(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaPolysMove();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool mSelected;
+	vector<malaPoint> mSPoly;//选择的区
+	malaPolyPro mSPolyPro;//选择的区的属性
+	CmalaPolysSelect mSelectPoly;
+
+	CString mPath;//文件路径
+
+	bool mIsDraw;
+	malaPoint mPointOri;//起点
+	vector<malaPoint> mPerPoly;//临时的区
+	malaScreen *mScreen;
+};
+
 #ifndef _MALAPOLYGON_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaPolygon.lib")
