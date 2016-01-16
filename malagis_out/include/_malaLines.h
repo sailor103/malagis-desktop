@@ -228,7 +228,6 @@ private:
 	bool callSel;//控制是否触发选择线
 
 	int m_Pos;
-	malaPoint mPerPoint;//临时点
 
 	malaScreen *m_Screen;
 	CString mPath;//文件路径

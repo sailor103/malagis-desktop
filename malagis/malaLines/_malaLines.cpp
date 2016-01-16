@@ -679,7 +679,7 @@ void CmalaLinesDeletePoint::LButtonDown(UINT nFlags, malaPoint point)
 
 			CLineIO lio;
 			lio.lineUpdate(m_perLine, m_linepro, mPath);
-
+			m_perLine.clear();
 			m_line.clear();
 			m_SelectLine.m_Selected = FALSE;
 			mBaseView->Invalidate(TRUE);//+

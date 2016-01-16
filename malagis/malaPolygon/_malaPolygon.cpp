@@ -562,3 +562,83 @@ void CmalaPolysMovePoint::MouseMove(UINT nFlags, malaPoint point)
 		mPerPoint = point;
 	}
 }
+
+/*
+* 边界删点实现
+*/
+CmalaPolysDeletePoint::CmalaPolysDeletePoint(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	mScreen = pScreen;
+	CmalaPolysSelect obj(mView, pScreen, fileFullPath);
+	mSelectPoly = obj;
+	mSelected = FALSE;
+	callSel = FALSE;
+	mPos = 0;
+}
+
+CmalaPolysDeletePoint::~CmalaPolysDeletePoint()
+{
+	if (mSPoly.size())
+		mSPoly.clear();
+	if (mPerPoly.size())
+		mPerPoly.clear();
+}
+
+void CmalaPolysDeletePoint::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!mSelected&&!callSel)
+		mSelectPoly.LButtonDown(nFlags, point);
+	if (mSelected&&!callSel)
+	{
+		if (mSPoly.size() > 2)
+		{
+			malaLogic math;
+			mPos = math.getPointPosInLine(point, mSPoly);
+			if (mPos >= 0)
+			{
+				for (size_t i = 0; i < mSPoly.size(); i++)
+				{
+					if (i != mPos)
+						mPerPoly.push_back(mSPoly[i]);
+				}
+
+				CPolyIO lio;
+				lio.polyUpdate(mPerPoly, mSPolyPro, mPath);
+
+				mSPoly.clear();
+				mPerPoly.clear();
+				mSelectPoly.m_Selected = FALSE;
+				mBaseView->Invalidate(TRUE);//+
+				callSel = true;
+			}
+		}
+		else
+		{
+			callSel = true;
+			MessageBox(mBaseView->m_hWnd, L"无法删除", L"警告", MB_ICONQUESTION);
+			mSelectPoly.m_Selected = FALSE;
+		}
+		
+	}
+}
+
+void CmalaPolysDeletePoint::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!mSelected&&!callSel)
+		mSelectPoly.LButtonUp(nFlags, point);
+
+	mSelected = mSelectPoly.m_Selected;
+	if (mSelected)
+	{
+		mSPoly = mSelectPoly.mSPoly;
+		mSPolyPro = mSelectPoly.mSPolyPro;
+	}
+}
+
+void CmalaPolysDeletePoint::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!mSelected&&!callSel)
+		mSelectPoly.MouseMove(nFlags, point);
+}
