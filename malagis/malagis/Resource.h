@@ -89,8 +89,8 @@
 #define IDC_CURSOR_ZOOMOUT              322
 #define IDB_BITMAP_LINES_BAR            324
 #define IDB_BITMAP_PLOGON_BAR           325
+#define IDB_BITMAP_LABEL_BAR            327
 #define ID_STATUS_COORD_TITLE           1000
-#define IDC_MFCLINK1                    1000
 #define IDC_MFCLINK_URL                 1000
 #define ID_STATUS_COORD_POS             1001
 #define ID_PRJMANAGE                    1002
@@ -98,7 +98,6 @@
 #define ID_STATUS_CURRENT_ACTION_CONTENT 1004
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_BUTTON_POINTS_INPUT          32771
-#define ID_BUTTON2                      32772
 #define ID_BUTTON_ZOOM_IN               32772
 #define ID_CHECK_PRJ_MANAGE             32773
 #define ID_32774                        32774
@@ -153,12 +152,13 @@
 #define ID_BUTTON_POLYS_DELETE          32838
 #define ID_BUTTON_POLYS_DELETE_ALL      32839
 #define ID_BUTTON_POLYS_MODIFY          32840
+#define ID_BUTTON_LABEL_INPUT           32841
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        327
+#define _APS_NEXT_RESOURCE_VALUE        328
 #define _APS_NEXT_COMMAND_VALUE         32841
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310

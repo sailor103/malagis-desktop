@@ -80,6 +80,7 @@ protected:
 	afx_msg void OnNewPoint();//新建点文件
 	afx_msg void OnNewLine();//新建线文件
 	afx_msg void OnNewPoly();//新建区文件
+	afx_msg void OnNewLabel();//新建注释文件
 	afx_msg void OnDisplayFile();//显示文件
 	afx_msg void OnHideFile();//显示文件
 	afx_msg void OnActiveFile();//显示文件

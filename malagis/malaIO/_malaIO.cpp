@@ -620,7 +620,7 @@ void CPolyIO::savePolys(CString &fileName)
 	{
 		ar << mPoly[i].mPolyPro.polyId << mPoly[i].mPolyPro.polyStyle << mPoly[i].mPolyPro.borderStyle << mPoly[i].mPolyPro.borderColor << mPoly[i].mPolyPro.borderWidth << mPoly[i].mPolyPro.fillColor << mPoly[i].mPolyPro.fillStyle;
 		ar << mPoly[i].mPoly.size();
-		for (int j = 0; j < mPoly[i].mPoly.size(); j++)
+		for (size_t j = 0; j < mPoly[i].mPoly.size(); j++)
 			ar << mPoly[i].mPoly[j].x << mPoly[i].mPoly[j].y;
 	}
 	ar.Close();
@@ -750,6 +750,197 @@ long CPolyIO::polyDelete(long ID, CString &fileName)
 * 删除所有区
 */
 void CPolyIO::polyDeleteAll(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate);
+	file.Close();
+}
+
+/************************************************************************/
+/* 注释文件相关函数实现                                                 */
+/************************************************************************/
+CLabelIO::CLabelIO(){}
+CLabelIO::~CLabelIO()
+{
+	if (mLabel.size())
+		mLabel.clear();
+}
+
+//获取注释的ID
+long CLabelIO::getMaxID(CString &fileName)
+{
+	int ID = 0;
+	readLabels(fileName);
+
+	int Size = mLabel.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mLabel[i].mLabelPro.labelId >= ID)
+			ID = mLabel[i].mLabelPro.labelId;
+	}
+
+	return ID;
+}
+//读取所有的注释
+void CLabelIO::readLabels(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+	if (mLabel.size())
+		mLabel.clear();
+	malaPoint pnt;
+	malaLabelPro lbpro;
+	while (1)
+	{
+		try
+		{
+			ar >> lbpro.labelId >>lbpro.labelHeight >> lbpro.labelWidth >> lbpro.labelAngle>>lbpro.textAngle>>lbpro.textColor>>lbpro.textFont>>lbpro.textOff>>lbpro.textStr>>lbpro.fontWeight;
+			ar >> pnt.x >> pnt.y;
+		}
+		catch (CMemoryException* e)
+		{
+			break;
+		}
+		catch (CFileException* e)
+		{
+			break;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+		malaLabelFile MyLabel(pnt, lbpro);
+		mLabel.push_back(MyLabel);
+	}
+	ar.Close();
+	file.Close();
+}
+
+//写入所有的注释
+void CLabelIO::saveLabels(CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite);
+	CArchive ar(&file, CArchive::store);
+
+	int Size = mLabel.size();
+	for (int i = 0; i < Size; i++)
+	{
+		malaLabelPro lbpro = mLabel[i].mLabelPro;
+		ar << lbpro.labelId << lbpro.labelHeight << lbpro.labelWidth << lbpro.labelAngle << lbpro.textAngle << lbpro.textColor << lbpro.textFont << lbpro.textOff << lbpro.textStr << lbpro.fontWeight;
+		ar << mLabel[i].mLabel.x << mLabel[i].mLabel.y;
+	}
+
+	ar.Close();
+	file.Close();
+}
+
+//获取某个文件中某一范围的所有的注释
+void CLabelIO::getAllLabel(malaScreen &pScreen, vector<malaLabelFile>&pAllLabels, CString &fileName)
+{
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeRead | CFile::modeCreate | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::load);
+
+	malaPoint pnt;
+	malaLabelPro lbpro;
+	while (1)
+	{
+		try
+		{
+			ar >> lbpro.labelId >> lbpro.labelHeight >> lbpro.labelWidth >> lbpro.labelAngle >> lbpro.textAngle >> lbpro.textColor >> lbpro.textFont >> lbpro.textOff >> lbpro.textStr >> lbpro.fontWeight;
+			ar >> pnt.x >> pnt.y;
+		}
+		catch (CMemoryException* e)
+		{
+			break;
+		}
+		catch (CFileException* e)
+		{
+			break;
+		}
+		catch (CException* e)
+		{
+			break;
+		}
+		malaLogic mylog;
+		malaRect myrc;
+		myrc.xmin = pScreen.lbx;
+		myrc.ymin = pScreen.lby;
+		ScreenToCoord(pScreen.wScreen, 0, pScreen, &myrc.xmax, &myrc.ymax);
+		if (mylog.isPntInRect(pnt, myrc))
+		{
+			malaLabelFile MyLabel(pnt, lbpro);
+			pAllLabels.push_back(MyLabel);
+		}
+
+	}
+	ar.Close();
+	file.Close();
+}
+
+//添加注释实现
+long CLabelIO::labelAdd(malaPoint &Point, malaLabelPro &labelPro, CString &fileName)
+{
+	int ID = getMaxID(fileName) + 1;
+	CFile file;
+	file.Open(LPCTSTR(fileName), CFile::modeCreate | CFile::modeWrite | CFile::modeNoTruncate);
+	CArchive ar(&file, CArchive::store);
+	file.SeekToEnd();
+
+	ar << ID << labelPro.labelHeight << labelPro.labelWidth << labelPro.labelAngle << labelPro.textAngle << labelPro.textColor << labelPro.textFont << labelPro.textOff << labelPro.textStr << labelPro.fontWeight;
+	ar << Point.x << Point.y;
+
+	ar.Close();
+	file.Close();
+
+	return ID;
+}
+//更新注释实现
+long CLabelIO::labelUpdate(malaPoint &Point, malaLabelPro &labelPro, CString &fileName)
+{
+	long ID = labelPro.labelId;
+	readLabels(fileName);
+	int Size = mLabel.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mLabel[i].mLabelPro.labelId == ID)
+		{
+			mLabel[i].mLabel = Point;
+			mLabel[i].mLabelPro = labelPro;
+			break;
+		}
+	}
+	saveLabels(fileName);
+	return ID;
+}
+
+//删除注释实现
+long CLabelIO::labelDelete(malaLabelPro &labelPro, CString &fileName)
+{
+	long ID = labelPro.labelId;
+	readLabels(fileName);
+
+	vector<malaLabelFile>tempLabels;
+
+	int Size = mLabel.size();
+	for (int i = 0; i < Size; i++)
+	{
+		if (mLabel[i].mLabelPro.labelId != ID)
+		{
+			tempLabels.push_back(mLabel[i]);
+		}
+	}
+	mLabel.clear();
+	mLabel = tempLabels;
+	saveLabels(fileName);
+	tempLabels.clear();
+	return ID;
+}
+
+//删除所有注释实现
+void CLabelIO::labelDeleteAll(CString &fileName)
 {
 	CFile file;
 	file.Open(LPCTSTR(fileName), CFile::modeCreate);

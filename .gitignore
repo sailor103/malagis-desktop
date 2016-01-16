@@ -10,3 +10,5 @@ malagis/malaIO/Debug/
 malagis/malaTools/Debug/
 malagis/malaLines/Debug/
 malagis/malaPolygon/Debug/
+malagis/malaLabel/Debug/
+*.tmp

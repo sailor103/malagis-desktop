@@ -2,6 +2,7 @@
 #include "_malaBase.h"
 #include <math.h>
 
+const double pi = 3.1415926;
 
 /************************************************************************/
 /* 屏幕坐标转换函数                                                     */
@@ -488,6 +489,56 @@ void malaCDC::polyDrawAutoX(vector<malaPoint>& Poly, malaPolyPro PolyPro)
 	if (PolyPro.polyStyle == 1)
 		ellipseDrawX(Poly, PolyPro);
 }
+/*
+* 绘制文字
+*/
+void malaCDC::textDraw(malaPoint Point, malaLabelPro &labelPro)
+{
+	CClientDC dc(mView);
+
+	CFont cjcf;								//定义一个字模
+	long high, wide, cc1, cc2, cd, angg;
+	float x1, y1, ang1;
+	CString tmpStr;
+
+	high =labelPro.labelHeight/mScreen.scale; //得到字体的点阵高度
+
+	ang1 = (float)(labelPro.labelAngle*pi / 180);
+	angg = (int)(labelPro.textAngle * 10);
+	wide = labelPro.labelWidth / mScreen.scale;;//得到字体的点阵宽度
+
+	//起始点的屏幕点阵坐标
+	x1 = Point.x; y1 = Point.y;
+	CoordToScreen(x1, y1, mScreen, &cc1, &cc2);
+
+	//创建字模
+	cjcf.CreateFont(high, wide, angg, 0, labelPro.fontWeight, 0, 0, 0, DEFAULT_CHARSET, OUT_TT_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, FIXED_PITCH, labelPro.textFont);
+	
+	//选中字模
+	CFont* cjcbakf = dc.SelectObject(&cjcf);
+	dc.SetBkMode(TRANSPARENT);				//设定显示方式
+	dc.SetTextColor(labelPro.textColor);   //设定文本颜色
+	tmpStr = labelPro.textStr;              //文本内容
+	cd = tmpStr.GetLength();			    //文本字符长度
+	int textPos = 0;
+	while (cd > 0)								
+	{
+		CString outStr = tmpStr.Mid(textPos, 1 );
+		dc.TextOut(cc1, cc2, outStr);		//在屏幕上写这个汉字
+		cd--;						//字符数减1
+		textPos++;
+		//下一个字符的显示位置
+		x1 = x1 + (labelPro.labelWidth * 2 + labelPro.textOff)*(float)cos(ang1);
+		y1 = y1 + (labelPro.labelWidth * 2 + labelPro.textOff)*(float)sin(ang1);
+		//下一个字符显示位置的屏幕坐标
+		CoordToScreen(x1, y1,mScreen, &cc1, &cc2);
+
+	}
+	dc.SelectObject(cjcbakf);				//恢复字模
+}
+
+
+
 
 /*
 * 逻辑运算基类实现

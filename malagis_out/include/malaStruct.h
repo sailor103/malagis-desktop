@@ -63,6 +63,22 @@ typedef struct
 	int fillStyle;//填充方式
 }malaPolyPro;
 
+//注释属性
+typedef struct
+{
+	int labelId;
+	int labelHeight;   //字体高度
+	int labelWidth;    //字体宽度
+	int labelAngle;    //字体角度
+	int textAngle;     //文本角度
+	COLORREF textColor;//字体颜色
+	int  textOff;      //字体间距
+	CString textFont;  //字体类型
+	int fontWeight;    //字体磅数
+	CString textStr;   //字符串
+}malaLabelPro;
+
+
 //目录树节点
 typedef struct
 {
@@ -81,4 +97,5 @@ typedef struct
 	double ymin;
 	double ymax;
 }malaRect;
+
 #endif

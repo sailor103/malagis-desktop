@@ -97,6 +97,24 @@ public:
 };
 
 /*
+* 注释文件存取类
+* 用来定义一个注释的存取
+*/
+class malaLabelFile
+{
+public:
+	malaPoint mLabel;
+	malaLabelPro mLabelPro;
+public:
+	malaLabelFile(malaPoint point, malaLabelPro lbpro)
+	{
+		mLabel = point;
+		mLabelPro = lbpro;
+	}
+	~malaLabelFile(){};
+};
+
+/*
 * 点文件操作类
 */
 class malaio CPointIO
@@ -167,6 +185,30 @@ public:
 private:
 	vector<malaPolyFile> mPoly;//临时数据变量
 };
+
+/*
+* 注释文件操作类
+*/
+class malaio CLabelIO
+{
+public:
+	CLabelIO();
+	virtual ~CLabelIO();
+public:
+	long getMaxID(CString &fileName);//获取注释ID
+	void readLabels(CString &fileName);//读取所有的注释
+	void saveLabels(CString &fileName);//写入所有的注释
+	void getAllLabel(malaScreen &pScreen, vector<malaLabelFile>&pAllLabels, CString &fileName);//获取某个文件中某一范围的所有的注释
+public:
+	long labelAdd(malaPoint &Point, malaLabelPro &labelPro, CString &fileName);//添加注释
+	long labelUpdate(malaPoint &Point, malaLabelPro &labelPro, CString &fileName);//更新注释
+	long labelDelete(malaLabelPro &labelPro, CString &fileName);//删除注释
+	void labelDeleteAll(CString &fileName);//删除所有注释
+
+private:
+	vector<malaLabelFile> mLabel;//临时数据变量
+};
+
 
 #ifndef _MALAIO_EXPORT
 #ifdef _DEBUG

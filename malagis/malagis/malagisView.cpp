@@ -28,6 +28,7 @@
 #include "_malaTools.h"
 #include "_malaLines.h"
 #include "_malaPolygon.h"
+#include "_malaLabel.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -84,6 +85,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_POLYS_DELETE_POINT, &CmalagisView::OnButtonPolysDeletePoint)
 	ON_COMMAND(ID_BUTTON_POLYS_DELETE, &CmalagisView::OnButtonPolysDelete)
 	ON_COMMAND(ID_BUTTON_POLYS_DELETE_ALL, &CmalagisView::OnButtonPolysDeleteAll)
+	ON_COMMAND(ID_BUTTON_LABEL_INPUT, &CmalagisView::OnButtonLabelInput)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -939,4 +941,20 @@ void CmalagisView::OnButtonPolysDeleteAll()
 	}
 	else
 		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 输入注释
+*/
+void CmalagisView::OnButtonLabelInput()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mll") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLabelsInput(this, &mScreen, getActiveFile(L"mll"));
+		setActionStr(L"输入注释");
+	}
+	else
+		MessageBox(L"没有找到注释文件,请新建或激活已有的注释文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }

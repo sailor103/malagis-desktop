@@ -67,6 +67,9 @@ public:
 	void polyDrawX(vector<malaPoint>& Poly, malaPolyPro PolyPro);//绘制一个多边形(橡皮)
 	void ellipseDraw(vector<malaPoint>& Poly, malaPolyPro PolyPro);//根据一个多边形的外包矩形绘制一个椭圆
 	void ellipseDrawX(vector<malaPoint>& Poly, malaPolyPro PolyPro);//根据一个多边形的外包矩形绘制一个椭圆(橡皮)
+
+	
+	void textDraw(malaPoint Point, malaLabelPro &labelPro);//绘制字体
 	
 	void drawSelectRectPoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接矩形
 	void drawSelectCirclePoint(malaPoint Point, malaPointPro PntPro);//绘制选中状态的外接圆

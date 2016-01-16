@@ -7,6 +7,8 @@
 #include "DialogLineInput.h"
 #include "DialogNewPolyFile.h"
 #include "DialogPolyInput.h"
+#include "DialogNewLabel.h"
+#include "DialogInputLabel.h"
 
 /*
 * 输入点的对话框实现
@@ -240,6 +242,41 @@ bool maladialogsdll dlgModifyPolyPro(malaPolyPro &paramPro)
 		paramPro.borderColor = dlg.mBorderColor;
 		paramPro.fillStyle = dlg.mFillType;
 		paramPro.fillColor = dlg.mFillColor;
+		return true;
+	}
+	return false;
+}
+/*
+* 新建注释文件对话框
+*/
+bool maladialogsdll dlgNewLabelFile(CString &labelName)
+{
+	CDialogNewLabel dlg;
+	if (IDOK == dlg.DoModal())
+	{
+		labelName = dlg.mLabelName;
+		return true;
+	}
+	return false;
+}
+
+/*
+* 输入注释对话框
+*/
+bool maladialogsdll dlgInputLabel(malaLabelPro &paramPro)
+{
+	CDialogInputLabel dlg;
+	if (IDOK == dlg.DoModal())
+	{
+		paramPro.labelHeight = dlg.mLabelHeight;
+		paramPro.labelWidth = dlg.mLabelWidth;
+		paramPro.labelAngle = dlg.mLabelAngle;
+		paramPro.textColor = dlg.mTextColor;
+		paramPro.textAngle = dlg.mTextAngle;
+		paramPro.textFont = dlg.mTextFont;
+		paramPro.textOff = dlg.mTextOffset;
+		paramPro.textStr = dlg.mTextStr;
+		paramPro.fontWeight = dlg.mWeight;
 		return true;
 	}
 	return false;

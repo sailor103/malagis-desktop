@@ -59,13 +59,14 @@ BEGIN_MESSAGE_MAP(CPrjManage, CDockablePane)
 	ON_COMMAND(ID_PRJ_NEW_POINTS_FILE, OnNewPoint)
 	ON_COMMAND(ID_PRJ_NEW_LINE_FILE, OnNewLine)
 	ON_COMMAND(ID_PRJ_NEW_POLY_FILE, OnNewPoly)
+	ON_COMMAND(ID_PRJ_NEW_LABEL_FILE, OnNewLabel)
 	ON_COMMAND(ID_PRJ_FILE_DISPLAY, OnDisplayFile)
 	ON_COMMAND(ID_PRJ_FILE_HIDE, OnHideFile)
 	ON_COMMAND(ID_PRJ_FILE_ACTIVE, OnActiveFile)
 	ON_COMMAND(ID_PRJ_FILE_DEL,OnDelFile)
 	ON_COMMAND(ID_PRJ_FILE_PRO, OnGraphFilePro)
 	ON_COMMAND(ID_PRJ_OPEN_FILE,OnGraphFileOpen)
-
+	
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
@@ -123,44 +124,8 @@ void CPrjManage::OnSize(UINT nType, int cx, int cy)
 
 void CPrjManage::FillPrjView()
 {
-	/*HTREEITEM hRoot = m_wndPrjView.InsertItem(_T("FakeApp 文件"), 0, 0);
-	m_wndPrjView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
-
-	HTREEITEM hSrc = m_wndPrjView.InsertItem(_T("FakeApp 源文件"), 0, 1, hRoot);
-
-	m_wndPrjView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
-	m_wndPrjView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
-	m_wndPrjView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
-	m_wndPrjView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
-	m_wndPrjView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
-	m_wndPrjView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
-
-	HTREEITEM hInc = m_wndPrjView.InsertItem(_T("FakeApp 头文件"), 0, 0, hRoot);
-
-	m_wndPrjView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
-	m_wndPrjView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
-	m_wndPrjView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
-	m_wndPrjView.InsertItem(_T("Resource.h"), 2, 2, hInc);
-	m_wndPrjView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
-	m_wndPrjView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
-
-	HTREEITEM hRes = m_wndPrjView.InsertItem(_T("FakeApp 资源文件"), 0, 0, hRoot);
-
-	m_wndPrjView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
-	m_wndPrjView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
-	m_wndPrjView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
-	m_wndPrjView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
-
-	m_wndPrjView.Expand(hRoot, TVE_EXPAND);
-	m_wndPrjView.Expand(hSrc, TVE_EXPAND);
-	m_wndPrjView.Expand(hInc, TVE_EXPAND);*/
-
 	HTREEITEM prjRoot = m_wndPrjView.InsertItem(_T("----------"), 0, 0);
 	m_wndPrjView.Expand(m_wndPrjView.GetRootItem(), TVE_EXPAND);
-	
-	//m_wndPrjView.Expand(hSrc, TVE_EXPAND);
-	//m_wndPrjView.Expand(prjRoot, TVE_EXPAND);
-
 }
 
 void CPrjManage::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -570,6 +535,56 @@ void CPrjManage::OnNewPoly()
 						{
 							HTREEITEM hItem = m_wndPrjView.GetRootItem();
 							m_wndPrjView.InsertItem(tpNode.itemnode, 8, 8, hItem);
+						}
+						else
+						{
+							MessageBox(L"创建文件失败", L"提示", MB_ICONWARNING);
+						}
+					}
+					else
+					{
+						MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
+					}
+				}
+				else
+				{
+					MessageBox(L"文件已经存在", L"提示", MB_ICONWARNING);
+				}
+			}
+			else
+				MessageBox(L"文件名不能为空", L"提示", MB_ICONWARNING);
+		}
+	}
+	else
+	{
+		MessageBox(L"当前没有工程文件，请先新建工程或者打开已有工程", L"提示", MB_ICONWARNING);
+	}
+}
+
+/*
+* 新建注释文件
+*/
+void CPrjManage::OnNewLabel()
+{
+	//先判断有没打开工程
+	if (mBasePath != L"")
+	{
+		CString labelFileName;
+		if (dlgNewLabelFile(labelFileName))
+		{
+			if (labelFileName != "")
+			{
+				malaTree tpNode;
+				if (makeTree(tpNode, labelFileName, L"mll"))
+				{
+					CFileFind fFind;
+					if (!fFind.FindFile(tpNode.filePath))
+					{
+						fileNodeTree.push_back(tpNode);
+						if (currentPrj.newFile(fileNodeTree, tpNode.filePath))
+						{
+							HTREEITEM hItem = m_wndPrjView.GetRootItem();
+							m_wndPrjView.InsertItem(tpNode.itemnode, 11, 11, hItem);
 						}
 						else
 						{

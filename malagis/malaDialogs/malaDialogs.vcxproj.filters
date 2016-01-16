@@ -51,6 +51,12 @@
     <ClCompile Include="DialogPolyInput.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DialogNewLabel.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogInputLabel.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="malaDialogs.def">
@@ -92,6 +98,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DialogPolyInput.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogNewLabel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogInputLabel.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

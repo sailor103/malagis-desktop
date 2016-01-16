@@ -74,6 +74,16 @@ bool maladialogsdll dlgInputPoly(malaPolyPro &paramPro);
 */
 bool maladialogsdll dlgModifyPolyPro(malaPolyPro &paramPro);
 
+/*
+* 新建注释文件对话框
+*/
+bool maladialogsdll dlgNewLabelFile(CString &labelName);
+
+/*
+* 输入注释对话框
+*/
+bool maladialogsdll dlgInputLabel(malaLabelPro &paramPro);
+
 #ifndef _MALADIALOGS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaDialogs.lib")
