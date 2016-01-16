@@ -270,6 +270,22 @@ void CmalagisView::displayAllGraphs()
 				if (allPolys.size())
 					allPolys.clear();
 			}
+			//重绘注释文件
+			if (mNode[i].fileType == L"mll")
+			{
+				//先获取可视范围所有的注释
+				CLabelIO lio;
+				vector<malaLabelFile>allLabels;
+				lio.getAllLabel(mScreen, allLabels, mNode[i].filePath);
+				//再依次画注释
+				malaCDC dc(this, mScreen);
+				for (size_t j = 0; j < allLabels.size(); j++)
+				{
+					dc.textDraw(allLabels[j].mLabel, allLabels[j].mLabelPro);
+				}
+				if (allLabels.size())
+					allLabels.clear();
+			}
 
 		}
 	}
