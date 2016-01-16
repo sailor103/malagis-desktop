@@ -171,6 +171,15 @@
     <Image Include="res\label_bar.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\mapreset.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\mapmove.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\maprefresh.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ribbon.mfcribbon-ms">

@@ -16,6 +16,8 @@
 #include "malagis.h"
 
 #include "MainFrm.h"
+#include "malagisDoc.h"
+#include "malagisView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,6 +36,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
 	ON_COMMAND(ID_CHECK_PRJ_MANAGE, &CMainFrame::OnCheckPrjManage)
+	ON_COMMAND(ID_STATUS_MAP_RESET, &CMainFrame::OnMapReset)
+	ON_COMMAND(ID_STATUS_MAP_MOVE, &CMainFrame::OnMapMove)
+	ON_COMMAND(ID_STATUS_MAP_REFRESH, &CMainFrame::OnMapRefresh)
+	ON_COMMAND(ID_STATUS_MALAGIS_URL, &CMainFrame::OnMalagisUrl)
 	ON_UPDATE_COMMAND_UI(ID_CHECK_PRJ_MANAGE, &CMainFrame::OnUpdateCheckPrjManage)
 END_MESSAGE_MAP()
 
@@ -108,8 +114,16 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndStatusBar.AddElement(new CMFCRibbonStatusBarPane(ID_STATUS_CURRENT_ACTION_CONTENT, strStatusCurrentActionContent, TRUE), strStatusCurrentActionContent);
 
 	//浏览控件（还没实现）
-	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUSBAR_PANE2, strTitlePane2, TRUE), strTitlePane2); 
-
+	//m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUSBAR_PANE2, strTitlePane2, TRUE), strTitlePane2); 
+	
+	HICON hIconReset = (HICON) ::LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON_MAP_RESET), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_SHARED);
+	HICON hIconMove  = (HICON) ::LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON_MAP_MOVE), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_SHARED);
+	HICON hIconRefresh = (HICON) ::LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON_MAP_REFRESH), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_SHARED);
+	//刷新按钮
+	m_wndStatusBar.AddExtendedElement(new CMFCRibbonLinkCtrl(ID_STATUS_MALAGIS_URL, _T("@麻辣GIS"), _T("http://malagis.com")), _T("麻辣GIS"));
+	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUS_MAP_RESET, _T(""), FALSE, hIconReset), _T("重置地图"));
+	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUS_MAP_MOVE, _T(""), FALSE, hIconMove), _T("移动地图"));
+	m_wndStatusBar.AddExtendedElement(new CMFCRibbonStatusBarPane(ID_STATUS_MAP_REFRESH, _T(""), FALSE, hIconRefresh), _T("刷新地图"));
 
 	// 启用 Visual Studio 2005 样式停靠窗口行为
 	CDockingManager::SetDockingMode(DT_SMART);
@@ -353,5 +367,41 @@ void CMainFrame::OnUpdateCheckPrjManage(CCmdUI *pCmdUI)
 	else
 	{
 		pCmdUI->SetCheck(0);
+	}
+}
+
+/*
+* 重置地图
+*/
+void CMainFrame::OnMapReset()
+{
+	CmalagisView* pView = (CmalagisView*)GetActiveView();
+	pView->OnButtonZoomReset(); // 调用相应函数  
+}
+/*
+* 移动地图
+*/
+void CMainFrame::OnMapMove()
+{
+	CmalagisView* pView = (CmalagisView*)GetActiveView();
+	pView->OnButtonZoomMove(); // 调用相应函数  
+}
+/*
+* 刷新地图
+*/
+void CMainFrame::OnMapRefresh()
+{
+	CmalagisView* pView = (CmalagisView*)GetActiveView();
+	pView->OnButtonZoomRefresh(); // 调用相应函数  
+}
+/*
+* 访问网址
+*/
+void CMainFrame::OnMalagisUrl()
+{
+	CMFCRibbonLinkCtrl* pLink = (CMFCRibbonLinkCtrl*)m_wndStatusBar.FindByID(ID_STATUS_MALAGIS_URL);
+	if (pLink != NULL)
+	{
+		pLink->OpenLink();
 	}
 }

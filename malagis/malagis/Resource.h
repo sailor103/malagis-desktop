@@ -90,12 +90,21 @@
 #define IDB_BITMAP_LINES_BAR            324
 #define IDB_BITMAP_PLOGON_BAR           325
 #define IDB_BITMAP_LABEL_BAR            327
+#define IDI_ICON1                       328
+#define IDI_ICON_MAP_RESET              328
+#define IDI_ICON_MAP_MOVE               329
+#define IDI_ICON3                       330
+#define IDI_ICON_MAP_REFRESH            330
 #define ID_STATUS_COORD_TITLE           1000
 #define IDC_MFCLINK_URL                 1000
 #define ID_STATUS_COORD_POS             1001
 #define ID_PRJMANAGE                    1002
 #define ID_STATUS_CURRENT_ACTION        1003
 #define ID_STATUS_CURRENT_ACTION_CONTENT 1004
+#define ID_STATUS_MAP_RESET             1005
+#define ID_STATUS_MAP_MOVE              1006
+#define ID_STATUS_MAP_REFRESH           1007
+#define ID_STATUS_MALAGIS_URL           1008
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_BUTTON_POINTS_INPUT          32771
 #define ID_BUTTON_ZOOM_IN               32772
@@ -164,7 +173,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        328
+#define _APS_NEXT_RESOURCE_VALUE        331
 #define _APS_NEXT_COMMAND_VALUE         32847
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310

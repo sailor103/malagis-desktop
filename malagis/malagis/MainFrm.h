@@ -61,6 +61,10 @@ protected:
 	afx_msg void OnFilePrint();
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnUpdateFilePrintPreview(CCmdUI* pCmdUI);
+	afx_msg void OnMapReset();
+	afx_msg void OnMapMove();
+	afx_msg void OnMapRefresh();
+	afx_msg void OnMalagisUrl();
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();

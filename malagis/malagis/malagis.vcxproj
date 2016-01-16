@@ -150,6 +150,9 @@
     <Image Include="res\main.bmp" />
     <Image Include="res\malagis.ico" />
     <Image Include="res\malagisDoc.ico" />
+    <Image Include="res\mapmove.ico" />
+    <Image Include="res\maprefresh.ico" />
+    <Image Include="res\mapreset.ico" />
     <Image Include="res\menuimages.bmp" />
     <Image Include="res\menuimages_hc.bmp" />
     <Image Include="res\ploygons_bar.bmp" />
