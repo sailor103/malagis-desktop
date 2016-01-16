@@ -120,6 +120,8 @@ public:
 	afx_msg void OnButtonLabelMove();
 	afx_msg void OnButtonLabelCopy();
 	afx_msg void OnButtonLabelModify();
+	afx_msg void OnButtonLabelDelete();
+	afx_msg void OnButtonLabelDeleteAll();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

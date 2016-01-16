@@ -364,3 +364,58 @@ void CmalaLabelsModify::MouseMove(UINT nFlags, malaPoint point)
 	if (!m_Selected)
 		m_SelectPnt.MouseMove(nFlags, point);
 }
+
+/*
+* 删除注释实现
+*/
+CmalaLabelsDelete::CmalaLabelsDelete(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLabelsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+}
+
+CmalaLabelsDelete::~CmalaLabelsDelete()
+{
+
+}
+
+void CmalaLabelsDelete::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+}
+
+void CmalaLabelsDelete::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_LabelPro = m_SelectPnt.mLablePro;
+
+		if (MessageBox(mBaseView->m_hWnd, L"删除后将无法恢复，确定删除该注释吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			CLabelIO pio;
+			pio.labelDelete(m_LabelPro, mPath);
+			mBaseView->Invalidate(TRUE);
+		}
+		m_Point.x = m_Point.y = 0;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+
+	}
+
+}
+
+void CmalaLabelsDelete::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
+}

@@ -90,6 +90,8 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LABEL_MOVE, &CmalagisView::OnButtonLabelMove)
 	ON_COMMAND(ID_BUTTON_LABEL_COPY, &CmalagisView::OnButtonLabelCopy)
 	ON_COMMAND(ID_BUTTON_LABEL_MODIFY, &CmalagisView::OnButtonLabelModify)
+	ON_COMMAND(ID_BUTTON_LABEL_DELETE, &CmalagisView::OnButtonLabelDelete)
+	ON_COMMAND(ID_BUTTON_LABEL_DELETE_ALL, &CmalagisView::OnButtonLabelDeleteAll)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -943,7 +945,7 @@ void CmalagisView::OnButtonPolysDelete()
 }
 
 /*
-* 删除区
+* 删除所有区
 */
 void CmalagisView::OnButtonPolysDeleteAll()
 {
@@ -952,7 +954,7 @@ void CmalagisView::OnButtonPolysDeleteAll()
 	{
 		clearActionStr();
 		setActionStr(L"删除所有区");
-		if (MessageBox(L"删除后将无法恢复，确定删除所有的线吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		if (MessageBox(L"删除后将无法恢复，确定删除所有的区吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
 		{
 			CPolyIO lio;
 			lio.polyDeleteAll(getActiveFile(L"mpn"));
@@ -1041,4 +1043,41 @@ void CmalagisView::OnButtonLabelModify()
 	}
 	else
 		MessageBox(L"没有找到注释文件,请新建或激活已有的注释文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 删除注释
+*/
+void CmalagisView::OnButtonLabelDelete()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mll") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLabelsDelete(this, &mScreen, getActiveFile(L"mll"));
+		setActionStr(L"删除注释");
+	}
+	else
+		MessageBox(L"没有找到注释文件,请新建或激活已有的注释文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 删除所有注释
+*/
+void CmalagisView::OnButtonLabelDeleteAll()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mll") != L"")
+	{
+		clearActionStr();
+		setActionStr(L"删除所有注释");
+		if (MessageBox(L"删除后将无法恢复，确定删除所有的注释吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			CLabelIO lio;
+			lio.labelDeleteAll(getActiveFile(L"mll"));
+			this->Invalidate(TRUE);
+		}
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }
