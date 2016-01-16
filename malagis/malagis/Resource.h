@@ -153,13 +153,19 @@
 #define ID_BUTTON_POLYS_DELETE_ALL      32839
 #define ID_BUTTON_POLYS_MODIFY          32840
 #define ID_BUTTON_LABEL_INPUT           32841
+#define ID_BUTTON_LABEL_SELECT          32842
+#define ID_BUTTON_LABEL_MOVE            32843
+#define ID_BUTTON_LABEL_COPY            32844
+#define ID_BUTTON_LABEL_MODIFY          32845
+#define ID_BUTTON_LABEL_DELETE          32846
+#define ID_BUTTON_LABEL_DELETE_ALL      32847
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        328
-#define _APS_NEXT_COMMAND_VALUE         32841
+#define _APS_NEXT_COMMAND_VALUE         32847
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
