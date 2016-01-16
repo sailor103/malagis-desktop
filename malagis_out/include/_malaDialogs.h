@@ -84,6 +84,11 @@ bool maladialogsdll dlgNewLabelFile(CString &labelName);
 */
 bool maladialogsdll dlgInputLabel(malaLabelPro &paramPro);
 
+/*
+* 修改注释属性对话框
+*/
+bool maladialogsdll dlgModifyLabelPro(malaLabelPro &paramPro);
+
 #ifndef _MALADIALOGS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaDialogs.lib")

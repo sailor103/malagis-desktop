@@ -161,3 +161,206 @@ void CmalaLabelsSelect::MouseMove(UINT nFlags, malaPoint point)
 	}
 
 }
+
+/*
+* 移动注释实现
+*/
+CmalaLabelsMove::CmalaLabelsMove(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLabelsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+}
+
+CmalaLabelsMove::~CmalaLabelsMove()
+{
+
+}
+
+void CmalaLabelsMove::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = point;
+	}
+}
+
+void CmalaLabelsMove::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+	else
+	{
+		CLabelIO lio;
+		lio.labelUpdate(point, m_LabelPro, mPath);
+		mBaseView->Invalidate(TRUE);
+		m_bDraw = FALSE;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+
+	}
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_LabelPro = m_SelectPnt.mLablePro;
+		m_perPoint = m_Point;
+	}
+
+}
+
+void CmalaLabelsMove::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
+	else if (m_bDraw)
+	{
+		malaCDC dc(mBaseView, *m_Screen);
+		m_PointPro.pointColor = RGB(0, 255, 0);
+		m_PointPro.pointRadio = 10;
+		m_PointPro.pointStyle = 2;
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+		m_perPoint.x = m_ptOrigin.x + point.x - m_ptOrigin.x;
+		m_perPoint.y = m_ptOrigin.y + point.y - m_ptOrigin.y;
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+
+	}
+}
+
+/*
+* 复制注释实现
+*/
+CmalaLabelsCopy::CmalaLabelsCopy(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLabelsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+	m_bDraw = FALSE;
+}
+
+CmalaLabelsCopy::~CmalaLabelsCopy()
+{
+
+}
+
+void CmalaLabelsCopy::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = point;
+	}
+}
+
+void CmalaLabelsCopy::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+	else
+	{
+		CLabelIO pio;
+		pio.labelAdd(point, m_LabelPro, mPath);
+		mBaseView->Invalidate(TRUE);
+		m_bDraw = FALSE;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+
+	}
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_LabelPro = m_SelectPnt.mLablePro;
+		m_perPoint = m_Point;
+	}
+
+}
+
+void CmalaLabelsCopy::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
+	else if (m_bDraw)
+	{
+		malaCDC dc(mBaseView, *m_Screen);
+
+		m_PointPro.pointColor = RGB(0, 255, 0);
+		m_PointPro.pointRadio = 10;
+		m_PointPro.pointStyle = 2;
+
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+		m_perPoint.x = m_ptOrigin.x + point.x - m_ptOrigin.x;
+		m_perPoint.y = m_ptOrigin.y + point.y - m_ptOrigin.y;
+		dc.pointDrawAutoX(m_perPoint, m_PointPro);
+		dc.pointDrawAuto(m_Point, m_PointPro);
+	}
+}
+
+/*
+* 修改注释参数实现
+*/
+CmalaLabelsModify::CmalaLabelsModify(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+	CmalaLabelsSelect obj(mView, pScreen, fileFullPath);
+	m_SelectPnt = obj;
+	m_Selected = FALSE;
+}
+
+CmalaLabelsModify::~CmalaLabelsModify()
+{
+
+}
+
+void CmalaLabelsModify::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonDown(nFlags, point);
+}
+
+void CmalaLabelsModify::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectPnt.m_Selected;
+	if (m_Selected)
+	{
+		this->m_Point = m_SelectPnt.m_pnt;
+		this->m_LabelPro = m_SelectPnt.mLablePro;
+
+		if (dlgModifyLabelPro(m_LabelPro))
+		{
+			CLabelIO pio;
+			pio.labelUpdate(m_Point, m_LabelPro, mPath);
+			mBaseView->Invalidate(TRUE);
+		}
+
+		m_Point.x = m_Point.y = 0;
+		m_Selected = FALSE;
+		m_SelectPnt.m_Selected = FALSE;
+	}
+
+}
+
+void CmalaLabelsModify::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPnt.MouseMove(nFlags, point);
+}

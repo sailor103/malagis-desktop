@@ -62,6 +62,80 @@ public:
 	}
 };
 
+/*
+* 移动注释
+*/
+class malalabeldll  CmalaLabelsMove :public CmalaMouseAction
+{
+public:
+	CmalaLabelsMove(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLabelsMove();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	malaPoint m_Point;//选择的注释
+	malaLabelPro m_LabelPro;//选择的注释的属性
+	malaPointPro m_PointPro;//选择的点的属性
+	CmalaLabelsSelect m_SelectPnt;
+
+	CString mPath;//文件路径
+	bool m_bDraw;
+	malaPoint m_ptOrigin;//起点
+	malaPoint m_perPoint;//临时点
+	malaScreen *m_Screen;
+};
+
+/*
+* 复制注释
+*/
+class malalabeldll  CmalaLabelsCopy :public CmalaMouseAction
+{
+public:
+	CmalaLabelsCopy(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLabelsCopy();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	malaPoint m_Point;//选择的点
+	malaPointPro m_PointPro;//选择的点的属性
+	malaLabelPro m_LabelPro;//选择的注释的属性
+	CmalaLabelsSelect m_SelectPnt;
+
+	CString mPath;//文件路径
+
+	bool m_bDraw;
+	malaPoint m_ptOrigin;//起点
+	malaPoint m_perPoint;//临时点
+	malaScreen *m_Screen;
+};
+
+/*
+* 修改注释参数
+*/
+class malalabeldll  CmalaLabelsModify :public CmalaMouseAction
+{
+public:
+	CmalaLabelsModify(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLabelsModify();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool m_Selected;
+	malaPoint m_Point;//选择的点
+	malaPointPro m_PointPro;//选择的点的属性
+	malaLabelPro m_LabelPro;//选择的注释的属性
+	CmalaLabelsSelect m_SelectPnt;
+
+	CString mPath;//文件路径
+	malaScreen *m_Screen;
+};
+
+
 #ifndef _MALALABEL_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaLabel.lib")

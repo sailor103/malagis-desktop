@@ -281,3 +281,35 @@ bool maladialogsdll dlgInputLabel(malaLabelPro &paramPro)
 	}
 	return false;
 }
+/*
+* 修改注释属性对话框
+*/
+bool maladialogsdll dlgModifyLabelPro(malaLabelPro &paramPro)
+{
+	CDialogInputLabel dlg;
+	
+	dlg.mLabelHeight = paramPro.labelHeight;
+	dlg.mLabelWidth = paramPro.labelWidth;
+	dlg.mLabelAngle = paramPro.labelAngle;
+	dlg.mTextColor = paramPro.textColor;
+	dlg.mTextAngle = paramPro.textAngle;
+	dlg.mTextFont = paramPro.textFont;
+	dlg.mTextOffset = paramPro.textOff;
+	dlg.mTextStr = paramPro.textStr;
+	dlg.mWeight = paramPro.fontWeight;
+
+	if (IDOK == dlg.DoModal())
+	{
+		paramPro.labelHeight = dlg.mLabelHeight;
+		paramPro.labelWidth = dlg.mLabelWidth;
+		paramPro.labelAngle = dlg.mLabelAngle;
+		paramPro.textColor = dlg.mTextColor;
+		paramPro.textAngle = dlg.mTextAngle;
+		paramPro.textFont = dlg.mTextFont;
+		paramPro.textOff = dlg.mTextOffset;
+		paramPro.textStr = dlg.mTextStr;
+		paramPro.fontWeight = dlg.mWeight;
+		return true;
+	}
+	return false;
+}

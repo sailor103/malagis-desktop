@@ -87,6 +87,9 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_POLYS_DELETE_ALL, &CmalagisView::OnButtonPolysDeleteAll)
 	ON_COMMAND(ID_BUTTON_LABEL_INPUT, &CmalagisView::OnButtonLabelInput)
 	ON_COMMAND(ID_BUTTON_LABEL_SELECT, &CmalagisView::OnButtonLabelSelect)
+	ON_COMMAND(ID_BUTTON_LABEL_MOVE, &CmalagisView::OnButtonLabelMove)
+	ON_COMMAND(ID_BUTTON_LABEL_COPY, &CmalagisView::OnButtonLabelCopy)
+	ON_COMMAND(ID_BUTTON_LABEL_MODIFY, &CmalagisView::OnButtonLabelModify)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -987,6 +990,54 @@ void CmalagisView::OnButtonLabelSelect()
 		clearActionStr();
 		mBaseOper = new CmalaLabelsSelect(this, &mScreen, getActiveFile(L"mll"));
 		setActionStr(L"选择注释");
+	}
+	else
+		MessageBox(L"没有找到注释文件,请新建或激活已有的注释文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 移动注释
+*/
+void CmalagisView::OnButtonLabelMove()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mll") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLabelsMove(this, &mScreen, getActiveFile(L"mll"));
+		setActionStr(L"移动注释");
+	}
+	else
+		MessageBox(L"没有找到注释文件,请新建或激活已有的注释文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 复制注释
+*/
+void CmalagisView::OnButtonLabelCopy()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mll") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLabelsCopy(this, &mScreen, getActiveFile(L"mll"));
+		setActionStr(L"复制注释");
+	}
+	else
+		MessageBox(L"没有找到注释文件,请新建或激活已有的注释文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 修改注释属性
+*/
+void CmalagisView::OnButtonLabelModify()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mll") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLabelsModify(this, &mScreen, getActiveFile(L"mll"));
+		setActionStr(L"修改注释属性");
 	}
 	else
 		MessageBox(L"没有找到注释文件,请新建或激活已有的注释文件！", L"提示", MB_OK | MB_ICONASTERISK);
