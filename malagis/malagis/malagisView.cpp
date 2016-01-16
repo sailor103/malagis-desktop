@@ -926,4 +926,17 @@ void CmalagisView::OnButtonPolysDelete()
 void CmalagisView::OnButtonPolysDeleteAll()
 {
 	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpn") != L"")
+	{
+		clearActionStr();
+		setActionStr(L"删除所有区");
+		if (MessageBox(L"删除后将无法恢复，确定删除所有的线吗?", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			CPolyIO lio;
+			lio.polyDeleteAll(getActiveFile(L"mpn"));
+			this->Invalidate(TRUE);
+		}
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }
