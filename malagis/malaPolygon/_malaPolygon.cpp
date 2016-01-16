@@ -642,3 +642,61 @@ void CmalaPolysDeletePoint::MouseMove(UINT nFlags, malaPoint point)
 	if (!mSelected&&!callSel)
 		mSelectPoly.MouseMove(nFlags, point);
 }
+
+/*
+* 删除区实现
+*/
+CmalaPolysDelete::CmalaPolysDelete(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	mScreen = pScreen;
+	CmalaPolysSelect obj(mView, pScreen, fileFullPath);
+	mSelectPoly = obj;
+	mSelected = FALSE;
+}
+
+CmalaPolysDelete::~CmalaPolysDelete()
+{
+	if (mSPoly.size())
+		mSPoly.clear();
+}
+
+void CmalaPolysDelete::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.LButtonDown(nFlags, point);
+}
+
+void CmalaPolysDelete::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.LButtonUp(nFlags, point);
+
+	mSelected = mSelectPoly.m_Selected;
+
+	if (mSelected)
+	{
+		this->mSPoly = mSelectPoly.mSPoly;
+		this->mSPolyPro = mSelectPoly.mSPolyPro;
+
+		if (MessageBox(mBaseView->m_hWnd, L"删除后将无法恢复，确定删除吗？", L"警告", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{
+			//feature.LineDelete(m_linepro.LineID);
+			CPolyIO lio;
+			lio.polyDelete(mSPolyPro.polyId, mPath);
+			mBaseView->Invalidate(TRUE);
+		}
+
+		mSPoly.clear();
+		mSelected = FALSE;
+		mSelectPoly.m_Selected = FALSE;
+	}
+
+}
+
+void CmalaPolysDelete::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.MouseMove(nFlags, point);
+}

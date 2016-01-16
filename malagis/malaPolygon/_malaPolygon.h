@@ -210,6 +210,26 @@ private:
 	CString mPath;//文件路径
 };
 
+/*
+* 删除区
+*/
+class malapolygondll  CmalaPolysDelete :public CmalaMouseAction
+{
+public:
+	CmalaPolysDelete(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaPolysDelete();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	bool mSelected;
+	vector<malaPoint> mSPoly;//选择的区
+	malaPolyPro mSPolyPro;//选择的区的属性
+	CmalaPolysSelect mSelectPoly;
+
+	CString mPath;//文件路径
+	malaScreen *mScreen;
+};
 #ifndef _MALAPOLYGON_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaPolygon.lib")

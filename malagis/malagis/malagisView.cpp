@@ -83,6 +83,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_POLYS_MOVE_POINT, &CmalagisView::OnButtonPolysMovePoint)
 	ON_COMMAND(ID_BUTTON_POLYS_DELETE_POINT, &CmalagisView::OnButtonPolysDeletePoint)
 	ON_COMMAND(ID_BUTTON_POLYS_DELETE, &CmalagisView::OnButtonPolysDelete)
+	ON_COMMAND(ID_BUTTON_POLYS_DELETE_ALL, &CmalagisView::OnButtonPolysDeleteAll)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -907,6 +908,22 @@ void CmalagisView::OnButtonPolysDeletePoint()
 * 删除区
 */
 void CmalagisView::OnButtonPolysDelete()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpn") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPolysDelete(this, &mScreen, getActiveFile(L"mpn"));
+		setActionStr(L"删除区");
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 删除区
+*/
+void CmalagisView::OnButtonPolysDeleteAll()
 {
 	// TODO:  在此添加命令处理程序代码
 }
