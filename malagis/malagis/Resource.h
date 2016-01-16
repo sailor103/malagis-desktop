@@ -90,6 +90,8 @@
 #define IDB_BITMAP_LINES_BAR            324
 #define IDB_BITMAP_PLOGON_BAR           325
 #define ID_STATUS_COORD_TITLE           1000
+#define IDC_MFCLINK1                    1000
+#define IDC_MFCLINK_URL                 1000
 #define ID_STATUS_COORD_POS             1001
 #define ID_PRJMANAGE                    1002
 #define ID_STATUS_CURRENT_ACTION        1003
@@ -156,9 +158,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        326
+#define _APS_NEXT_RESOURCE_VALUE        327
 #define _APS_NEXT_COMMAND_VALUE         32841
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

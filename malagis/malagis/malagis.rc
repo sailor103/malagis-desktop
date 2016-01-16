@@ -349,13 +349,14 @@ END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "关于 malagis"
+CAPTION "关于 malagis-desktop"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
-    LTEXT           "malagis，1.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2015",IDC_STATIC,42,26,114,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
+    LTEXT           "malagis-desktop v1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2015 - ",IDC_STATIC,42,26,66,8
     DEFPUSHBUTTON   "确定",IDOK,113,41,50,14,WS_GROUP
+    CONTROL         "麻辣GIS",IDC_MFCLINK_URL,"MfcLink",WS_TABSTOP,110,26,42,9
 END
 
 
@@ -433,6 +434,29 @@ IDR_RIBBON              RT_RIBBON_XML           "res\\ribbon.mfcribbon-ms"
 IDC_CURSOR_HAND         CURSOR                  "res\\iconfont-hand.cur"
 IDC_CURSOR_ZOOMIN       CURSOR                  "res\\iconfont-zoomin.cur"
 IDC_CURSOR_ZOOMOUT      CURSOR                  "res\\iconfont-zoomout.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_ABOUTBOX DLGINIT
+BEGIN
+    IDC_MFCLINK_URL, 0x37c, 190, 0
+0x4d3c, 0x4346, 0x694c, 0x6b6e, 0x555f, 0x6c72, 0x683e, 0x7474, 0x3a70, 
+0x2f2f, 0x616d, 0x616c, 0x6967, 0x2e73, 0x6f63, 0x3c6d, 0x4d2f, 0x4346, 
+0x694c, 0x6b6e, 0x555f, 0x6c72, 0x3c3e, 0x464d, 0x4c43, 0x6e69, 0x5f6b, 
+0x7255, 0x506c, 0x6572, 0x6966, 0x3e78, 0xbae9, 0xe8bb, 0xa3be, 0x4947, 
+0xe553, 0x98ae, 0xbde7, 0x3c91, 0x4d2f, 0x4346, 0x694c, 0x6b6e, 0x555f, 
+0x6c72, 0x7250, 0x6665, 0x7869, 0x3c3e, 0x464d, 0x4c43, 0x6e69, 0x5f6b, 
+0x6f54, 0x6c6f, 0x6974, 0x3e70, 0x2f3c, 0x464d, 0x4c43, 0x6e69, 0x5f6b, 
+0x6f54, 0x6c6f, 0x6974, 0x3e70, 0x4d3c, 0x4346, 0x694c, 0x6b6e, 0x465f, 
+0x6c75, 0x546c, 0x7865, 0x5474, 0x6f6f, 0x746c, 0x7069, 0x463e, 0x4c41, 
+0x4553, 0x2f3c, 0x464d, 0x4c43, 0x6e69, 0x5f6b, 0x7546, 0x6c6c, 0x6554, 
+0x7478, 0x6f54, 0x6c6f, 0x6974, 0x3e70, 
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

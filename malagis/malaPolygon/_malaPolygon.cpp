@@ -465,3 +465,100 @@ void CmalaPolysAddPoint::MouseMove(UINT nFlags, malaPoint point)
 	if (!mSelected&&!callSel)
 		mSelectPoly.MouseMove(nFlags, point);
 }
+
+/*
+* 边界移点实现
+*/
+CmalaPolysMovePoint::CmalaPolysMovePoint(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	mPath = fileFullPath;
+	mScreen = pScreen;
+	CmalaPolysSelect obj(mView, pScreen, fileFullPath);
+	mSelectPoly = obj;
+	mSelected = FALSE;
+	mIsDraw = FALSE;
+	mPos = 0;
+}
+
+CmalaPolysMovePoint::~CmalaPolysMovePoint()
+{
+	if (mSPoly.size())
+		mSPoly.clear();
+}
+
+void CmalaPolysMovePoint::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.LButtonDown(nFlags, point);
+	else
+	{
+		malaLogic math;
+		mPos = math.getPointPosInLine(point, mSPoly);
+		if (mPos >= 0)
+		{
+			mIsDraw = TRUE;
+			if (mPos == 0)
+			{
+				mPrePoint = mSPoly[mSPoly.size() - 1];
+				mNexPoint = mSPoly[1];
+			}
+			else if (mPos == mSPoly.size() - 1)
+			{
+				mPrePoint = mSPoly[mPos - 1];
+				mNexPoint = mSPoly[0];
+			}
+			else
+			{
+				mPrePoint = mSPoly[mPos - 1];
+				mNexPoint = mSPoly[mPos + 1];
+			}
+			mPerPoint = mSPoly[mPos];	
+		}
+	}
+}
+
+void CmalaPolysMovePoint::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!mSelected)
+		mSelectPoly.LButtonUp(nFlags, point);
+
+	if (mIsDraw)
+	{
+		mIsDraw = FALSE;
+		mSPoly[mPos] = point;
+
+		CPolyIO lio;
+		lio.polyUpdate(mSPoly, mSPolyPro, mPath);
+
+		mSPoly.clear();
+		mSelectPoly.m_Selected = FALSE;
+		mBaseView->Invalidate(TRUE);
+	}
+	mSelected = mSelectPoly.m_Selected;
+	if (mSelected)
+	{
+		mSPoly = mSelectPoly.mSPoly;
+		mSPolyPro = mSelectPoly.mSPolyPro;
+	}
+}
+
+void CmalaPolysMovePoint::MouseMove(UINT nFlags, malaPoint point)
+{
+	malaCDC dc(mBaseView, *mScreen);
+	if (!mSelected)
+		mSelectPoly.MouseMove(nFlags, point);
+	if (mIsDraw)
+	{
+		malaLinePro m_linepro;
+		m_linepro.lineColor = mSPolyPro.borderColor;
+		m_linepro.lineStyle = mSPolyPro.borderStyle;
+		m_linepro.lineWidth = mSPolyPro.borderWidth;
+		dc.lineDrawX(mPrePoint, mPerPoint, m_linepro);
+		dc.lineDrawX(mPrePoint, point, m_linepro);
+
+		dc.lineDrawX(mNexPoint, mPerPoint, m_linepro);
+		dc.lineDrawX(mNexPoint, point, m_linepro);
+		mPerPoint = point;
+	}
+}
