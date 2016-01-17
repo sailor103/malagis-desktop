@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaPolygon", "malaPolygon\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaLabel", "malaLabel\malaLabel.vcxproj", "{A9AC93CF-44A7-4747-95F9-ADFD4429D9E8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malaAnalysis", "malaAnalysis\malaAnalysis.vcxproj", "{9EA5C81F-2839-44BD-BA95-8DA1E351CF3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -63,6 +65,10 @@ Global
 		{A9AC93CF-44A7-4747-95F9-ADFD4429D9E8}.Debug|Win32.Build.0 = Debug|Win32
 		{A9AC93CF-44A7-4747-95F9-ADFD4429D9E8}.Release|Win32.ActiveCfg = Release|Win32
 		{A9AC93CF-44A7-4747-95F9-ADFD4429D9E8}.Release|Win32.Build.0 = Release|Win32
+		{9EA5C81F-2839-44BD-BA95-8DA1E351CF3E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9EA5C81F-2839-44BD-BA95-8DA1E351CF3E}.Debug|Win32.Build.0 = Debug|Win32
+		{9EA5C81F-2839-44BD-BA95-8DA1E351CF3E}.Release|Win32.ActiveCfg = Release|Win32
+		{9EA5C81F-2839-44BD-BA95-8DA1E351CF3E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

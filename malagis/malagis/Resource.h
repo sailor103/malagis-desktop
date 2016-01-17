@@ -95,6 +95,8 @@
 #define IDI_ICON_MAP_MOVE               329
 #define IDI_ICON3                       330
 #define IDI_ICON_MAP_REFRESH            330
+#define IDB_BITMAP1                     331
+#define IDB_BITMAP_TOPO                 331
 #define ID_STATUS_COORD_TITLE           1000
 #define IDC_MFCLINK_URL                 1000
 #define ID_STATUS_COORD_POS             1001
@@ -168,13 +170,16 @@
 #define ID_BUTTON_LABEL_MODIFY          32845
 #define ID_BUTTON_LABEL_DELETE          32846
 #define ID_BUTTON_LABEL_DELETE_ALL      32847
+#define ID_BUTTON_TOPO_SELECT_LINE      32848
+#define ID_BUTTON_TOPO_SELECT_POLY      32849
+#define ID_BUTTON_TOPO_SELECT_POINT     32850
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        331
-#define _APS_NEXT_COMMAND_VALUE         32847
+#define _APS_NEXT_RESOURCE_VALUE        332
+#define _APS_NEXT_COMMAND_VALUE         32850
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

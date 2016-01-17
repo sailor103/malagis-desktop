@@ -965,3 +965,155 @@ bool malaLogic::delPointPoly(malaPoint point, vector<malaPoint>& Poly)
 	}
 	return FALSE;
 }
+
+/*
+* 判断两点之间的拓扑关系
+*/
+bool malaLogic::isPointEqPoint(malaPoint point1, malaPoint point2)
+{
+	double dis = distancePointToPoint(point1, point2);
+	if (dis <= 4)
+		return true;
+	else
+		return false;
+}
+
+/*
+* 判断点是否在折线上
+*/
+bool malaLogic::isPointInPolyLine(malaPoint point, vector<malaPoint>& Line)
+{
+	int MySize = Line.size();
+	for (int i = 0; i < MySize - 1; i++)
+	{
+		if (isPointInLine(point, Line[i], Line[i + 1]))
+			return true;
+	}
+	return false;
+}
+
+/*
+* 判断点是否在区上
+*/
+bool malaLogic::isPointInPolygon(malaPoint point, vector<malaPoint>& Poly)
+{
+	int LineNum = Poly.size();
+	malaPoint leftP = point;
+	malaPoint rightP;
+	rightP.x = getMaxX(Poly) + 1;
+	rightP.y = point.y;
+	int count = 0, yPrev = Poly[LineNum - 2].y;
+	malaPoint v1, v2;
+	v1 = Poly[LineNum - 1];
+	for (int i = 0; i < LineNum; i++)
+	{
+		v2 = Poly[i];
+
+		if (isPointInLine(leftP, v1, v2))
+			return true;
+
+		if (v1.y != v2.y)
+		{
+			if (isLineIntersect(v1, v2, leftP, rightP))
+			{
+				if (isPointInLine(v1, leftP, rightP))
+				{
+					if (v1.y<v2.y) { if (v1.y>yPrev)count++; }
+					else { if (v1.y < yPrev) count++; }
+				}
+				else if (!isPointInLine(v2, leftP, rightP))
+				{
+					count++;
+				}
+			}
+		}
+		yPrev = v1.y;
+
+		v1 = v2;
+	}
+	return   (count % 2 == 1);
+}
+/*
+* 折线与折线的拓扑关系
+*/
+int malaLogic::lineAndLine(vector<malaPoint>& Line1, vector<malaPoint>& Line2)
+{
+	int legth1 = Line1.size();
+	int length2 = Line2.size();
+
+	for (int i = 1; i < legth1; i++)
+	{
+		for (int j = 1; j < length2; j++)
+			if (isLineIntersect(Line1[i - 1], Line1[i], Line2[j - 1], Line2[j]))
+			{
+				return 2;
+			}
+	}
+	return 3;
+}
+/*
+* 折线与多边形拓扑关系 
+*/
+int malaLogic::polyLineAndPolygon(vector<malaPoint>&Line, vector<malaPoint>&Polygon)
+{
+	int length = Line.size();
+	int index = 0;
+	int m = 0;
+	for (int i = 1; i < length; i++)
+	{
+		m = lineAndPolygon(Line[i - 1], Line[i], Polygon);
+		if (m == 1)
+			index++;
+		if (m == 2)
+			return 2;
+	}
+	if (index == length - 1)
+		return 1;
+	return 3;
+}
+
+/*
+* 直线与多边形拓扑关系  相离返回1，相交返回2，在区内返回3
+*/
+int malaLogic::lineAndPolygon(malaPoint pntStart, malaPoint pntEnd, vector<malaPoint>&Polygon)
+{
+	if (isPointInPolygon(pntStart, Polygon) && (isPointInPolygon(pntEnd, Polygon)))
+		return 3;
+	int length = Polygon.size();
+	for (int i = 1; i < length; i++)
+	{
+		if (isLineIntersect(pntStart, pntEnd, Polygon[i - 1], Polygon[i]))
+			return 2;
+	}
+	return 1;
+}
+/*
+* 面与面的拓扑关系  相等返回1，相交返回2，内含返回3,相离返回4，覆盖返回5
+*/
+int malaLogic::polygonAndPolygon(vector<malaPoint>&Polygon1, vector<malaPoint>&Polygon2)
+{
+	if (polyLineAndPolygon(Polygon1, Polygon2) == 2)
+		return 2;
+	int length = Polygon1.size();
+
+	int index = 0;
+	int i;
+	for (i = 0; i < length; i++)
+	{
+		if (isPointInPolygon(Polygon1[i], Polygon2))
+			index++;
+	}
+	if (index == length)
+		return 3;
+	int length2 = Polygon2.size();
+	index = 0;
+
+	for (i = 0; i < length2; i++)
+	{
+		if (isPointInPolygon(Polygon2[i], Polygon1))
+			index++;
+	}
+	if (index == length2)
+		return 5;
+	return 4;
+}

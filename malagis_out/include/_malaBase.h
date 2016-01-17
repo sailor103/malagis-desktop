@@ -118,8 +118,14 @@ public:
 	double distancePointToPoint(malaPoint point1, malaPoint point2);//计算两点距离
 	int getPointPosInLine(malaPoint point, vector<malaPoint>& Line);//得到点在线的位置
 
-	bool isPointInLine(malaPoint point, malaPoint startPoint, malaPoint endPoint);//判断点是否在线上
-
+	bool isPointInLine(malaPoint point, malaPoint startPoint, malaPoint endPoint);//判断点是否在直线上
+	bool isPointInPolyLine(malaPoint point, vector<malaPoint>& Line);//判断点是否在折线上
+	bool isPointEqPoint(malaPoint point1, malaPoint point2);//判断两点之前的拓扑关系
+	bool isPointInPolygon(malaPoint point, vector<malaPoint>& Poly);//点是否在多边形内部
+	int  lineAndLine(vector<malaPoint>& Line1, vector<malaPoint>& Line2);  //折线与折线的拓扑关系 相等返回1;相交返回2;相离返回3
+	int  polyLineAndPolygon(vector<malaPoint>&Line, vector<malaPoint>&Polygon);	//折线与多边形拓扑关系 相离返回1，相交返回2，在区内返回3
+	int  lineAndPolygon(malaPoint pntStart, malaPoint pntEnd, vector<malaPoint>&Polygon);//直线与多边形拓扑关系  相离返回1，相交返回2，在区内返回3
+	int  polygonAndPolygon(vector<malaPoint>&Polygon1, vector<malaPoint>&Polygon2);//面与面的拓扑关系  相等返回1，相交返回2，内含返回3,相离返回4
 };
 
 #ifndef _MALABASE_EXPORT

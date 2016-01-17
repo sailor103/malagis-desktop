@@ -122,6 +122,9 @@ public:
 	afx_msg void OnButtonLabelModify();
 	afx_msg void OnButtonLabelDelete();
 	afx_msg void OnButtonLabelDeleteAll();
+	afx_msg void OnButtonTopoSelectPoint();
+	afx_msg void OnButtonTopoSelectLine();
+	afx_msg void OnButtonTopoSelectPoly();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

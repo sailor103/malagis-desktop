@@ -78,6 +78,13 @@ typedef struct
 	CString textStr;   //字符串
 }malaLabelPro;
 
+//拓扑分析结构体
+typedef struct
+{
+	int index;//记录选择物体的类型
+	vector<malaPoint>Object;//记录选中的物体
+}malaTopoCell;
+
 
 //目录树节点
 typedef struct

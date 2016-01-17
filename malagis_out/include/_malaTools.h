@@ -74,6 +74,7 @@ public:
 public:
 	malaScreen *m_Screen;
 };
+
 #ifndef _MALATOOLS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaTools.lib")

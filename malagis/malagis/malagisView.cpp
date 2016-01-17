@@ -29,6 +29,7 @@
 #include "_malaLines.h"
 #include "_malaPolygon.h"
 #include "_malaLabel.h"
+#include "_malaAnalysis.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -92,6 +93,9 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_LABEL_MODIFY, &CmalagisView::OnButtonLabelModify)
 	ON_COMMAND(ID_BUTTON_LABEL_DELETE, &CmalagisView::OnButtonLabelDelete)
 	ON_COMMAND(ID_BUTTON_LABEL_DELETE_ALL, &CmalagisView::OnButtonLabelDeleteAll)
+	ON_COMMAND(ID_BUTTON_TOPO_SELECT_POINT, &CmalagisView::OnButtonTopoSelectPoint)
+	ON_COMMAND(ID_BUTTON_TOPO_SELECT_LINE, &CmalagisView::OnButtonTopoSelectLine)
+	ON_COMMAND(ID_BUTTON_TOPO_SELECT_POLY, &CmalagisView::OnButtonTopoSelectPoly)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -1077,6 +1081,54 @@ void CmalagisView::OnButtonLabelDeleteAll()
 			lio.labelDeleteAll(getActiveFile(L"mll"));
 			this->Invalidate(TRUE);
 		}
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 拓扑选点
+*/
+void CmalagisView::OnButtonTopoSelectPoint()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpt") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaTopo(this, &mScreen, getActiveFile(L"mpt"),1);
+		setActionStr(L"拓扑选点");
+	}
+	else
+		MessageBox(L"没有找到点文件,请新建或激活已有的点文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 拓扑选线
+*/
+void CmalagisView::OnButtonTopoSelectLine()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaTopo(this, &mScreen, getActiveFile(L"mle"), 2);
+		setActionStr(L"拓扑选线");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 拓扑选区
+*/
+void CmalagisView::OnButtonTopoSelectPoly()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpn") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaTopo(this, &mScreen, getActiveFile(L"mpn"), 3);
+		setActionStr(L"拓扑选区");
 	}
 	else
 		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);

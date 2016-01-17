@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8CF2662F-FE67-45AF-8EBE-804A103A5AA9}</ProjectGuid>
-    <RootNamespace>malagis</RootNamespace>
-    <Keyword>MFCProj</Keyword>
+    <ProjectGuid>{9EA5C81F-2839-44BD-BA95-8DA1E351CF3E}</ProjectGuid>
+    <RootNamespace>malaAnalysis</RootNamespace>
+    <Keyword>MFCDLLProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -44,7 +44,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\malagis_out\bin\</OutDir>
-    <IncludePath>F:\malagis-desktop\malagis_out\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,18 +53,18 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_MALAANALYSIS_EXPORT;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>F:\malagis-desktop\malagis_out\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>.\malaAnalysis.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>F:\malagis-desktop\malagis_out\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
-      <ValidateAllParameters>true</ValidateAllParameters>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
@@ -73,6 +72,9 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy _malaAnalysis.h F:\malagis-desktop\malagis_out\include\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -81,7 +83,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -89,10 +91,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\malaAnalysis.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
-      <ValidateAllParameters>true</ValidateAllParameters>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
@@ -105,84 +107,35 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="malagis.h" />
-    <ClInclude Include="malagisDoc.h" />
-    <ClInclude Include="malagisView.h" />
-    <ClInclude Include="PrjManage.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="ViewTree.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="malagis.cpp" />
-    <ClCompile Include="malagisDoc.cpp" />
-    <ClCompile Include="malagisView.cpp" />
-    <ClCompile Include="PrjManage.cpp" />
+    <ClCompile Include="dllmain.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="malaAnalysis.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ViewTree.cpp" />
+    <ClCompile Include="_malaAnalysis.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="malagis.rc" />
+    <None Include="malaAnalysis.def" />
+    <None Include="res\malaAnalysis.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\bitmap1.bmp" />
-    <Image Include="res\buttons.bmp" />
-    <Image Include="res\classview.bmp" />
-    <Image Include="res\classview_hc.bmp" />
-    <Image Include="res\class_view.ico" />
-    <Image Include="res\class_view_hc.ico" />
-    <Image Include="res\explorer.bmp" />
-    <Image Include="res\explorer_hc.bmp" />
-    <Image Include="res\filelarge.bmp" />
-    <Image Include="res\filesmall.bmp" />
-    <Image Include="res\fileview.bmp" />
-    <Image Include="res\fileview_hc.bmp" />
-    <Image Include="res\file_view.ico" />
-    <Image Include="res\file_view_hc.ico" />
-    <Image Include="res\label_bar.bmp" />
-    <Image Include="res\lines_bar.bmp" />
-    <Image Include="res\main.bmp" />
-    <Image Include="res\malagis.ico" />
-    <Image Include="res\malagisDoc.ico" />
-    <Image Include="res\mapmove.ico" />
-    <Image Include="res\maprefresh.ico" />
-    <Image Include="res\mapreset.ico" />
-    <Image Include="res\menuimages.bmp" />
-    <Image Include="res\menuimages_hc.bmp" />
-    <Image Include="res\ploygons_bar.bmp" />
-    <Image Include="res\points_bar.bmp" />
-    <Image Include="res\polygons_bar.bmp" />
-    <Image Include="res\prjview.bmp" />
-    <Image Include="res\res_tools.bmp" />
-    <Image Include="res\sort.bmp" />
-    <Image Include="res\sort_hc.bmp" />
-    <Image Include="res\Toolbar.bmp" />
-    <Image Include="res\Toolbar256.bmp" />
-    <Image Include="res\topo.bmp" />
-    <Image Include="res\writelarge.bmp" />
-    <Image Include="res\writesmall.bmp" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="_malaAnalysis.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\cursor1.cur" />
-    <None Include="res\iconfont-hand.cur" />
-    <None Include="res\iconfont-zoomin.cur" />
-    <None Include="res\iconfont-zoomout.cur" />
-    <None Include="res\malagis.rc2" />
-    <None Include="res\ribbon.mfcribbon-ms" />
-    <None Include="res\ribbon1.mfcribbon-ms" />
+    <ResourceCompile Include="malaAnalysis.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="malagis.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>
