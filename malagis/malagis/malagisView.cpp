@@ -96,6 +96,8 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_TOPO_SELECT_POINT, &CmalagisView::OnButtonTopoSelectPoint)
 	ON_COMMAND(ID_BUTTON_TOPO_SELECT_LINE, &CmalagisView::OnButtonTopoSelectLine)
 	ON_COMMAND(ID_BUTTON_TOPO_SELECT_POLY, &CmalagisView::OnButtonTopoSelectPoly)
+	ON_COMMAND(ID_BUTTON_LINE_ORI_DIS, &CmalagisView::OnButtonLineOriDis)
+	ON_COMMAND(ID_BUTTON_LINE_DIS_DIY, &CmalagisView::OnButtonLineDisDiy)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -1132,4 +1134,31 @@ void CmalagisView::OnButtonTopoSelectPoly()
 	}
 	else
 		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 已知线段量算
+*/
+void CmalagisView::OnButtonLineOriDis()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mle") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaLineMeasure(this, &mScreen, getActiveFile(L"mle"));
+		setActionStr(L"线段量算");
+	}
+	else
+		MessageBox(L"没有找到线文件,请新建或激活已有的线文件！", L"提示", MB_OK | MB_ICONASTERISK);
+}
+
+/*
+* 自定义量算
+*/
+void CmalagisView::OnButtonLineDisDiy()
+{
+	// TODO:  在此添加命令处理程序代码
+	clearActionStr();
+	mBaseOper = new CmalaLineMeasureCustom(this, &mScreen);
+	setActionStr(L"自定义量算");
 }

@@ -131,6 +131,7 @@
     <ResourceCompile Include="malagis.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\ana_bar.bmp" />
     <Image Include="res\bitmap1.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />

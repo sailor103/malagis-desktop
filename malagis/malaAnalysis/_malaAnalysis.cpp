@@ -283,3 +283,109 @@ void CmalaTopo::topoAnalysis(vector<malaTopoCell>TopoObject)
 			MessageBox(mBaseView->m_hWnd, L"区覆盖区", L"区与区的拓扑", MB_OK | MB_ICONINFORMATION);
 	}
 }
+
+//自定义量算
+CmalaLineMeasureCustom::CmalaLineMeasureCustom(CView* ptView, malaScreen *Screen)
+{
+	mBaseView = ptView;
+	m_LinePro.lineColor = RGB(0, 0, 0);
+	m_LinePro.lineStyle = 0;
+	m_LinePro.lineWidth = 1;
+	m_bDraw = FALSE;
+	m_Screen = Screen;
+}
+
+CmalaLineMeasureCustom::~CmalaLineMeasureCustom()
+{
+
+}
+
+void CmalaLineMeasureCustom::LButtonDown(UINT nFlags, malaPoint point)
+{
+	m_bDraw = TRUE;
+	m_PerPoint = m_PtOrigin = point;
+	m_Line.push_back(point);
+}
+
+
+void CmalaLineMeasureCustom::MouseMove(UINT nFlags, malaPoint point)
+{
+	//橡皮线
+	malaCDC dc(mBaseView, *m_Screen);
+	if (m_bDraw)
+	{
+		dc.lineDrawX(m_PtOrigin, m_PerPoint, m_LinePro);
+		dc.lineDrawX(m_PtOrigin, point, m_LinePro);
+		m_PerPoint = point;
+	}
+
+}
+void CmalaLineMeasureCustom::RButtonDown(UINT nFlags, malaPoint point)
+{
+	m_bDraw = FALSE;
+	malaLogic tMath;
+	double dis = tMath.distanceLine(m_Line);
+	CString str;
+	str.Format(L"%f ", dis);
+	MessageBox(mBaseView->m_hWnd, str, L"坐标长度", MB_OK);
+	mBaseView->Invalidate(TRUE);
+	m_Line.clear();
+}
+
+//已知直线量算
+CmalaLineMeasure::CmalaLineMeasure(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	m_LinePro.lineColor = RGB(0, 0, 0);
+	m_LinePro.lineStyle = 0;
+	m_LinePro.lineWidth = 1;
+
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+
+	CmalaLinesSelect obj(mBaseView, m_Screen, mPath);
+	m_SelectLine = obj;
+	this->m_Selected = m_SelectLine.m_Selected;
+}
+
+CmalaLineMeasure::~CmalaLineMeasure()
+{
+
+}
+
+void CmalaLineMeasure::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = m_perPoint = point;
+	}
+}
+
+void CmalaLineMeasure::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectLine.m_Selected;
+	if (m_Selected)
+	{
+		m_line = m_SelectLine.mLine;
+		m_linepro = m_SelectLine.mLinePro;
+		malaLogic tMath;
+		double dis = tMath.distanceLine(m_line);
+		CString str;
+		str.Format(L"%f", dis);
+		MessageBox(mBaseView->m_hWnd, str, L"坐标长度", MB_OK);
+		m_Selected = FALSE;
+		m_SelectLine.m_Selected = FALSE;
+	}
+}
+
+void CmalaLineMeasure::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectLine.MouseMove(nFlags, point);
+}

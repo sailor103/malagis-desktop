@@ -126,6 +126,10 @@ public:
 	int  polyLineAndPolygon(vector<malaPoint>&Line, vector<malaPoint>&Polygon);	//折线与多边形拓扑关系 相离返回1，相交返回2，在区内返回3
 	int  lineAndPolygon(malaPoint pntStart, malaPoint pntEnd, vector<malaPoint>&Polygon);//直线与多边形拓扑关系  相离返回1，相交返回2，在区内返回3
 	int  polygonAndPolygon(vector<malaPoint>&Polygon1, vector<malaPoint>&Polygon2);//面与面的拓扑关系  相等返回1，相交返回2，内含返回3,相离返回4
+
+	
+	double distanceLine(vector<malaPoint>& pLilne);//计算一条线的长度
+
 };
 
 #ifndef _MALABASE_EXPORT

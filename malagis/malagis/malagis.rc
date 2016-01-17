@@ -112,6 +112,7 @@ IDB_BITMAP_LINES_BAR    BITMAP                  "res\\lines_bar.bmp"
 IDB_BITMAP_PLOGON_BAR   BITMAP                  "res\\polygons_bar.bmp"
 IDB_BITMAP_LABEL_BAR    BITMAP                  "res\\label_bar.bmp"
 IDB_BITMAP_TOPO         BITMAP                  "res\\topo.bmp"
+IDB_BITMAP_ANALYSIS_BAR BITMAP                  "res\\ana_bar.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

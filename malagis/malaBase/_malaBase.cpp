@@ -1117,3 +1117,16 @@ int malaLogic::polygonAndPolygon(vector<malaPoint>&Polygon1, vector<malaPoint>&P
 		return 5;
 	return 4;
 }
+
+/*
+* 计算一条线的长度
+*/
+double malaLogic::distanceLine(vector<malaPoint>& pLilne)
+{
+	double dis(0.0);
+	for (int i = 0; i < pLilne.size() - 1; i++)
+	{
+		dis += distancePointToPoint(pLilne[i], pLilne[i + 1]);
+	}
+	return dis;
+}

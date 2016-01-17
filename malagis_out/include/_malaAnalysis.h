@@ -45,6 +45,51 @@ private:
 
 };
 
+/*
+* 自定义线段量算
+*/
+class malaanalysisdll CmalaLineMeasureCustom :public CmalaMouseAction
+{
+public:
+	CmalaLineMeasureCustom(CView* ptView, malaScreen *Screen);
+	~CmalaLineMeasureCustom();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+	void RButtonDown(UINT nFlags, malaPoint point);
+private:
+	bool m_bDraw;
+	malaPoint m_PtOrigin;
+	malaPoint m_PerPoint;
+	malaLinePro m_LinePro;
+	vector<malaPoint>m_Line;
+	
+	malaScreen *m_Screen;
+};
+
+/*
+* 已知线段量算
+*/
+class malaanalysisdll CmalaLineMeasure :public CmalaMouseAction
+{
+public:
+	CmalaLineMeasure(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaLineMeasure();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	malaLinePro m_linepro;
+	vector<malaPoint>m_line;
+	CmalaLinesSelect m_SelectLine;
+	bool m_Selected;
+	bool m_bDraw;
+	malaLinePro m_LinePro;
+	malaPoint m_ptOrigin;
+	malaPoint m_perPoint;
+	malaScreen *m_Screen;
+	CString mPath;//文件路径
+};
+
 #ifndef _MALAANALYSIS_EXPORT
 #ifdef _DEBUG
 #pragma comment(lib,"malaAnalysis.lib")
