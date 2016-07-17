@@ -1164,7 +1164,9 @@ void CmalagisView::OnButtonLineDisDiy()
 	setActionStr(L"自定义量算");
 }
 
-
+/*
+* 区量算
+*/
 void CmalagisView::OnButtonPolygonMeasure()
 {
 	// TODO:  在此添加命令处理程序代码
