@@ -336,9 +336,9 @@ void CmalaLineMeasureCustom::RButtonDown(UINT nFlags, malaPoint point)
 CmalaLineMeasure::CmalaLineMeasure(CView* mView, malaScreen *pScreen, CString &fileFullPath)
 {
 	mBaseView = mView;
-	m_LinePro.lineColor = RGB(0, 0, 0);
-	m_LinePro.lineStyle = 0;
-	m_LinePro.lineWidth = 1;
+	//m_LinePro.lineColor = RGB(0, 0, 0);
+	//m_LinePro.lineStyle = 0;
+	//m_LinePro.lineWidth = 1;
 
 	mPath = fileFullPath;
 	m_Screen = pScreen;
@@ -388,4 +388,65 @@ void CmalaLineMeasure::MouseMove(UINT nFlags, malaPoint point)
 {
 	if (!m_Selected)
 		m_SelectLine.MouseMove(nFlags, point);
+}
+/*
+* 多边形量算
+*/
+CmalaPolyMeasure::CmalaPolyMeasure(CView* mView, malaScreen *pScreen, CString &fileFullPath)
+{
+	mBaseView = mView;
+	//m_LinePro.lineColor = RGB(0, 0, 0);
+	//m_LinePro.lineStyle = 0;
+	//m_LinePro.lineWidth = 1;
+
+	mPath = fileFullPath;
+	m_Screen = pScreen;
+
+	CmalaPolysSelect obj(mBaseView, m_Screen, mPath);
+	m_SelectPoly = obj;
+	this->m_Selected = m_SelectPoly.m_Selected;
+}
+
+CmalaPolyMeasure::~CmalaPolyMeasure()
+{
+
+}
+
+void CmalaPolyMeasure::LButtonDown(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPoly.LButtonDown(nFlags, point);
+	else
+	{
+		m_bDraw = TRUE;
+		m_ptOrigin = m_perPoint = point;
+	}
+}
+
+void CmalaPolyMeasure::LButtonUp(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPoly.LButtonUp(nFlags, point);
+
+	m_Selected = m_SelectPoly.m_Selected;
+	if (m_Selected)
+	{
+		m_poly = m_SelectPoly.mSPoly;
+		m_polypro = m_SelectPoly.mSPolyPro;
+		malaLogic tMath;
+		double area = tMath.ComputePolygonArea(m_poly);
+		m_poly.push_back(m_poly[0]);
+		double dis = tMath.distanceLine(m_poly);
+		CString str;
+		str.Format(L"面积：%f \n周长：%f", area, dis);
+		MessageBox(mBaseView->m_hWnd, str, L"量算结果", MB_OK);
+		m_Selected = FALSE;
+		m_SelectPoly.m_Selected = FALSE;
+	}
+}
+
+void CmalaPolyMeasure::MouseMove(UINT nFlags, malaPoint point)
+{
+	if (!m_Selected)
+		m_SelectPoly.MouseMove(nFlags, point);
 }

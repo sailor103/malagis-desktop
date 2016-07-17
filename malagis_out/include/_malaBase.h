@@ -129,6 +129,7 @@ public:
 
 	
 	double distanceLine(vector<malaPoint>& pLilne);//计算一条线的长度
+	double ComputePolygonArea(vector<malaPoint> &points);//计算任意多边形的面积
 
 };
 

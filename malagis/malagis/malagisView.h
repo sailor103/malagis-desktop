@@ -127,6 +127,7 @@ public:
 	afx_msg void OnButtonTopoSelectPoly();
 	afx_msg void OnButtonLineOriDis();
 	afx_msg void OnButtonLineDisDiy();
+	afx_msg void OnButtonPolygonMeasure();
 };
 
 #ifndef _DEBUG  // malagisView.cpp 中的调试版本

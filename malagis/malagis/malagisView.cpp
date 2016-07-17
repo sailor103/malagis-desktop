@@ -98,6 +98,7 @@ BEGIN_MESSAGE_MAP(CmalagisView, CView)
 	ON_COMMAND(ID_BUTTON_TOPO_SELECT_POLY, &CmalagisView::OnButtonTopoSelectPoly)
 	ON_COMMAND(ID_BUTTON_LINE_ORI_DIS, &CmalagisView::OnButtonLineOriDis)
 	ON_COMMAND(ID_BUTTON_LINE_DIS_DIY, &CmalagisView::OnButtonLineDisDiy)
+	ON_COMMAND(ID_BUTTON_POLYGON_MEASURE, &CmalagisView::OnButtonPolygonMeasure)
 END_MESSAGE_MAP()
 
 // CmalagisView 构造/析构
@@ -1161,4 +1162,18 @@ void CmalagisView::OnButtonLineDisDiy()
 	clearActionStr();
 	mBaseOper = new CmalaLineMeasureCustom(this, &mScreen);
 	setActionStr(L"自定义量算");
+}
+
+
+void CmalagisView::OnButtonPolygonMeasure()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (getActiveFile(L"mpn") != L"")
+	{
+		clearActionStr();
+		mBaseOper = new CmalaPolyMeasure(this, &mScreen, getActiveFile(L"mpn"));
+		setActionStr(L"区量算");
+	}
+	else
+		MessageBox(L"没有找到区文件,请新建或激活已有的区文件！", L"提示", MB_OK | MB_ICONASTERISK);
 }

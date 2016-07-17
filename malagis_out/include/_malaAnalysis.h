@@ -32,13 +32,13 @@ private:
 	CString mPath;//文件路径
 	bool m_Selected;
 
-	malaPoint m_Point;
+	//malaPoint m_Point;
 	CmalaPointsSelect m_SelectPnt;
 
-	vector<malaPoint>m_line;
+	//vector<malaPoint>m_line;
 	CmalaLinesSelect m_SelectLine;
 
-	malaPoint m_ptOrigin;
+	//malaPoint m_ptOrigin;
 	CmalaPolysSelect m_SelectePoly;
 
 	int m_SelectStyle;
@@ -83,7 +83,30 @@ private:
 	CmalaLinesSelect m_SelectLine;
 	bool m_Selected;
 	bool m_bDraw;
-	malaLinePro m_LinePro;
+	//malaLinePro m_LinePro;
+	malaPoint m_ptOrigin;
+	malaPoint m_perPoint;
+	malaScreen *m_Screen;
+	CString mPath;//文件路径
+};
+
+/*
+* 多边形量算
+*/
+class malaanalysisdll CmalaPolyMeasure :public CmalaMouseAction
+{
+public:
+	CmalaPolyMeasure(CView* mView, malaScreen *pScreen, CString &fileFullPath);
+	~CmalaPolyMeasure();
+	void LButtonDown(UINT nFlags, malaPoint point);
+	void LButtonUp(UINT nFlags, malaPoint point);
+	void MouseMove(UINT nFlags, malaPoint point);
+private:
+	malaPolyPro m_polypro;
+	vector<malaPoint>m_poly;
+	CmalaPolysSelect m_SelectPoly;
+	bool m_Selected;
+	bool m_bDraw;
 	malaPoint m_ptOrigin;
 	malaPoint m_perPoint;
 	malaScreen *m_Screen;

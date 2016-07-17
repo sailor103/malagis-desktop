@@ -175,13 +175,14 @@
 #define ID_BUTTON_TOPO_SELECT_POINT     32850
 #define ID_BUTTON_LINE_DIS_DIY          32851
 #define ID_BUTTON_LINE_ORI_DIS          32852
+#define ID_BUTTON_POLYGON_MEASURE       32853
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        333
-#define _APS_NEXT_COMMAND_VALUE         32852
+#define _APS_NEXT_COMMAND_VALUE         32853
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
